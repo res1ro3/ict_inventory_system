@@ -43,37 +43,52 @@
 <body>
     <div class="container d-flex justify-content-center">
         <div class="addAccDiv" style="width: 50%">
-            <form id="addAccForm" name="addAccForm" method="post">
+            <form class="needs-validation" novalidate id="addAccForm" name="addAccForm" method="post">
                 <h3 class="text-center mt-5 mb-3">ADD ACCOUNT</h3>
                 <div class="mb-3 row">
                     <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control addAccInp" id="lnameInp" name="lnameInp" placeholder="Dela Cruz">
+                        <input type="text" class="form-control addAccInp" id="lnameInp" name="lnameInp" placeholder="Dela Cruz" required>
                         <label for="lnameInp" class="form-label ps-4" id="lnameLbl">Last Name</label>
+                        <div class="invalid-feedback">
+                            Please enter Last Name
+                        </div>
                     </div>
                     <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control addAccInp" id="fnameInp" name="fnameInp" placeholder="Juan">
+                        <input type="text" class="form-control addAccInp" id="fnameInp" name="fnameInp" placeholder="Juan" required>
                         <label for="fnameInp" class="form-label ps-4" id="fnameLbl">First Name</label>
+                        <div class="invalid-feedback">
+                            Please enter First Name
+                        </div>
                     </div>
                 </div>
                 
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control addAccInp" id="usernameInp" name="usernameInp" placeholder="Juan234">
+                    <input type="text" class="form-control addAccInp" id="usernameInp" name="usernameInp" placeholder="Juan234" required>
                     <label for="usernameInp" class="form-label" id="usernameLbl">Username</label>
+                    <div class="invalid-feedback">
+                        Please enter Username
+                    </div>   
                 </div>
 
                 <div class="mb-3 row">
                     <div class="mb-3 col form-floating">
-                        <input type="password" class="form-control addAccInp" id="passwordInp" name="passwordInp" placeholder="********">
+                        <input type="password" class="form-control addAccInp" id="passwordInp" name="passwordInp" placeholder="********" required>
                         <label for="passwordInp" class="form-label ps-4" id="passwordLbl">Password</label>
+                        <div class="invalid-feedback">
+                            Please enter Password
+                        </div>
                     </div>
                     <div class="mb-3 col form-floating">
-                        <input type="password" class="form-control addAccInp" id="confirmPasswordInp" name="confirmPasswordInp" placeholder="********">
+                        <input type="password" class="form-control addAccInp" id="confirmPasswordInp" name="confirmPasswordInp" placeholder="********" required>
                         <label for="confirmPasswordInp" class="form-label ps-4" id="confirmPasswordLbl">Confirm Password</label>
+                        <div class="invalid-feedback">
+                            Please Confirm Password
+                        </div>
                     </div>
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="officeInp">
+                    <select class="form-select" id="officeInp" required>
                         <option value="0" selected>Select Office</option>
                     <?php 
                         $sql="SELECT * FROM office_tbl";
@@ -91,35 +106,59 @@
                     <?php }} ?>
                     </select>
                     <label for="officeInp" id="officeLbl">Office</label>
+                    <div class="invalid-feedback">
+                        Please select an Office
+                    </div>
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="positionInp">
+                    <select class="form-select" id="positionInp" required>
                         <option value="0" selected>Select Position</option>
                         <option value="1">Position 1</option>
                         <option value="2">Position 2</option>
                         <option value="3">Position 3</option>
                     </select>
                     <label for="positionInp" id="positionLbl">Position</label>
+                    <div class="invalid-feedback">
+                        Please select a Position
+                    </div>
                 </div>
 
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeOfEmploymentInp">
-                        <option value="0" selected>Select Type of Employment</option>
+                <div class="mb-3">
+                    <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl" class="form-label">Type of Employment</label>
+                    <select class="form-select" id="typeOfEmploymentInp" required>
+                        <option value="0" selected disabled>Select Type of Employment</option>
                         <option value="1">Type of Employment 1</option>
                         <option value="2">Type of Employment 2</option>
                         <option value="3">Type of Employment 3</option>
                     </select>
-                    <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl">Type of Employment</label>
+                    
+                    <div class="invalid-feedback">
+                        Please select Type of Employment
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="validationCustom04" class="form-label">State</label>
+                    <select class="form-select" id="validationCustom04" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                    Please select a valid state.
+                    </div>
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeOfAccounttInp">
+                    <select class="form-select" id="typeOfAccounttInp" required>
                         <option value="0" selected>Select Type of Account</option>
                         <option value="1">Admin</option>
                         <option value="2">Ordinary User</option>
                     </select>
                     <label for="typeOfAccounttInp" id="typeOfAccounttLbl">Type of Account</label>
+                    <div class="invalid-feedback">
+                        Please select Type of Account
+                    </div>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success" id="addAccBtn" name="addAccBtn">ADD</button>
@@ -133,6 +172,26 @@
     <script src="https://kit.fontawesome.com/6952492a89.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })()
+
         function isBlank (inp) {
             
         }
@@ -153,7 +212,8 @@
             // })
 
             $('.addAccInp').focusout(function(){
-                console.log($(this).name());
+                console.log($(this)[0].id);
+                
             });
         });
     </script>

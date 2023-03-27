@@ -1,6 +1,53 @@
 <?php 
     require_once('../dbConfig.php');
 
+    if (isset($_POST['addAccBtn'])) {
+        $lname = $_POST['lnameInp'];
+        $fname = $_POST['fnameInp'];
+        $username = $_POST['usernameInp'];
+        $password = $_POST['passwordInp'];
+        $confirmpassword = $_POST['confirmPasswordInp'];
+        $office = $_POST['officeInp'];
+        $position = $_POST['positionInp'];
+        $typeofemployment = $_POST['typeOfEmploymentInp'];
+        $typeofaccount = $_POST['typeOfAccountInp'];
+        
+        //Check if user already exists
+        $isOldUser = checkUsername($username, $conn);
+
+        if ($isOldUser == true) {
+            echo "<script> 
+                const Swal = require('sweetalert2');
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'User already exists',
+                    icon: 'error',
+                    confirmButtonText: 'Okay'
+                  })
+            </script>";
+        } else {
+            echo "test";
+        }
+
+    }
+
+    // if (isset($_POST['testBtn'])) {
+    //     // print_r(checkUsername("jbenedicto13", $conn));
+    //     $isOldUser = checkUsername("test", $conn);
+    //     $isOldUser ? print_r("User already exists") : print_r("Nice username");
+    // }
+
+    function checkUsername($uname, $conn) {
+        print_r('username:'.$uname);
+        $sql="SELECT * FROM employee_tbl WHERE username = :uname";
+        $query = $conn->prepare($sql);
+        $query->bindParam(':uname',$uname,PDO::PARAM_STR);
+        $query->execute();
+        $result=$query->fetch(PDO::FETCH_ASSOC);
+
+        return empty($result) ? false : true;
+    }
+
     // if (isset($_POST['addAccBtn'])) {
     //     $lname = $_POST['lnameInp'];
     //     $fname = $_POST['fnameInp'];
@@ -42,19 +89,23 @@
 </head>
 <body>
     <div class="container d-flex justify-content-center">
+    <form method="post">
+        <input type='submit' name="testBtn" value="Test"></input>
+    </form>
         <div class="addAccDiv" style="width: 50%">
             <form class="needs-validation" novalidate id="addAccForm" name="addAccForm" method="post">
+                
                 <h3 class="text-center mt-5 mb-3">ADD ACCOUNT</h3>
                 <div class="mb-3 row">
                     <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control addAccInp" id="lnameInp" name="lnameInp" placeholder="Dela Cruz" required>
+                        <input type="text" class="form-control addAccInp" id="lnameInp" name="lnameInp" required>
                         <label for="lnameInp" class="form-label ps-4" id="lnameLbl">Last Name</label>
                         <div class="invalid-feedback">
                             Please enter Last Name
                         </div>
                     </div>
                     <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control addAccInp" id="fnameInp" name="fnameInp" placeholder="Juan" required>
+                        <input type="text" class="form-control addAccInp" id="fnameInp" name="fnameInp" required>
                         <label for="fnameInp" class="form-label ps-4" id="fnameLbl">First Name</label>
                         <div class="invalid-feedback">
                             Please enter First Name
@@ -63,23 +114,26 @@
                 </div>
                 
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control addAccInp" id="usernameInp" name="usernameInp" placeholder="Juan234" required>
+                    <input type="text" class="form-control addAccInp" id="usernameInp" name="usernameInp" required>
                     <label for="usernameInp" class="form-label" id="usernameLbl">Username</label>
                     <div class="invalid-feedback">
                         Please enter Username
-                    </div>   
+                    </div>
+                    <div class="invalid-feedback" id="userExistId">
+                        User already exists
+                    </div>
                 </div>
 
                 <div class="mb-3 row">
                     <div class="mb-3 col form-floating">
-                        <input type="password" class="form-control addAccInp" id="passwordInp" name="passwordInp" placeholder="********" required>
+                        <input type="password" class="form-control addAccInp" id="passwordInp" name="passwordInp" required>
                         <label for="passwordInp" class="form-label ps-4" id="passwordLbl">Password</label>
                         <div class="invalid-feedback">
                             Please enter Password
                         </div>
                     </div>
                     <div class="mb-3 col form-floating">
-                        <input type="password" class="form-control addAccInp" id="confirmPasswordInp" name="confirmPasswordInp" placeholder="********" required>
+                        <input type="password" class="form-control addAccInp" id="confirmPasswordInp" name="confirmPasswordInp" required>
                         <label for="confirmPasswordInp" class="form-label ps-4" id="confirmPasswordLbl">Confirm Password</label>
                         <div class="invalid-feedback">
                             Please Confirm Password
@@ -88,9 +142,9 @@
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="officeInp" required>
-                        <option value="0" selected>Select Office</option>
-                    <?php 
+                    <select class="form-select" id="officeInp" name="officeInp" required>
+                        <option value="" selected disabled>Select Office</option>
+                    <?php
                         $sql="SELECT * FROM office_tbl";
                         $query = $conn->prepare($sql);
                         $query->execute();
@@ -112,8 +166,8 @@
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="positionInp" required>
-                        <option value="0" selected>Select Position</option>
+                    <select class="form-select" id="positionInp" name="positionInp" required>
+                        <option value="" selected disabled>Select Position</option>
                         <option value="1">Position 1</option>
                         <option value="2">Position 2</option>
                         <option value="3">Position 3</option>
@@ -124,38 +178,26 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl" class="form-label">Type of Employment</label>
-                    <select class="form-select" id="typeOfEmploymentInp" required>
-                        <option value="0" selected disabled>Select Type of Employment</option>
+                <div class="mb-3 form-floating">
+                    <select class="form-select" id="typeOfEmploymentInp" name="typeOfEmploymentInp" required>
+                        <option value="" selected disabled>Select Type of Employment</option>
                         <option value="1">Type of Employment 1</option>
                         <option value="2">Type of Employment 2</option>
                         <option value="3">Type of Employment 3</option>
                     </select>
-                    
+                    <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl">Type of Employment</label>
                     <div class="invalid-feedback">
                         Please select Type of Employment
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label for="validationCustom04" class="form-label">State</label>
-                    <select class="form-select" id="validationCustom04" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option>...</option>
-                    </select>
-                    <div class="invalid-feedback">
-                    Please select a valid state.
-                    </div>
-                </div>
-
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeOfAccounttInp" required>
-                        <option value="0" selected>Select Type of Account</option>
+                    <select class="form-select" id="typeOfAccountInp" name="typeOfAccountInp" required>
+                        <option value="" selected disabled>Select Type of Account</option>
                         <option value="1">Admin</option>
                         <option value="2">Ordinary User</option>
                     </select>
-                    <label for="typeOfAccounttInp" id="typeOfAccounttLbl">Type of Account</label>
+                    <label for="typeOfAccountInp" id="typeOfAccounttLbl">Type of Account</label>
                     <div class="invalid-feedback">
                         Please select Type of Account
                     </div>
@@ -171,6 +213,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6952492a89.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (() => {
@@ -190,31 +233,10 @@
             form.classList.add('was-validated')
             }, false)
         })
-        })()
+        })();
 
-        function isBlank (inp) {
-            
+        function validateUsername() {
+            console.log(document.getElementById('userExistId'));
         }
-
-        $(document).ready(function () {
-            // $('#addAccBtn').click( function (e){
-            //     e.preventDefault();
-
-            //     var inputs = ['#lnameInp', '#fnameInp', '#usernameInp', '#passwordInp', '#confirmPasswordInp', '#officeInp', '#positionInp', '#typeOfEmploymentInp', '#typeOfAccounttInp'];
-            //     var labels = ['#lnameLbl', '#fnameLbl', '#usernameLbl', '#passwordLbl', '#confirmPasswordLbl', '#officeLbl', '#positionLbl', '#typeOfEmploymentLbl', '#typeOfAccounttLbl'];
-
-            //     for (var i = 0; i < inputs.length; i++) {
-            //         if ($(inputs[i]).val() === '') {
-            //             alert('Please enter ' + $(labels[i]).text());
-            //             return;
-            //         }
-            //     }
-            // })
-
-            $('.addAccInp').focusout(function(){
-                console.log($(this)[0].id);
-                
-            });
-        });
     </script>
 </html>

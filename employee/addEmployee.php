@@ -48,6 +48,7 @@
 <body>
     <div class="container d-flex justify-content-center">
         <div class="addAccDiv" style="width: 50%">
+        <button class="btn btn-dark mb-3" onclick="location.href='./manageAccounts.php'">Manage Accounts</button>
             <form class="needs-validation" novalidate id="addAccForm" name="addAccForm" method="post">
                 
                 <h3 class="text-center mt-5 mb-3">ADD ACCOUNT</h3>

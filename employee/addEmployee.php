@@ -6,76 +6,34 @@
         $fname = $_POST['fnameInp'];
         $username = $_POST['usernameInp'];
         $password = $_POST['passwordInp'];
-        $confirmpassword = $_POST['confirmPasswordInp'];
+        $sex = $_POST['sexInp'];
         $office = $_POST['officeInp'];
         $position = $_POST['positionInp'];
         $typeofemployment = $_POST['typeOfEmploymentInp'];
         $typeofaccount = $_POST['typeOfAccountInp'];
-        
-        //Check if user already exists
-        $isOldUser = checkUsername($username, $conn);
 
-        if ($isOldUser == true) {
-            echo "<script> 
-                const Swal = require('sweetalert2');
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'User already exists',
-                    icon: 'error',
-                    confirmButtonText: 'Okay'
-                  })
-            </script>";
-        } else {
-            echo "test";
-        }
-
-    }
-
-    // if (isset($_POST['testBtn'])) {
-    //     // print_r(checkUsername("jbenedicto13", $conn));
-    //     $isOldUser = checkUsername("test", $conn);
-    //     $isOldUser ? print_r("User already exists") : print_r("Nice username");
-    // }
-
-    function checkUsername($uname, $conn) {
-        print_r('username:'.$uname);
-        $sql="SELECT * FROM employee_tbl WHERE username = :uname";
+        $sql="INSERT INTO employee_tbl(lname,fname,username,password,sex,unitOffice,position,type_of_employment,type_of_account) VALUES(:lname,:fname,:username,:password,:sex,:office,:position,:typeofemployment,:typeofaccount)";
         $query = $conn->prepare($sql);
-        $query->bindParam(':uname',$uname,PDO::PARAM_STR);
+
+        $query->bindParam(':lname',$lname,PDO::PARAM_STR);
+        $query->bindParam(':fname',$fname,PDO::PARAM_STR);
+        $query->bindParam(':username',$username,PDO::PARAM_STR);
+        $query->bindParam(':password',$password,PDO::PARAM_STR);
+        $query->bindParam(':sex',$sex,PDO::PARAM_STR);
+        $query->bindParam(':office',$office,PDO::PARAM_STR);
+        $query->bindParam(':position',$position,PDO::PARAM_STR);
+        $query->bindParam(':typeofemployment',$typeofemployment,PDO::PARAM_STR);
+        $query->bindParam(':typeofaccount',$typeofaccount,PDO::PARAM_STR);
+
         $query->execute();
-        $result=$query->fetch(PDO::FETCH_ASSOC);
 
-        return empty($result) ? false : true;
+        if($query->rowCount() == 1) {
+            echo '<script>alert("User Added Successfully")</script>';
+            header('location:../index.php');
+        } else {
+            echo '<script>alert("An error has occured")</script>';
+        }
     }
-
-    // if (isset($_POST['addAccBtn'])) {
-    //     $lname = $_POST['lnameInp'];
-    //     $fname = $_POST['fnameInp'];
-    //     $username = $_POST['usernameInp'];
-    //     $password = $_POST['passwordInp'];
-
-
-    //     $sql="INSERT INTO user(name,email,mobile) VALUES(:name,:email,:mobile)";
-    //     $query = $conn->prepare($sql);
-
-    //     $query->bindParam(':name',$name,PDO::PARAM_STR);
-    //     $query->bindParam(':email',$email,PDO::PARAM_STR);
-    //     $query->bindParam(':mobile',$mobile,PDO::PARAM_STR);
-
-    //     $query->execute();
-
-    //     $lastInsertId = $conn->lastInsertId();
-    //     if($lastInsertId) {
-    //         // Message for successfull insertion
-    //         echo "<script>alert('Record inserted successfully');</script>";
-    //         echo "<script>window.location.href='index.php'</script>";
-    //     }
-    //     else {
-    //         // Message for unsuccessfull insertion
-    //         echo "<script>alert('Something went wrong. Please try again');</script>";
-    //         echo "<script>window.location.href='index.php'</script>";
-    //     }
-    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,9 +47,6 @@
 </head>
 <body>
     <div class="container d-flex justify-content-center">
-    <form method="post">
-        <input type='submit' name="testBtn" value="Test"></input>
-    </form>
         <div class="addAccDiv" style="width: 50%">
             <form class="needs-validation" novalidate id="addAccForm" name="addAccForm" method="post">
                 
@@ -119,9 +74,7 @@
                     <div class="invalid-feedback">
                         Please enter Username
                     </div>
-                    <div class="invalid-feedback" id="userExistId">
-                        User already exists
-                    </div>
+                    <span id="usernameInp-message"></span>
                 </div>
 
                 <div class="mb-3 row">
@@ -138,6 +91,19 @@
                         <div class="invalid-feedback">
                             Please Confirm Password
                         </div>
+                        <span id="confirmPasswordInp-message"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3 form-floating">
+                    <select class="form-select" id="sexInp" name="sexInp" required>
+                        <option value="" selected disabled>Select Sex</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <label for="sexInp" id="sexLbl">Sex</label>
+                    <div class="invalid-feedback">
+                        Please select sex
                     </div>
                 </div>
 
@@ -156,7 +122,7 @@
                             foreach($results as $result)
                         {
                     ?>
-                        <option value="<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->name);?></option>
+                        <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
                     <?php }} ?>
                     </select>
                     <label for="officeInp" id="officeLbl">Office</label>
@@ -168,9 +134,9 @@
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="positionInp" name="positionInp" required>
                         <option value="" selected disabled>Select Position</option>
-                        <option value="1">Position 1</option>
-                        <option value="2">Position 2</option>
-                        <option value="3">Position 3</option>
+                        <option>Position 1</option>
+                        <option>Position 2</option>
+                        <option>Position 3</option>
                     </select>
                     <label for="positionInp" id="positionLbl">Position</label>
                     <div class="invalid-feedback">
@@ -181,9 +147,9 @@
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="typeOfEmploymentInp" name="typeOfEmploymentInp" required>
                         <option value="" selected disabled>Select Type of Employment</option>
-                        <option value="1">Type of Employment 1</option>
-                        <option value="2">Type of Employment 2</option>
-                        <option value="3">Type of Employment 3</option>
+                        <option>Type of Employment 1</option>
+                        <option>Type of Employment 2</option>
+                        <option>Type of Employment 3</option>
                     </select>
                     <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl">Type of Employment</label>
                     <div class="invalid-feedback">
@@ -194,8 +160,8 @@
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="typeOfAccountInp" name="typeOfAccountInp" required>
                         <option value="" selected disabled>Select Type of Account</option>
-                        <option value="1">Admin</option>
-                        <option value="2">Ordinary User</option>
+                        <option>Admin</option>
+                        <option>Ordinary User</option>
                     </select>
                     <label for="typeOfAccountInp" id="typeOfAccounttLbl">Type of Account</label>
                     <div class="invalid-feedback">
@@ -235,8 +201,56 @@
         })
         })();
 
-        function validateUsername() {
-            console.log(document.getElementById('userExistId'));
-        }
+        $(document).ready(function() {
+
+            //Username check for existing
+            $('#usernameInp').blur(function() {
+                var username = $(this).val();
+                console.log(username);
+                $.ajax({
+                    url: 'check_username.php',
+                    method: 'POST',
+                    data: {usernameInp:username},
+                    success: function(response) {
+                        if (response == 'taken') {
+                            $('#usernameInp-message').html('Username already exists');
+                            $('#usernameInp-message').css('color', '#dc3545');
+                        } else {
+                            $('#usernameInp-message').html('');
+                        }
+                    }
+                });
+            });
+
+            //Pass and Confirm Pass Validation
+
+            $('#confirmPasswordInp').blur(function() {
+                var password = $('#passwordInp').val();
+                var confirmPassword = $(this).val();
+
+                if (password != confirmPassword) {
+                    $('#confirmPasswordInp-message').html('Passwords do not match');
+                    $('#confirmPasswordInp-message').css('color', '#dc3545');
+                } else {
+                    $('#confirmPasswordInp-message').html('Passwords match');
+                    $('#confirmPasswordInp-message').css('color', '#198754');
+                }
+            });
+
+            $('#passwordInp').blur(function() {
+                var password = $(this).val();
+                var confirmPassword = $('#confirmPasswordInp').val();
+
+                if (password != confirmPassword) {
+                    $('#confirmPasswordInp-message').html('Passwords do not match');
+                    $('#confirmPasswordInp-message').css('color', '#dc3545');
+                } else {
+                    $('#confirmPasswordInp-message').html('Passwords match');
+                    $('#confirmPasswordInp-message').css('color', '#198754');
+                }
+                
+            });
+        });
+
     </script>
 </html>

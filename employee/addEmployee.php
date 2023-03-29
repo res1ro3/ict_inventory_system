@@ -29,7 +29,6 @@
 
         if($query->rowCount() == 1) {
             echo '<script>alert("User Added Successfully")</script>';
-            header('location:../index.php');
         } else {
             echo '<script>alert("An error has occured")</script>';
         }

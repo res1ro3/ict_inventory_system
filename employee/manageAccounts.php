@@ -17,7 +17,7 @@
     <div class="container">
         <h3>Management of Accounts</h3>
         <button class="btn btn-dark mb-3" onclick="location.href='./addEmployee.php'">Add Account</button>
-        <table id="example" class="display table table-light" style="width:100%">
+        <table id="accsTbl" class="display table table-light" style="width:100%">
             <thead>
                 <tr>
                     <th>#</th>
@@ -228,7 +228,7 @@
             });
         }
         $(document).ready(function () {
-            $('#example').DataTable();
+            $('#accsTbl').DataTable();
         });
     </script>
 </html>

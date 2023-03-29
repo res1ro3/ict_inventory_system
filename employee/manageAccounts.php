@@ -59,7 +59,7 @@
                 </div>
                 <div class="modal-body">
                 <form action="./update.php" class="needs-validation" novalidate id="updateAccForm" name="updateAccForm" method="post">
-                    <input type="hidden" name="employeeId"></input>
+                    <input type="hidden" id="employeeId" name="employeeId"></input>
                     <div class="mb-3 row">
                         <div class="mb-3 col form-floating">
                             <input type="text" class="form-control addAccInp" id="lnameInp" name="lnameInp" required>
@@ -190,6 +190,7 @@
                 data: {eid:eid},
                 success: function (res) {
                     res = JSON.parse(res);
+                    console.log(res.employee_id);
                     $("#employeeId").val(res.employee_id);
                     $("#lnameInp").val(res.lname);
                     $("#fnameInp").val(res.fname);
@@ -204,28 +205,28 @@
             });
         }
 
-        // function update(eid) {
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "./update.php",
-        //         data: {
-        //             eid:eid,
-        //             lname: $("#lnameInp").val(),
-        //             fname: $("#fnameInp").val(),
-        //             username: $("#usernameInp").val(),
-        //             password: $("#passwordInp").val(),
-        //             sex: $("#sexInp").val(),
-        //             unitOffice: $("#officeInp").val(),
-        //             position: $("#positionInp").val(),
-        //             type_of_employment: $("#typeOfEmploymentInp").val(),
-        //             type_of_account: $("#typeOfAccountInp").val()
-        //         },
-        //         success: function (res) {
-        //             res = JSON.parse(res);
-        //             console.log(res);
-        //         }
-        //     });
-        // }
+        function update() {
+            $.ajax({
+                type: "POST",
+                url: "./update.php",
+                data: {
+                    employee_id: $("#employeeId").val(),
+                    lname: $("#lnameInp").val(),
+                    fname: $("#fnameInp").val(),
+                    username: $("#usernameInp").val(),
+                    password: $("#passwordInp").val(),
+                    sex: $("#sexInp").val(),
+                    unitOffice: $("#officeInp").val(),
+                    position: $("#positionInp").val(),
+                    type_of_employment: $("#typeOfEmploymentInp").val(),
+                    type_of_account: $("#typeOfAccountInp").val()
+                },
+                success: function (res) {
+                    res = JSON.parse(res);
+                    console.log(res);
+                }
+            });
+        }
         $(document).ready(function () {
             $('#example').DataTable();
         });

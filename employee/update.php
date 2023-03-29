@@ -1,7 +1,7 @@
 <?php
     require_once('../dbConfig.php');
 
-    $employeeId = $_POST['employeeId'];
+    $eid = $_POST['employeeId'];
     $lname = $_POST['lnameInp'];
     $fname = $_POST['fnameInp'];
     $username = $_POST['usernameInp'];
@@ -26,5 +26,10 @@
     $query->bindParam(':toa',$typeofaccount,PDO::PARAM_STR);
     $query->execute();
 
-    echo $query->rowCount();
+    if ($query->rowCount()) {
+        echo '<script>
+            alert("Updated Successfully");
+            window.location="./manageAccounts.php";
+            </script>';
+    }
 ?>

@@ -1,6 +1,7 @@
 <?php 
+    $pass = $_POST['password'];
     //Set the hash
-    $PASSWORD = "mypassword";
+    $PASSWORD = $pass;
     $input = "mypassword";
 
     $salt = "94665FAE66173BF677A723E4E38E5";

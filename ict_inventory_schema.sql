@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2023 at 10:07 AM
+-- Generation Time: Mar 29, 2023 at 10:06 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -43,7 +43,7 @@ CREATE TABLE `accessories_tbl` (
 --
 
 CREATE TABLE `employee_tbl` (
-  `employee_Id` varchar(128) NOT NULL,
+  `employee_id` varchar(128) NOT NULL,
   `lname` varchar(64) NOT NULL,
   `fname` varchar(64) NOT NULL,
   `username` varchar(32) NOT NULL,
@@ -59,8 +59,10 @@ CREATE TABLE `employee_tbl` (
 -- Dumping data for table `employee_tbl`
 --
 
-INSERT INTO `employee_tbl` (`employee_Id`, `lname`, `fname`, `username`, `password`, `unitOffice`, `position`, `type_of_employment`, `sex`, `type_of_account`) VALUES
-('', 'Benedicto', 'John Benedict', 'jbenedicto13', '12345678', 'Management Information System Unit', 'Position 1', 'Type of Employment 1', 'Male', 'Admin');
+INSERT INTO `employee_tbl` (`employee_id`, `lname`, `fname`, `username`, `password`, `unitOffice`, `position`, `type_of_employment`, `sex`, `type_of_account`) VALUES
+('id1', 'Benedicto', 'John Benedict', 'jbenedicto13', '12345678', 'Management Information System Unit', 'Position 1', 'Type of Employment 1', 'Male', 'Admin'),
+('id2', 'Dela Cruz', 'Juan', 'Juan234', 'Juan234', 'Management Information System Unit', 'Position 1', 'Type of Employment 1', 'Male', 'Admin'),
+('id3', 'Salvi', 'Pedro', 'PedroS', '12345678', 'Management Information System Unit', 'Position 1', 'Type of Employment 1', 'Male', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -194,7 +196,7 @@ ALTER TABLE `accessories_tbl`
 -- Indexes for table `employee_tbl`
 --
 ALTER TABLE `employee_tbl`
-  ADD PRIMARY KEY (`employee_Id`);
+  ADD PRIMARY KEY (`employee_id`);
 
 --
 -- Indexes for table `ict_network_hardware_tbl`

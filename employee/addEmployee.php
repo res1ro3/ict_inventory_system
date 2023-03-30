@@ -12,14 +12,15 @@
         $position = $_POST['positionInp'];
         $typeofemployment = $_POST['typeOfEmploymentInp'];
         $typeofaccount = $_POST['typeOfAccountInp'];
+        $status = "Active";
 
         $PASSWORD = $password;
 
         $salt = "94665FAE66173BF677A723E4E38E5";
         $hash_salt = hash_hmac("sha256", $PASSWORD, $salt);
-        $pwd_hashed = password_hash($hash_salt, PASSWORD_ARGON2ID); //save to database
+        $pwd_hashed = password_hash($hash_salt, PASSWORD_ARGON2ID);
 
-        $sql="INSERT INTO employee_tbl(lname,fname,username,password,sex,unitOffice,position,type_of_employment,type_of_account) VALUES(:lname,:fname,:username,:password,:sex,:office,:position,:typeofemployment,:typeofaccount)";
+        $sql="INSERT INTO employee_tbl(lname,fname,username,password,sex,unitOffice,position,type_of_employment,type_of_account,status) VALUES(:lname,:fname,:username,:password,:sex,:office,:position,:typeofemployment,:typeofaccount,:status)";
         $query = $conn->prepare($sql);
 
         $query->bindParam(':lname',$lname,PDO::PARAM_STR);
@@ -31,6 +32,7 @@
         $query->bindParam(':position',$position,PDO::PARAM_STR);
         $query->bindParam(':typeofemployment',$typeofemployment,PDO::PARAM_STR);
         $query->bindParam(':typeofaccount',$typeofaccount,PDO::PARAM_STR);
+        $query->bindParam(':status',$status,PDO::PARAM_STR);
 
         $query->execute();
 

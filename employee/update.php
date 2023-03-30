@@ -27,9 +27,14 @@
     $query->execute();
 
     if ($query->rowCount()) {
-        echo '<script>
-            alert("Updated Successfully");
-            window.location="./manageAccounts.php";
-            </script>';
+        echo "<script>
+            alert('Updated Successfully');
+            window.location.href='./manageAccounts.php';
+        </script>";
+    } else {
+        echo "<script>
+            alert('An error occured');
+            window.location.href='./manageAccounts.php';
+        </script>";
     }
 ?>

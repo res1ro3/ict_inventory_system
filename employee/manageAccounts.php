@@ -12,6 +12,7 @@
     <script src="../js/jquery-3.5.1.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
@@ -23,6 +24,7 @@
                     <th>#</th>
                     <th>Username</th>
                     <th>Type of Account</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -40,10 +42,11 @@
                     <span id="eid" style="display: none"><?= $row['employee_id']?></span>
                     <td><?= $row['username'] ?></td>
                     <td><?= $row['type_of_account'] ?></td>
+                    <td><?= $row['status'] ?></td>
                     <td>
                         <button id="editBtn" onclick="get('<?= $row['employee_id'] ?>')" type="button" data-id="<?= $row['employee_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                         <button class="btn btn-warning">Reset Password</button>
-                        <button class="btn btn-danger">Archive</button>
+                        <button onclick="change_status('<?= $row['status'] ?>','<?= $row['employee_id'] ?>')" id="btnStatus" class="btn btn-danger"><?= $row['status'] == "Active" ? "Inactivate" : "Activate" ?></button>
                     </td>
                 </tr>
                 <?php $count++; } ?>
@@ -147,9 +150,8 @@
                     <div class="mb-3 form-floating">
                         <select class="form-select" id="typeOfEmploymentInp" name="typeOfEmploymentInp" required>
                             <option value="" selected disabled>Select Type of Employment</option>
-                            <option>Type of Employment 1</option>
-                            <option>Type of Employment 2</option>
-                            <option>Type of Employment 3</option>
+                            <option>COS</option>
+                            <option>Regular</option>
                         </select>
                         <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl">Type of Employment</label>
                         <div class="invalid-feedback">
@@ -222,11 +224,38 @@
                     type_of_account: $("#typeOfAccountInp").val()
                 },
                 success: function (res) {
-                    res = JSON.parse(res);
                     console.log(res);
                 }
             });
         }
+
+        function change_status(userStatus, eid) {
+            $.ajax({
+                type: "POST",
+                url: "./changeStatus.php",
+                data: {
+                    employee_id: eid,
+                    status: userStatus,
+                },
+                success: function (res) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: res,
+                        icon: 'success',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
+                },
+                error: function (res) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: res,
+                        icon: 'error',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
+                }
+            });
+        }
+
         $(document).ready(function () {
             $('#accsTbl').DataTable();
         });

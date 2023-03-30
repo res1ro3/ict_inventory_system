@@ -61,7 +61,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <form action="./update.php" class="needs-validation" novalidate id="updateAccForm" name="updateAccForm" method="post">
+                <form class="needs-validation" novalidate id="updateAccForm" name="updateAccForm" method="post">
                     <input type="hidden" id="employeeId" name="employeeId"></input>
                     <div class="mb-3 row">
                         <div class="mb-3 col form-floating">
@@ -174,7 +174,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button onclick="document.getElementById('updateAccForm').submit()" type="button" class="btn btn-primary">Save changes</button>
+                    <button onclick="update()" type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -224,7 +224,20 @@
                     type_of_account: $("#typeOfAccountInp").val()
                 },
                 success: function (res) {
-                    console.log(res);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: res,
+                        icon: 'success',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
+                },
+                error: function (res) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: res,
+                        icon: 'error',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
                 }
             });
         }

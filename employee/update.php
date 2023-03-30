@@ -1,16 +1,16 @@
 <?php
     require_once('../dbConfig.php');
 
-    $eid = $_POST['employeeId'];
-    $lname = $_POST['lnameInp'];
-    $fname = $_POST['fnameInp'];
-    $username = $_POST['usernameInp'];
-    $password = $_POST['passwordInp'];
-    $sex = $_POST['sexInp'];
-    $office = $_POST['officeInp'];
-    $position = $_POST['positionInp'];
-    $typeofemployment = $_POST['typeOfEmploymentInp'];
-    $typeofaccount = $_POST['typeOfAccountInp'];
+    $eid = $_POST['employee_id'];
+    $lname = $_POST['lname'];
+    $fname = $_POST['fname'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $sex = $_POST['sex'];
+    $office = $_POST['unitOffice'];
+    $position = $_POST['position'];
+    $typeofemployment = $_POST['type_of_employment'];
+    $typeofaccount = $_POST['type_of_account'];
 
     $sql="UPDATE employee_tbl SET lname=:ln, fname=:fn, username=:un, password=:ps, sex=:sx, unitOffice=:of, position=:pst, type_of_employment=:toe, type_of_account=:toa WHERE employee_id=:eid";
     $query = $conn->prepare($sql);
@@ -27,14 +27,19 @@
     $query->execute();
 
     if ($query->rowCount()) {
-        echo "<script>
-            alert('Updated Successfully');
-            window.location.href='./manageAccounts.php';
-        </script>";
+        echo "Updated Successfully";
     } else {
-        echo "<script>
-            alert('An error occured');
-            window.location.href='./manageAccounts.php';
-        </script>";
+        echo "An error occured";
     }
+    // if ($query->rowCount()) {
+    //     echo "<script>
+    //         alert('Updated Successfully');
+    //         window.location.href='./manageAccounts.php';
+    //     </script>";
+    // } else {
+    //     echo "<script>
+    //         alert('An error occured');
+    //         window.location.href='./manageAccounts.php';
+    //     </script>";
+    // }
 ?>

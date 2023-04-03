@@ -49,7 +49,6 @@
         <div class="addDiv" style="width: 50%">
         <button class="btn btn-dark mb-3" onclick="location.href='./manageInventory.php'">Manage Inventory</button>
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
-                
                 <h3 class="text-center mt-5 mb-3">ADD ICT NETWORK HARDWARE</h3>
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="macInp" name="macInp" required>
@@ -182,6 +181,40 @@
             }, false)
         })
         })();
+
+        function update() {
+            $.ajax({
+                type: "POST",
+                url: "./update.php",
+                data: {
+                    mac_address: $("#macInp").val(),
+                    type_of_hardware: $("#typeofhardwareInp").val(),
+                    brand: $('#brandInp').val(),
+                    model: $('#modelInp').val(),
+                    serial_number:$('#serialnumberInp').val(),
+                    date_of_purchase:$('#dateofpurchaseInp').val(),
+                    warranty:$('#warrantyInp').val(),
+                    employee_id:$('#ownerInp').val(),
+                    status:$('#statusInp').val(),
+                },
+                success: function (res) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: res,
+                        icon: 'success',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
+                },
+                error: function (res) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: res,
+                        icon: 'error',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
+                }
+            });
+        }
 
     </script>
 </html>

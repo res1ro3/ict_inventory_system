@@ -58,7 +58,11 @@
                     <td><?= $row['warranty'] ?></td>
                     <td><?= $row['lname'].', '.$row['fname'] ?></td>
                     <td><?= $row['status'] ?></td>
-                    <td><button id="editBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
+                    <td>
+                        <button id="editBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                        <button id="editBtn" onclick="getTransfer('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer</button>
+                    </td>
+                    
                 </tr>
                 <?php $count++; } ?>
         </table>
@@ -181,6 +185,59 @@
                 </div>
             </div>
         </div>
+        <!-- Transfer Modal -->
+        <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="transferModalLabel">Transfer ICT Network Hardware</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
+                    <div class="mb-3 col form-floating">
+                        <?php
+                            $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetch();
+                        ?>
+                        <input id="currentownerId" type="hidden" name="employee_id" value="<?php  echo htmlentities($result->employee_id)?>"/>
+                        <input value="<?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?>" type="text" class="form-control" id="currentownerInp" name="currentownerInp" readonly>
+                        <label for="currentownerInp" class="form-label" id="currentownerLbl">Current Owner</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <select class="form-select" id="newownerInp" name="newownerInp" required>
+                            <option value="" selected disabled>Select New Owner</option>
+                        <?php
+                            $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                        ?>
+                            <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                        <?php }} ?>
+                        </select>
+                        <label for="newownerInp" id="newownerLbl">New Owner</label>
+                        <div class="invalid-feedback">
+                            Please select New Owner
+                        </div>
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button onclick="transfer()" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -203,6 +260,19 @@
                     $('#warrantyInp').val(res.warranty);
                     $('#ownerInp').val(res.employee_id);
                     $('#statusInp').val(res.status);
+                }
+            });
+        }
+
+        function getTransfer(mac) {
+            $.ajax({
+                type: "GET",
+                url: "./get.php",
+                data: {mac_address:mac},
+                success: function (res) {
+                    res = JSON.parse(res);
+                    $("#macInp").val(res.mac_address);
+                    $('#ownerInp').val(res.employee_id);
                 }
             });
         }
@@ -266,6 +336,43 @@
                     }).then(()=>location.reload())
                 }
             });
+        }
+
+        function transfer() {
+            if ($('#newownerInp option:selected').text() == $('#currentownerInp').val()) {
+                Swal.fire({
+                        title: 'Error!',
+                        text: "Current Owner cannot be the New Owner",
+                        icon: 'error',
+                        confirmButtonText: 'Okay'
+                    })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "./transfer.php",
+                    data: {
+                        mac_address: $("#macInp").val(),
+                        current_owner:$('#currentownerId').val(),
+                        new_owner:$('#newownerInp option:selected').text(),
+                    },
+                    success: function (res) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: res,
+                            icon: 'success',
+                            confirmButtonText: 'Okay'
+                        }).then(()=>location.reload())
+                    },
+                    error: function (res) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: res,
+                            icon: 'error',
+                            confirmButtonText: 'Okay'
+                        })
+                    }
+                });
+            }
         }
 
         $(document).ready(function () {

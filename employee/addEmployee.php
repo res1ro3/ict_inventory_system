@@ -1,7 +1,6 @@
 <?php 
     require_once('../dbConfig.php');
 
-
     if (isset($_POST['addAccBtn'])) {
         $lname = $_POST['lnameInp'];
         $fname = $_POST['fnameInp'];

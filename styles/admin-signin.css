@@ -1,0 +1,12 @@
+.signin-form {
+    width: 75%;
+    margin: auto;
+}
+
+.btnshowpass {
+    cursor: pointer;
+}
+
+.btnshowpass:hover {
+    text-decoration: underline;
+}

@@ -46,6 +46,7 @@
 </head>
 <body>
     <div class="container d-flex justify-content-center">
+        <div id="nav-placeholder"></div>
         <div class="addDiv" style="width: 50%">
         <button class="btn btn-dark mb-3" onclick="location.href='./manageInventory.php'">Manage Inventory</button>
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
@@ -215,6 +216,10 @@
                 }
             });
         }
+
+        $(document).ready(function () {
+            $("#nav-placeholder").load("../nav.html");
+        });
 
     </script>
 </html>

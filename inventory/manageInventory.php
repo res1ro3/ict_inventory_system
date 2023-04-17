@@ -16,6 +16,7 @@
 </head>
 <body>
     <div class="container">
+        <div id="nav-placeholder"></div>
         <h3>Inventory</h3>
         <button class="btn btn-dark mb-3" onclick="location.href='./add.php'">Add</button>
         <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
@@ -143,7 +144,7 @@
                         </div>
                     </div>
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="ownerInp" name="ownerInp" required>
+                        <select class="form-select" id="ownerInp" name="ownerInp" disabled>
                             <option value="" selected disabled>Select Owner</option>
                         <?php
                             $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
@@ -161,9 +162,6 @@
                         <?php }} ?>
                         </select>
                         <label for="ownerInp" id="ownerLbl">Owner</label>
-                        <div class="invalid-feedback">
-                            Please select Owner
-                        </div>
                     </div>
                     <div class="mb-3 form-floating">
                         <select class="form-select" id="statusInp" name="statusInp" required>
@@ -196,14 +194,23 @@
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
                     <div class="mb-3 col form-floating">
-                        <?php
-                            $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                            $query = $conn->prepare($sql);
-                            $query->execute();
-                            $results=$query->fetch();
-                        ?>
-                        <input id="currentownerId" type="hidden" name="employee_id" value="<?php  echo htmlentities($result->employee_id)?>"/>
-                        <input value="<?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?>" type="text" class="form-control" id="currentownerInp" name="currentownerInp" readonly>
+                        <select class="form-select" id="currentownerInp" name="currentownerInp" disabled>
+                                <option value="" selected disabled>Select Owner</option>
+                            <?php
+                                $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                                $query = $conn->prepare($sql);
+                                $query->execute();
+                                $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                
+                                $count=1;
+                                if($query->rowCount() > 0) {
+                                //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                    foreach($results as $result)
+                                {
+                            ?>
+                                <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                            <?php }} ?>
+                        </select>
                         <label for="currentownerInp" class="form-label" id="currentownerLbl">Current Owner</label>
                     </div>
                     <div class="mb-3 form-floating">
@@ -273,6 +280,7 @@
                     res = JSON.parse(res);
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
+                    $('#currentownerInp').val(res.employee_id);
                 }
             });
         }
@@ -352,8 +360,8 @@
                     url: "./transfer.php",
                     data: {
                         mac_address: $("#macInp").val(),
-                        current_owner:$('#currentownerId').val(),
-                        new_owner:$('#newownerInp option:selected').text(),
+                        current_owner: $('#currentownerInp').val(),
+                        new_owner: $('#newownerInp option:selected').val(),
                     },
                     success: function (res) {
                         Swal.fire({
@@ -377,6 +385,7 @@
 
         $(document).ready(function () {
             $('#ictnetworkhardwareTbl').DataTable();
+            $("#nav-placeholder").load("../nav.html");
         });
     </script>
 </html>

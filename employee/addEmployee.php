@@ -53,7 +53,8 @@
     <link rel="stylesheet" href="styles/employee.css">
 </head>
 <body>
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex align-items-center flex-column">
+        <div id="nav-placeholder"></div>
         <div class="addAccDiv" style="width: 50%">
         <button class="btn btn-dark mb-3" onclick="location.href='./manageAccounts.php'">Manage Accounts</button>
             <form class="needs-validation" novalidate id="addAccForm" name="addAccForm" method="post">
@@ -209,7 +210,7 @@
         })();
 
         $(document).ready(function() {
-
+            $("#nav-placeholder").load("../nav.html");
             //Username check for existing
             $('#usernameInp').blur(function() {
                 var username = $(this).val();

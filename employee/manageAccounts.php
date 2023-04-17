@@ -16,6 +16,7 @@
 </head>
 <body>
     <div class="container">
+        <div id="nav-placeholder"></div>
         <h3>Management of Accounts</h3>
         <button class="btn btn-dark mb-3" onclick="location.href='./addEmployee.php'">Add Account</button>
         <table id="accsTbl" class="display table table-light" style="width:100%">
@@ -88,16 +89,7 @@
                         </div>
                         <span id="usernameInp-message"></span>
                     </div>
-
-                    <div class="mb-3 col form-floating">
-                        <input type="password" class="form-control addAccInp" id="passwordInp" name="passwordInp" required>
-                        <label for="passwordInp" class="form-label" id="passwordLbl">Password</label>
-                        <div class="invalid-feedback">
-                            Please enter Password
-                        </div>
-                    </div>
                         
-
                     <div class="mb-3 form-floating">
                         <select class="form-select" id="sexInp" name="sexInp" required>
                             <option value="" selected disabled>Select Sex</option>
@@ -271,6 +263,7 @@
 
         $(document).ready(function () {
             $('#accsTbl').DataTable();
+            $("#nav-placeholder").load("../nav.html");
         });
     </script>
 </html>

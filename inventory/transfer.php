@@ -9,7 +9,7 @@
     $mac_address = $_POST['mac_address'];
     $current_owner = $_POST['current_owner'];
     $new_owner = $_POST['new_owner'];
-    
+
     $sql="UPDATE ict_network_hardware_tbl SET employee_id=:new WHERE mac_address=:mac";
     $query = $conn->prepare($sql);
     $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);

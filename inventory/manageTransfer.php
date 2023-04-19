@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory</title>
+    <title>Transfer</title>
     <link rel="stylesheet" href="../styles/jquery.dataTables.min.css" />
     <script src="../js/jquery-3.5.1.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
@@ -17,30 +17,22 @@
 <body>
     <div class="container">
         <div id="nav-placeholder"></div>
-        <h3>Inventory</h3>
-        <button class="btn btn-dark mb-3" onclick="location.href='./add.php'">Add</button>
+        <h3>Transfer</h3>
         <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>MAC Address</th>
-                    <th>Type of Hardware</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Serial Number</th>
-                    <th>Date of Purchase</th>
-                    <th>Warranty</th>
-                    <th>Owner</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th>Transfer ID</th>
+                    <th>New Owner</th>
+                    <th>Old Owner</th>
+                    <th>Date Transferred</th>
+                    <th>Mac Address</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $sql="
-                    SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.lname, employee_tbl.fname, ict_network_hardware_tbl.status
-                    FROM ict_network_hardware_tbl
-                    INNER JOIN employee_tbl ON ict_network_hardware_tbl.employee_id=employee_tbl.employee_id;
+                    SELECT 
                     ";
                     $query = $conn->prepare($sql);
                     $query->execute();
@@ -50,19 +42,11 @@
                 ?>
                 <tr>
                     <td><?= $count ?></td>
+                    <td><?= $row['transfer_id'] ?></td>
+                    <td><?= $row['employee_id_new'] ?></td>
+                    <td><?= $row['employee_id_old'] ?></td>
+                    <td><?= $row['date_transferred'] ?></td>
                     <td><?= $row['mac_address'] ?></td>
-                    <td><?= $row['type_of_hardware'] ?></td>
-                    <td><?= $row['brand'] ?></td>
-                    <td><?= $row['model'] ?></td>
-                    <td><?= $row['serial_number'] ?></td>
-                    <td><?= $row['date_of_purchase'] ?></td>
-                    <td><?= $row['warranty'] ?></td>
-                    <td><?= $row['lname'].', '.$row['fname'] ?></td>
-                    <td><?= $row['status'] ?></td>
-                    <td>
-                        <button id="editBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                        <button id="editBtn" onclick="getTransfer('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer</button>
-                    </td>
                     
                 </tr>
                 <?php $count++; } ?>

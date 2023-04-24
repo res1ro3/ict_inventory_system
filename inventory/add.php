@@ -9,10 +9,11 @@
         $serial_number = $_POST['serialnumberInp'];
         $date_of_purchase = $_POST['dateofpurchaseInp'];
         $warranty = $_POST['warrantyInp'];
-        $employee_id = $_POST['ownerInp'];
+        // $employee_id = $_POST['ownerInp'];
+        $owner_name = $_POST['ownerInp'];
         $status = $_POST['statusInp'];
 
-        $sql="INSERT INTO ict_network_hardware_tbl(mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_id, status) VALUES(:mac,:toh,:br,:md,:sn,:dop,:wt,:eid,:st)";
+        $sql="INSERT INTO ict_network_hardware_tbl(mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, status, owner_name) VALUES(:mac,:toh,:br,:md,:sn,:dop,:wt,:st,:on)";
         $query = $conn->prepare($sql);
 
         $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
@@ -22,7 +23,7 @@
         $query->bindParam(':sn',$serial_number,PDO::PARAM_STR);
         $query->bindParam(':dop',$date_of_purchase,PDO::PARAM_STR);
         $query->bindParam(':wt',$warranty,PDO::PARAM_STR);
-        $query->bindParam(':eid',$employee_id,PDO::PARAM_STR);
+        $query->bindParam(':on',$owner_name,PDO::PARAM_STR);
         $query->bindParam(':st',$status,PDO::PARAM_STR);
 
         $query->execute();
@@ -116,29 +117,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-3 form-floating">
+
+                <div class="mb-3 col form-floating">
+                    <input type="text" class="form-control" id="ownerInp" name="ownerInp" required>
+                    <label for="ownerInp" class="form-label" id="ownerLbl">Owner</label>
+                    <div class="invalid-feedback">
+                        Please enter Owner
+                    </div>
+                </div>
+                
+                <!-- <div class="mb-3 form-floating">
                     <select class="form-select" id="ownerInp" name="ownerInp" required>
                         <option value="" selected disabled>Select Owner</option>
                     <?php
-                        $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                        $query = $conn->prepare($sql);
-                        $query->execute();
-                        $results=$query->fetchAll(PDO::FETCH_OBJ);
+                        // $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                        // $query = $conn->prepare($sql);
+                        // $query->execute();
+                        // $results=$query->fetchAll(PDO::FETCH_OBJ);
                         
-                        $count=1;
-                        if($query->rowCount() > 0) {
-                        //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                            foreach($results as $result)
-                        {
+                        // $count=1;
+                        // if($query->rowCount() > 0) {
+                        // //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                        //     foreach($results as $result)
+                        // {
                     ?>
-                        <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
-                    <?php }} ?>
+                        <option value="<?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                    <?php //}} ?>
                     </select>
                     <label for="ownerInp" id="ownerLbl">Owner</label>
                     <div class="invalid-feedback">
                         Please select Owner
                     </div>
-                </div>
+                </div> -->
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="statusInp" name="statusInp" required>
                         <option value="" selected disabled>Please select Status</option>
@@ -195,7 +205,8 @@
                     serial_number:$('#serialnumberInp').val(),
                     date_of_purchase:$('#dateofpurchaseInp').val(),
                     warranty:$('#warrantyInp').val(),
-                    employee_id:$('#ownerInp').val(),
+                    // employee_id:$('#ownerInp').val(),
+                    owner_name:$('#ownerInp').val(),
                     status:$('#statusInp').val(),
                 },
                 success: function (res) {

@@ -38,7 +38,7 @@
             <tbody>
                 <?php
                     $sql="
-                    SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.lname, employee_tbl.fname, ict_network_hardware_tbl.status
+                    SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.lname, employee_tbl.fname, ict_network_hardware_tbl.status, owner_name
                     FROM ict_network_hardware_tbl
                     INNER JOIN employee_tbl ON ict_network_hardware_tbl.employee_id=employee_tbl.employee_id;
                     ";
@@ -57,7 +57,7 @@
                     <td><?= $row['serial_number'] ?></td>
                     <td><?= $row['date_of_purchase'] ?></td>
                     <td><?= $row['warranty'] ?></td>
-                    <td><?= $row['lname'].', '.$row['fname'] ?></td>
+                    <td><?= $row['owner_name'] //$row['lname'].', '.$row['fname'] ?></td>
                     <td><?= $row['status'] ?></td>
                     <td>
                         <button id="editBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>

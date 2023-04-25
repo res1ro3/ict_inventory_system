@@ -193,49 +193,56 @@
                 </div>
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
-                    <div class="mb-3 col form-floating">
+                    <div class="mb-3">
+                        <label class="form-label" for="currentownerInp">Current Owner</label>
+                        <input class="form-control" type="text" name="currentownerInp" id="currentownerInp" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="newownerInp">New Owner</label>
+                        <input class="form-control" type="text" name="newownerInp" id="newownerInp">
+                    </div>
+                    <!-- <div class="mb-3 col form-floating">
                         <select class="form-select" id="currentownerInp" name="currentownerInp" disabled>
                                 <option value="" selected disabled>Select Owner</option>
                             <?php
-                                $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                                $query = $conn->prepare($sql);
-                                $query->execute();
-                                $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                // $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                                // $query = $conn->prepare($sql);
+                                // $query->execute();
+                                // $results=$query->fetchAll(PDO::FETCH_OBJ);
                                 
-                                $count=1;
-                                if($query->rowCount() > 0) {
-                                //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                                    foreach($results as $result)
-                                {
+                                // $count=1;
+                                // if($query->rowCount() > 0) {
+                                //     foreach($results as $result)
+                                // {
                             ?>
-                                <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
-                            <?php }} ?>
+                                <option value="<?php //echo htmlentities($result->employee_id);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                            <?php //}} ?>
                         </select>
                         <label for="currentownerInp" class="form-label" id="currentownerLbl">Current Owner</label>
-                    </div>
-                    <div class="mb-3 form-floating">
+                    </div> -->
+                    <!-- <div class="mb-3 form-floating">
                         <select class="form-select" id="newownerInp" name="newownerInp" required>
                             <option value="" selected disabled>Select New Owner</option>
                         <?php
-                            $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                            $query = $conn->prepare($sql);
-                            $query->execute();
-                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            // $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                            // $query = $conn->prepare($sql);
+                            // $query->execute();
+                            // $results=$query->fetchAll(PDO::FETCH_OBJ);
                             
-                            $count=1;
-                            if($query->rowCount() > 0) {
-                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                                foreach($results as $result)
-                            {
+                            // $count=1;
+                            // if($query->rowCount() > 0) {
+                            // //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                            //     foreach($results as $result)
+                            // {
                         ?>
-                            <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
-                        <?php }} ?>
+                            <option value="<?php //echo htmlentities($result->employee_id);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                        <?php //}} ?>
                         </select>
                         <label for="newownerInp" id="newownerLbl">New Owner</label>
                         <div class="invalid-feedback">
                             Please select New Owner
                         </div>
-                    </div>
+                    </div> -->
                 </form>
                 </div>
                 <div class="modal-footer">
@@ -279,8 +286,8 @@
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#macInp").val(res.mac_address);
-                    $('#ownerInp').val(res.employee_id);
-                    $('#currentownerInp').val(res.employee_id);
+                    // $('#ownerInp').val(res.employee_id);
+                    $('#currentownerInp').val(res.owner_name);
                 }
             });
         }
@@ -347,7 +354,7 @@
         }
 
         function transfer() {
-            if ($('#newownerInp option:selected').text() == $('#currentownerInp').val()) {
+            if ($('#newownerInp').val() == $('#currentownerInp').val()) {
                 Swal.fire({
                         title: 'Error!',
                         text: "Current Owner cannot be the New Owner",
@@ -361,7 +368,7 @@
                     data: {
                         mac_address: $("#macInp").val(),
                         current_owner: $('#currentownerInp').val(),
-                        new_owner: $('#newownerInp option:selected').val(),
+                        new_owner: $('#newownerInp').val(),
                     }
                 }).then((res) => {
                     if (res > 0) {
@@ -381,6 +388,40 @@
                     }
                 });
             }
+            // if ($('#newownerInp option:selected').text() == $('#currentownerInp').val()) {
+            //     Swal.fire({
+            //             title: 'Error!',
+            //             text: "Current Owner cannot be the New Owner",
+            //             icon: 'error',
+            //             confirmButtonText: 'Okay'
+            //         })
+            // } else {
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "./transfer.php",
+            //         data: {
+            //             mac_address: $("#macInp").val(),
+            //             current_owner: $('#currentownerInp').val(),
+            //             new_owner: $('#newownerInp option:selected').val(),
+            //         }
+            //     }).then((res) => {
+            //         if (res > 0) {
+            //             Swal.fire({
+            //                 title: 'Success!',
+            //                 text: "Transferred successfully",
+            //                 icon: 'success',
+            //                 confirmButtonText: 'Okay'
+            //             }).then(()=>location.reload())
+            //         } else {
+            //             Swal.fire({
+            //                 title: 'Error!',
+            //                 text: "Transferred failed",
+            //                 icon: 'error',
+            //                 confirmButtonText: 'Okay'
+            //             }).then(()=>location.reload())
+            //         }
+            //     });
+            // }
         }
 
         $(document).ready(function () {

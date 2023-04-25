@@ -4,7 +4,7 @@
     $mac_address = $_GET['mac_address'];
 
     $sql = "
-        SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.employee_id, ict_network_hardware_tbl.status
+        SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.employee_id, ict_network_hardware_tbl.status, ict_network_hardware_tbl.owner_name
         FROM ict_network_hardware_tbl
         INNER JOIN employee_tbl ON ict_network_hardware_tbl.employee_id=employee_tbl.employee_id
         WHERE mac_address = :mac

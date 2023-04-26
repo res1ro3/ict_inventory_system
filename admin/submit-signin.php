@@ -1,7 +1,7 @@
 <?php 
 
     require_once('../dbConfig.php');
-
+    
     if(isset($_POST['username']) && $_POST['password']) {
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -19,24 +19,16 @@
         $new_pwd_hashed = password_hash($hash_salt, PASSWORD_ARGON2ID);
 
         if (password_verify($hash_salt, $pwd_hashed)) {
-        //CONFIRMED - CORRECT PASSWORD
-            echo "Correct";
+        // //CONFIRMED - CORRECT PASSWORD
+            session_start();
+            $_SESSION['status'] = 'valid';
+            $_SESSION['username'] = $username;
+            echo 1;
         } else {
         //INCORRECT
-            echo $password . "\n" . $pwd_hashed . "\n" . $new_pwd_hashed;
+            $_SESSION['status'] = 'invalid';
+            echo 0;
         }
-
-        // $sql = "SELECT * FROM employee_tbl WHERE username = :un AND password = :hs";
-        // $query = $conn->prepare($sql);
-        // $query->bindParam(':un',$username,PDO::PARAM_STR);
-        // $query->bindParam(':hs',$hashed,PDO::PARAM_STR);
-        // $query->execute();
-
-        // if ($query->rowCount()) {
-        //     echo "Logged in successfully";
-        // } else {
-        //     echo 'Incorrect username or password';
-        // }
 
     } else {
         echo 'Please fill all the fields';

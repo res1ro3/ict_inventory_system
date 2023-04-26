@@ -1,3 +1,9 @@
+<?php 
+    session_start();
+    if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
+        header("Location: dashboard.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/admin-signin.css">
+    <link rel="stylesheet" href="../styles/admin-signin.css">
 </head>
 <body>
     <div class="signin d-flex align-items-center flex-column">
@@ -16,17 +22,22 @@
             <div class="mb-3">
                 <label class="form-label" for="usernameInp">Username</label>
                 <input class="form-control" type="text" name="usernameInp" id="usernameInp" placeholder="juan2345678" required>
+                <div class="invalid-feedback">
+                    Please enter email
+                </div>
             </div>
             <label class="form-label" for="passwordInp">Password</label>
             <div class="input-group mb-3">
                 <input type="password" class="form-control" name="passwordInp" id="passwordInp" placeholder="********" aria-label="Example text with button addon" aria-describedby="button-addon1" required autocomplete>
                 <button onclick="showPass()" id='btn-show' class="btn btn-outline-secondary" type="button" id="button-addon1">Show</button>
+                <div class="invalid-feedback">
+                    Please enter password
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-primary" type="submit">Signin</button>
             </div>
         </form>
-        <button onclick="handleSignin()">TEST</button>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -69,7 +80,11 @@
         }
 
         function handleSignin() {
-            $.ajax({
+            var username = document.getElementById("usernameInp").value;
+            var password = document.getElementById("passwordInp").value;
+
+            if (username != "" || password != "") {
+                $.ajax({
                     url: 'submit-signin.php',
                     method: 'POST',
                     data: {
@@ -78,8 +93,24 @@
                     }
 
                 }).then((res) => {
-                    console.log(res);
+                    if (res > 0) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: "Signed in successfully",
+                            icon: 'success',
+                            confirmButtonText: 'Okay'
+                        }).then(()=>location.reload())
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: "Incorrect username or password",
+                            icon: 'error',
+                            confirmButtonText: 'Okay'
+                        })
+                    }
                 });
+            }
+            
         }
 
     </script>

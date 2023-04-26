@@ -1,5 +1,11 @@
 <?php
     require_once('../dbconfig.php');
+    session_start();
+    if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
+        
+    } else {
+        header("Location: ../admin/signin.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

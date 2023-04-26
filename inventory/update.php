@@ -1,4 +1,11 @@
 <?php
+    session_start();
+    if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
+        
+    } else {
+        header("Location: ../admin/signin.php");
+    }
+
     require_once('../dbConfig.php');
 
     $mac_address = $_POST['mac_address'];

@@ -1,3 +1,12 @@
+<?php 
+    session_start();
+    if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
+        
+    } else {
+        header("Location: admin/signin.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +39,7 @@
                     <a class="nav-link" href="#">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./admin/signin.php">Signin</a>
+                    <a class="nav-link" href="./admin/signout.php">Signout</a>
                 </li>
             </ul>
         </nav>

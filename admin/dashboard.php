@@ -18,31 +18,56 @@
 </head>
 <body>
     <div class="dashboard">
-        <nav class="sidebar nav flex-column">
-            <div><h3>Hello, Admin</h3></div>
-            <ul>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-2x fa-solid fa-users"></i>
-                        <span>Employees</span>
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 100vh;">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">Dashboard</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li>
+                    <a href="#" class="nav-link link-body-emphasis">
+                    <i class="fa-solid fa-users"></i>
+                    Dashboard
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-2x fa-solid fa-boxes-stacked"></i>
-                        <span>Inventory</span>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
+                    <i class="fa-solid fa-gauge"></i>
+                    Inventory
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-body-emphasis">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    Inventory
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-body-emphasis">
+                    <i class="fa-solid fa-list-check"></i>
+                    Services
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-body-emphasis">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
                     </a>
                 </li>
             </ul>
-            <ul>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-2x fa-sharp fa-solid fa-right-from-bracket"></i>
-                        <span>Signout</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+            <hr>
+            <div class="text-center">
+                <a onclick="signout()" class="text-dark text-decoration-none" href="#">Signout</a>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>

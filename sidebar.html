@@ -1,0 +1,55 @@
+<div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 100vh;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+    <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+    <span class="fs-4">Dashboard</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="dashboard.php" class="nav-link link-body-emphasis">
+            <i class="fa-regular fa-gauge"></i>
+            Dashboard
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a style="color: #000" href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            Inventory
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="../inventory/manageInventory.php">View</a></li>
+                <li><a class="dropdown-item" href="../inventory/add.php">Add</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" style="color: #000" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
+            <i class="fa-solid fa-list-check"></i>
+            Services
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="#">View</a></li>
+                <li><a class="dropdown-item" href="#">Add</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" style="color: #000" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
+            <i class="fa-solid fa-user"></i>
+            Employees
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="../employee/manageAccounts.php">View</a></li>
+                <li><a class="dropdown-item" href="../employee/addEmployee.php">Add</a></li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link link-body-emphasis">
+            <i class="fa-solid fa-user"></i>
+            Profile
+            </a>
+        </li>
+    </ul>
+    <hr>
+    <div class="text-center">
+        <a onclick="signout()" class="text-dark text-decoration-none" href="#">Signout</a>
+    </div>
+</div>

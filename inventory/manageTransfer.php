@@ -22,7 +22,6 @@
 </head>
 <body>
     <div class="container">
-        <div id="nav-placeholder"></div>
         <h3>Transfer</h3>
         <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
             <thead>
@@ -375,7 +374,6 @@
 
         $(document).ready(function () {
             $('#ictnetworkhardwareTbl').DataTable();
-            $("#nav-placeholder").load("../nav.html");
         });
     </script>
 </html>

@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="dashboard">
-        <div id="sidebar-placeholder"></div>
+        <?php include("../sidebar.php") ?>
         <div class="container">
         <h3>As of Today</h3>
             <div class="data-group">
@@ -95,9 +95,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#sidebar-placeholder').load('../sidebar.html');
-        })
         const signout = () => {
             $.ajax({
                     url: 'signout.php',
@@ -117,8 +114,7 @@
                             confirmButtonText: 'Okay'
                         })
                     }
-                });
-                
+                }); 
         }
     </script>
 </body>

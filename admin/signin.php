@@ -16,7 +16,6 @@
 </head>
 <body>
     <div class="signin d-flex align-items-center flex-column">
-        <div id="nav-placeholder"></div>
         <form onsubmit="handleSignin(); return false" class="signin-form mt-5 w-50 needs-validation" novalidate>
             <h3 class="form-title">Sign in</h3>
             <div class="mb-3">
@@ -65,10 +64,6 @@
             }, false)
         })
         })();
-
-        $(document).ready(function() {
-            $("#nav-placeholder").load("../nav.html");
-        });
 
         function showPass() {
             btnType = document.getElementById("passwordInp").type;

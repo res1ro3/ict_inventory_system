@@ -21,28 +21,7 @@
 </head>
 <body>
     <div class="container">
-        <nav class="navigation-tabs">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="./index.php">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./inventory/manageInventory.php">Inventory</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./employee/manageAccounts.php">Employees</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./admin/signout.php">Signout</a>
-                </li>
-            </ul>
-        </nav>
+        
     </div>
 </body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -51,6 +30,7 @@
     <script>
         $(document).ready(function () {
             $('#example').DataTable();
+            window.location.href = "admin/signin.php";
         });
     </script>
 </html>

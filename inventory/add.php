@@ -53,8 +53,8 @@
     <link rel="stylesheet" href="styles/employee.css">
 </head>
 <body>
-    <div class="container d-flex justify-content-center">
-        <div id="nav-placeholder"></div>
+    <div class="container d-flex align-items-center flex-column">
+    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="addDiv" style="width: 50%">
         <button class="btn btn-dark mb-3" onclick="location.href='./manageInventory.php'">Manage Inventory</button>
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
@@ -234,10 +234,5 @@
                 }
             });
         }
-
-        $(document).ready(function () {
-            $("#nav-placeholder").load("../nav.html");
-        });
-
     </script>
 </html>

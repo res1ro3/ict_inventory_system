@@ -23,9 +23,8 @@
 </head>
 <body>
     <div class="container">
-    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"></div>
+    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="manageaccounts">
-            <!-- <div id="nav-placeholder"></div> -->
             <h3>Management of Accounts</h3>
             <button class="btn btn-dark mb-3" onclick="location.href='./addEmployee.php'">Add Account</button>
             <table id="accsTbl" class="display table table-light" style="width:100%">
@@ -274,8 +273,7 @@
 
         $(document).ready(function () {
             $('#accsTbl').DataTable();
-            // $("#nav-placeholder").load("../nav.html");
-            $('#sidebar-placeholder').load('../sidebar.html');
+            // $('#sidebar-placeholder').load('../sidebar.html');
         });
     </script>
 </html>

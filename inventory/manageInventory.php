@@ -22,7 +22,7 @@
 </head>
 <body>
     <div class="container">
-        <div id="nav-placeholder"></div>
+    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <h3>Inventory</h3>
         <button class="btn btn-dark mb-3" onclick="location.href='./add.php'">Add</button>
         <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
@@ -432,7 +432,6 @@
 
         $(document).ready(function () {
             $('#ictnetworkhardwareTbl').DataTable();
-            $("#nav-placeholder").load("../nav.html");
         });
     </script>
 </html>

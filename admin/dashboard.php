@@ -20,70 +20,14 @@
     <div class="dashboard">
         <?php include("../sidebar.php") ?>
         <div class="container">
-        <h3>As of Today</h3>
-            <div class="data-group">
-                <div class="card">
-                    <div>
-                        <h1>12</h1>
-                    </div>
-                    <div>
-                        <p>No. of ICT Equipment to be replaced</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <h1>12</h1>
-                    </div>
-                    <div>
-                        <p>No. of ICT Equipment per unit vs number of employees</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <h1>10</h1>
-                    </div>
-                    <div>
-                        <p>No. of pending/ongoing technical support</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <h1>12</h1>
-                    </div>
-                    <div>
-                        <p>Information Systems</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <h1>12</h1>
-                    </div>
-                    <div>
-                        <p>Remaining available communal ICT resources to be borrowed</p>
-                    </div>
-                </div>
-            </div>
-<!-- Brand vs No. of repair -->
-            <h3>Brand vs Repair</h3>
-            <div class="data-group">
-                <div class="card">
-                    <div>
-                        <h1>12</h1>
-                    </div>
-                    <div>
-                        <p>Dell</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div>
-                        <h1>12</h1>
-                    </div>
-                    <div>
-                        <p>HP</p>
+            <div class="row d-flex flex-column">
+                <div class="col"><h3>As of Today</h3></div>
+                <div class="col">
+                    <div class="col">
+                        <div class="col"><p>12</p></div>
+                        <div class="col">
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        </div>
                     </div>
                 </div>
             </div>

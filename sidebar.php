@@ -1,4 +1,7 @@
 <?php 
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
     if (!function_exists('base_url')){
         function base_url(){
@@ -41,16 +44,15 @@
         font-size: 16pt;
     }
 
-    .sidebar span, .sidebar ul li a, .sidebar hr, .signout a {
+    .sidebar h4, .sidebar ul li a, .sidebar hr, .signout a {
         color: #fff;
     }
 </style>
 
 <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-    <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-    <span class="fs-4">Dashboard</span>
-    </a>
+    <h4 href="/" class="text-decoration-none text-center">
+        Hello, <?= $user ?>
+    </h4>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">

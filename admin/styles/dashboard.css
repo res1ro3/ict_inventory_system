@@ -1,25 +1,9 @@
 .dashboard {
     display: flex;
+    justify-content: start;
+    background-color: #fff;
 }
 
-.data-group {
-    display: flex;
-    flex-direction: row;
-    column-gap: 3rem;
-    padding: 30px;
-}
-
-.data-group .card {
-    width: 200px;
-    height: auto;
-    text-align: center;
-}
-
-.data-group .card h1 {
-    /* border: 1px solid blue; */
-    font-size: 48pt;
-}
-
-.data-group .card p {
-    border-top: 1px solid #000;
+.dashboard .container {
+    border: 3px solid salmon;
 }

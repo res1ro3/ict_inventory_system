@@ -19,14 +19,50 @@
 <body>
     <div class="dashboard">
         <?php include("../sidebar.php") ?>
-        <div class="container">
+        <div class="container-fluid m-5">
             <div class="row d-flex flex-column">
-                <div class="col"><h3>As of Today</h3></div>
-                <div class="col">
-                    <div class="col">
-                        <div class="col"><p>12</p></div>
-                        <div class="col">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                <div class="col data-header"><h3>As of Today <?= '('.date("m/d/Y").')'?></h3></div>
+                <div class="col d-flex flex-row">
+                    <div class="col data-card">
+                        <div class="col-4 data-digit"><p>3</p></div>
+                        <div class="col-8 data-text">
+                            <p>ICT Equipments to be replace</p>
+                        </div>
+                    </div>
+                    <div class="col data-card">
+                        <div class="col-4 data-digit"><p>1</p></div>
+                        <div class="col-8 data-text">
+                            <p>Pending technical support</p>
+                        </div>
+                    </div>
+                    <div class="col data-card">
+                        <div class="col-4 data-digit"><p>2</p></div>
+                        <div class="col-8 data-text">
+                            <p>Ongoing technical support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-flex flex-column">
+                <div class="col data-header"><h3>Brand VS Repair</h3></div>
+                <div class="col d-flex flex-row">
+                    <div class="col data-card">
+                        <div class="col-4 data-digit"><p>3</p></div>
+                        <div class="col-8 data-text">
+                            <p>Dell</p>
+                        </div>
+                    </div>
+                    <div class="col data-card">
+                        <div class="col-4 data-digit"><p>1</p></div>
+                        <div class="col-8 data-text">
+                            <p>HP</p>
+                        </div>
+                    </div>
+                    <div class="col data-card">
+                        <div class="col-4 data-digit"><p>2</p></div>
+                        <div class="col-8 data-text">
+                            <p>Acer</p>
                         </div>
                     </div>
                 </div>

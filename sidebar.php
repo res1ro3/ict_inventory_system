@@ -3,6 +3,8 @@
         session_start();
     }
 
+    $user = $_SESSION['username'];
+
     if (!function_exists('base_url')){
         function base_url(){
         $url = sprintf(
@@ -50,7 +52,7 @@
 </style>
 
 <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
-    <h4 href="/" class="text-decoration-none text-center">
+    <h4 href="/" class="text-decoration-none text-center text-uppercase">
         Hello, <?= $user ?>
     </h4>
     <hr>
@@ -67,8 +69,9 @@
             Inventory
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/manageInventory.php" ?>">View</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/add.php" ?>">Add</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/manageInventory.php" ?>">View Inventory</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/add.php" ?>">Add Inventory</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/brands.php" ?>">Manage Brands</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
@@ -106,3 +109,27 @@
         </a>
     </div>
 </div>
+
+<script>
+        const signout = () => {
+            $.ajax({
+                    url: '<?php echo $base_url . "ict_inventory_system/admin/signout.php" ?>',
+                }).then((res) => {
+                    if (res > 0) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: "Signed out",
+                            icon: 'success',
+                            confirmButtonText: 'Okay'
+                        }).then(()=>location.reload())
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: "An error occurred",
+                            icon: 'error',
+                            confirmButtonText: 'Okay'
+                        })
+                    }
+                }); 
+        }
+    </script>

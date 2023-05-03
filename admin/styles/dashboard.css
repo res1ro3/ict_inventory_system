@@ -4,6 +4,36 @@
     background-color: #fff;
 }
 
-.dashboard .container {
-    border: 3px solid salmon;
+.dashboard .container-fluid .data-header {
+    background-color: #0056FB;
+    width: max-content;
+    color: #fff;
+    margin: 0 0 30px 0;
+    border: #000 1px solid;
+    border-radius: 5px;
+}
+
+.dashboard .data-card {
+    display: flex;
+    height: 120px;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.dashboard .data-card .data-digit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard .data-card .data-digit p {
+    font-size: 36pt;
+    border: solid 1px #000;
+    padding: 5px 25px;
+}
+
+.dashboard .data-card .data-text {
+    display: flex;
+    align-items: center;
+    text-align: start;
 }

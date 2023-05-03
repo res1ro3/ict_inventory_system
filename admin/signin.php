@@ -1,7 +1,11 @@
 <?php 
-    session_start();
-    if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
-        header("Location: dashboard.php");
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (isset($_SESSION['status'])) {
+        if ($_SESSION['status'] == 'valid') {
+            header("Location: dashboard.php");
+        }
     }
 ?>
 <!DOCTYPE html>

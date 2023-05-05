@@ -13,7 +13,7 @@
             $_SERVER['SERVER_NAME']
         );
 
-        $url .= '/';
+        $url .= ':8080/';
 
         return $url;
         }

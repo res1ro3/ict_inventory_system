@@ -35,7 +35,7 @@
             <tbody>
                 <?php
                     $sql="
-                    SELECT * FROM brands_tbl
+                    SELECT * FROM brand_tbl
                     ";
                     $query = $conn->prepare($sql);
                     $query->execute();

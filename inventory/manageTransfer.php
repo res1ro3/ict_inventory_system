@@ -229,7 +229,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button onclick="transfer()" type="button" class="btn btn-primary">Save changes</button>
+                    <button onclick="transfer()" type="button" class="btn btn-primary">Save changess</button>
                 </div>
                 </div>
             </div>
@@ -339,7 +339,7 @@
             if ($('#newownerInp option:selected').text() == $('#currentownerInp').val()) {
                 Swal.fire({
                         title: 'Error!',
-                        text: "Current Owner cannot be the New Owner",
+                        text: "Current Owner cannot be the New Owner1",
                         icon: 'error',
                         confirmButtonText: 'Okay'
                     })
@@ -353,21 +353,22 @@
                         new_owner: $('#newownerInp option:selected').val(),
                     }
                 }).then((res) => {
-                    if (res > 0) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: "Transferred successfully",
-                            icon: 'success',
-                            confirmButtonText: 'Okay'
-                        }).then(()=>location.reload())
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Transferred failed",
-                            icon: 'error',
-                            confirmButtonText: 'Okay'
-                        }).then(()=>location.reload())
-                    }
+                    console.log(res);
+                    // if (res > 0) {
+                    //     Swal.fire({
+                    //         title: 'Success!',
+                    //         text: "Transferred successfully",
+                    //         icon: 'success',
+                    //         confirmButtonText: 'Okay'
+                    //     }).then(()=>location.reload())
+                    // } else {
+                    //     Swal.fire({
+                    //         title: 'Error!',
+                    //         text: "Transfer failed",
+                    //         icon: 'error',
+                    //         confirmButtonText: 'Okay'
+                    //     }).then(()=>location.reload())
+                    // }
                 });
             }
         }

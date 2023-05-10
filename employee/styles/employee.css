@@ -14,6 +14,7 @@
 .accounts .accounts-container {
     width: 100%;
     margin: 0 2rem;
+    
 }
 
 .dashboard-header {
@@ -24,4 +25,16 @@
     padding: 0px 20px;
     border: #000 1px solid;
     border-radius: 5px;
+}
+
+.accounts .add-accounts-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.accounts .add-accounts-container .addAccDiv {
+    width: 50%;
 }

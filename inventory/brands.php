@@ -45,6 +45,20 @@
             <div class="dashboard-header" style="margin: 2rem 0">
                 <h3>Manage Brands</h3>
             </div>
+            <div class="brands_add">
+                <form class="needs-validation d-flex" novalidate id="addForm" name="addForm" method="post">
+                    <div class="mb-3 col form-floating">
+                        <input type="text" class="form-control" id="nameInp" name="nameInp" required>
+                        <label for="macInp" class="form-label" id="nameLbl">Brand Name</label>
+                        <div class="invalid-feedback">
+                            Please enter Brand Name
+                        </div>
+                    </div>
+                    <div class="mb-3 col">
+                        <button name="addBtn" class="btn btn-success">Add</button>
+                    </div>
+                </form>
+            </div>
             <div class="brands_tbl">
                 <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
                     <thead>
@@ -75,23 +89,6 @@
                         </tr>
                         <?php $count++; } ?>
                 </table>
-            </div>
-            <div class="brands_add">
-                <div class="dashboard-header" style="margin: 2rem 0">
-                    <h3>Add Brand</h3>
-                </div>
-                <form class="needs-validation d-flex" novalidate id="addForm" name="addForm" method="post">
-                    <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control" id="nameInp" name="nameInp" required>
-                        <label for="macInp" class="form-label" id="nameLbl">Brand Name</label>
-                        <div class="invalid-feedback">
-                            Please enter Brand Name
-                        </div>
-                    </div>
-                    <div class="mb-3 col">
-                        <button name="addBtn" class="btn btn-success">Add</button>
-                    </div>
-                </form>
             </div>
         </div>
         

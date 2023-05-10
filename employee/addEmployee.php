@@ -61,133 +61,135 @@
     <link rel="stylesheet" href="styles/employee.css">
 </head>
 <body>
-    <div class="container d-flex align-items-center flex-column">
-    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
-        <div class="addAccDiv" style="width: 50%">
-        <button class="btn btn-dark mb-3" onclick="location.href='./manageAccounts.php'">Manage Accounts</button>
-            <form class="needs-validation" novalidate id="addAccForm" name="addAccForm" method="post">
-                
-                <h3 class="text-center mt-5 mb-3">ADD ACCOUNT</h3>
-                <div class="mb-3 row">
-                    <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control addAccInp" id="lnameInp" name="lnameInp" required>
-                        <label for="lnameInp" class="form-label ps-4" id="lnameLbl">Last Name</label>
-                        <div class="invalid-feedback">
-                            Please enter Last Name
+    <div class="accounts">
+        <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
+        <div class="add-accounts-container">
+            <div class="addAccDiv">
+                <div class="dashboard-header" style="margin: 2rem 0">
+                    <h3>Add Account</h3>
+                </div>
+                <form class="needs-validation" novalidate id="addAccForm" name="addAccForm" method="post">
+                    <div class="mb-3 row">
+                        <div class="mb-3 col form-floating">
+                            <input type="text" class="form-control addAccInp" id="lnameInp" name="lnameInp" required>
+                            <label for="lnameInp" class="form-label ps-4" id="lnameLbl">Last Name</label>
+                            <div class="invalid-feedback">
+                                Please enter Last Name
+                            </div>
+                        </div>
+                        <div class="mb-3 col form-floating">
+                            <input type="text" class="form-control addAccInp" id="fnameInp" name="fnameInp" required>
+                            <label for="fnameInp" class="form-label ps-4" id="fnameLbl">First Name</label>
+                            <div class="invalid-feedback">
+                                Please enter First Name
+                            </div>
                         </div>
                     </div>
-                    <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control addAccInp" id="fnameInp" name="fnameInp" required>
-                        <label for="fnameInp" class="form-label ps-4" id="fnameLbl">First Name</label>
+                    
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control addAccInp" id="usernameInp" name="usernameInp" required>
+                        <label for="usernameInp" class="form-label" id="usernameLbl">Username</label>
                         <div class="invalid-feedback">
-                            Please enter First Name
+                            Please enter Username
+                        </div>
+                        <span id="usernameInp-message"></span>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <div class="mb-3 col form-floating">
+                            <input type="password" class="form-control addAccInp" id="passwordInp" name="passwordInp" required>
+                            <label for="passwordInp" class="form-label ps-4" id="passwordLbl">Password</label>
+                            <div class="invalid-feedback">
+                                Please enter Password
+                            </div>
+                        </div>
+                        <div class="mb-3 col form-floating">
+                            <input type="password" class="form-control addAccInp" id="confirmPasswordInp" name="confirmPasswordInp" required>
+                            <label for="confirmPasswordInp" class="form-label ps-4" id="confirmPasswordLbl">Confirm Password</label>
+                            <div class="invalid-feedback">
+                                Please Confirm Password
+                            </div>
+                            <span id="confirmPasswordInp-message"></span>
                         </div>
                     </div>
-                </div>
-                
-                <div class="mb-3 form-floating">
-                    <input type="text" class="form-control addAccInp" id="usernameInp" name="usernameInp" required>
-                    <label for="usernameInp" class="form-label" id="usernameLbl">Username</label>
-                    <div class="invalid-feedback">
-                        Please enter Username
-                    </div>
-                    <span id="usernameInp-message"></span>
-                </div>
 
-                <div class="mb-3 row">
-                    <div class="mb-3 col form-floating">
-                        <input type="password" class="form-control addAccInp" id="passwordInp" name="passwordInp" required>
-                        <label for="passwordInp" class="form-label ps-4" id="passwordLbl">Password</label>
+                    <div class="mb-3 form-floating">
+                        <select class="form-select" id="sexInp" name="sexInp" required>
+                            <option value="" selected disabled>Select Sex</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                        <label for="sexInp" id="sexLbl">Sex</label>
                         <div class="invalid-feedback">
-                            Please enter Password
+                            Please select sex
                         </div>
                     </div>
-                    <div class="mb-3 col form-floating">
-                        <input type="password" class="form-control addAccInp" id="confirmPasswordInp" name="confirmPasswordInp" required>
-                        <label for="confirmPasswordInp" class="form-label ps-4" id="confirmPasswordLbl">Confirm Password</label>
+
+                    <div class="mb-3 form-floating">
+                        <select class="form-select" id="officeInp" name="officeInp" required>
+                            <option value="" selected disabled>Select Office</option>
+                        <?php
+                            $sql="SELECT * FROM office_tbl";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                        ?>
+                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                        <?php }} ?>
+                        </select>
+                        <label for="officeInp" id="officeLbl">Office</label>
                         <div class="invalid-feedback">
-                            Please Confirm Password
+                            Please select an Office
                         </div>
-                        <span id="confirmPasswordInp-message"></span>
                     </div>
-                </div>
 
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="sexInp" name="sexInp" required>
-                        <option value="" selected disabled>Select Sex</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                    <label for="sexInp" id="sexLbl">Sex</label>
-                    <div class="invalid-feedback">
-                        Please select sex
+                    <div class="mb-3 form-floating">
+                        <select class="form-select" id="positionInp" name="positionInp" required>
+                            <option value="" selected disabled>Select Position</option>
+                            <option>Position 1</option>
+                            <option>Position 2</option>
+                            <option>Position 3</option>
+                        </select>
+                        <label for="positionInp" id="positionLbl">Position</label>
+                        <div class="invalid-feedback">
+                            Please select a Position
+                        </div>
                     </div>
-                </div>
 
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="officeInp" name="officeInp" required>
-                        <option value="" selected disabled>Select Office</option>
-                    <?php
-                        $sql="SELECT * FROM office_tbl";
-                        $query = $conn->prepare($sql);
-                        $query->execute();
-                        $results=$query->fetchAll(PDO::FETCH_OBJ);
-                        
-                        $count=1;
-                        if($query->rowCount() > 0) {
-                        //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                            foreach($results as $result)
-                        {
-                    ?>
-                        <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
-                    <?php }} ?>
-                    </select>
-                    <label for="officeInp" id="officeLbl">Office</label>
-                    <div class="invalid-feedback">
-                        Please select an Office
+                    <div class="mb-3 form-floating">
+                        <select class="form-select" id="typeOfEmploymentInp" name="typeOfEmploymentInp" required>
+                            <option value="" selected disabled>Select Type of Employment</option>
+                            <option>COS</option>
+                            <option>Regular</option>
+                        </select>
+                        <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl">Type of Employment</label>
+                        <div class="invalid-feedback">
+                            Please select Type of Employment
+                        </div>
                     </div>
-                </div>
 
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="positionInp" name="positionInp" required>
-                        <option value="" selected disabled>Select Position</option>
-                        <option>Position 1</option>
-                        <option>Position 2</option>
-                        <option>Position 3</option>
-                    </select>
-                    <label for="positionInp" id="positionLbl">Position</label>
-                    <div class="invalid-feedback">
-                        Please select a Position
+                    <div class="mb-3 form-floating">
+                        <select class="form-select" id="typeOfAccountInp" name="typeOfAccountInp" required>
+                            <option value="" selected disabled>Select Type of Account</option>
+                            <option>Admin</option>
+                            <option>Ordinary User</option>
+                        </select>
+                        <label for="typeOfAccountInp" id="typeOfAccounttLbl">Type of Account</label>
+                        <div class="invalid-feedback">
+                            Please select Type of Account
+                        </div>
                     </div>
-                </div>
-
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeOfEmploymentInp" name="typeOfEmploymentInp" required>
-                        <option value="" selected disabled>Select Type of Employment</option>
-                        <option>COS</option>
-                        <option>Regular</option>
-                    </select>
-                    <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl">Type of Employment</label>
-                    <div class="invalid-feedback">
-                        Please select Type of Employment
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success" id="addAccBtn" name="addAccBtn">ADD</button>
                     </div>
-                </div>
-
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeOfAccountInp" name="typeOfAccountInp" required>
-                        <option value="" selected disabled>Select Type of Account</option>
-                        <option>Admin</option>
-                        <option>Ordinary User</option>
-                    </select>
-                    <label for="typeOfAccountInp" id="typeOfAccounttLbl">Type of Account</label>
-                    <div class="invalid-feedback">
-                        Please select Type of Account
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-success" id="addAccBtn" name="addAccBtn">ADD</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </body>

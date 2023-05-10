@@ -26,7 +26,7 @@
         <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="accounts-container">
             <div class="dashboard-header" style="margin: 2rem 0">
-                <h3>Manange Inventory</h3>
+                <h3>Manange Accounts</h3>
             </div>
             <table id="accsTbl" class="display table table-light" style="width:100%">
                 <thead>

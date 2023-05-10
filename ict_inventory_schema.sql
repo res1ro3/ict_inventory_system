@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2023 at 11:03 AM
+-- Generation Time: May 10, 2023 at 08:54 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -53,7 +53,10 @@ CREATE TABLE `brand_tbl` (
 
 INSERT INTO `brand_tbl` (`brand_id`, `name`) VALUES
 (1, 'HP'),
-(2, 'Dell');
+(2, 'Dell'),
+(4, 'Tesla'),
+(8, 'Acer'),
+(9, 'Cisco');
 
 -- --------------------------------------------------------
 
@@ -80,6 +83,7 @@ CREATE TABLE `employee_tbl` (
 --
 
 INSERT INTO `employee_tbl` (`employee_id`, `lname`, `fname`, `username`, `password`, `unitOffice`, `position`, `type_of_employment`, `sex`, `type_of_account`, `status`) VALUES
+('', 'Dela Cruz', 'Juan', 'juan234567', '', 'Management Information System Unit', 'Position 1', 'COS', 'Male', 'Ordinary User', 'Active'),
 ('id1', 'Benedicto', 'John Benedict', 'jbenedicto13', '$argon2id$v=19$m=65536,t=4,p=1$RU5VMFlsbjdzTE96R04xTw$4j2gQMONsNPd6AAdec0dp20rSM/FTOgAfWNrYxh03A0', 'Management Information System Unit', 'Position 1', 'Regular', 'Male', 'Admin', 'Active');
 
 -- --------------------------------------------------------
@@ -106,7 +110,8 @@ CREATE TABLE `ict_network_hardware_tbl` (
 --
 
 INSERT INTO `ict_network_hardware_tbl` (`mac_address`, `type_of_hardware`, `brand`, `model`, `serial_number`, `date_of_purchase`, `warranty`, `employee_id`, `status`, `owner_name`) VALUES
-('68-9F-BD-88-5E-A0', 'Equipment', 'HP', '123', '654656', '2023-05-05', '2023-05-06', 'id1', 'Serviceable', 'JB');
+('68-9F-BD-88-5E-A0', 'Equipment', 'HP', '123', '654656', '2023-05-05', '2023-05-06', 'id1', 'Serviceable', 'JB'),
+('78-9F-BD-88-5E-A1', 'Equipment', 'ACER', '123', '4A3GHWni5', '2023-05-10', '2023-05-11', 'id1', 'Serviceable', 'Paulo');
 
 -- --------------------------------------------------------
 
@@ -115,7 +120,7 @@ INSERT INTO `ict_network_hardware_tbl` (`mac_address`, `type_of_hardware`, `bran
 --
 
 CREATE TABLE `ict_transfer_tbl` (
-  `transfer_id` varchar(64) NOT NULL,
+  `transfer_id` int(8) NOT NULL,
   `employee_id_new` varchar(128) NOT NULL DEFAULT 'id1',
   `employee_id_old` varchar(128) NOT NULL DEFAULT 'id1',
   `date_transferred` varchar(32) NOT NULL,
@@ -123,6 +128,14 @@ CREATE TABLE `ict_transfer_tbl` (
   `new_owner` varchar(128) NOT NULL,
   `old_owner` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ict_transfer_tbl`
+--
+
+INSERT INTO `ict_transfer_tbl` (`transfer_id`, `employee_id_new`, `employee_id_old`, `date_transferred`, `mac_address`, `new_owner`, `old_owner`) VALUES
+(13, 'id1', 'id1', '05/10/2023', '68-9F-BD-88-5E-A0', 'JB', 'asdasdasdasd'),
+(14, 'id1', 'id1', '05/10/2023', '78-9F-BD-88-5E-A1', 'Paulo', 'JB');
 
 -- --------------------------------------------------------
 
@@ -244,9 +257,9 @@ ALTER TABLE `ict_network_hardware_tbl`
 --
 ALTER TABLE `ict_transfer_tbl`
   ADD PRIMARY KEY (`transfer_id`),
-  ADD KEY `fk_transfer_old_employee_id` (`employee_id_new`),
-  ADD KEY `fk_transfer_new_employee_id` (`employee_id_old`),
-  ADD KEY `fk_transfer_mac_address` (`mac_address`);
+  ADD KEY `fk_transfer_mac_address` (`mac_address`),
+  ADD KEY `fk_employee_id_new` (`employee_id_new`),
+  ADD KEY `fk_employee_id_old` (`employee_id_old`);
 
 --
 -- Indexes for table `office_tbl`
@@ -291,7 +304,13 @@ ALTER TABLE `supplies_tools_tbl`
 -- AUTO_INCREMENT for table `brand_tbl`
 --
 ALTER TABLE `brand_tbl`
-  MODIFY `brand_id` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `brand_id` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `ict_transfer_tbl`
+--
+ALTER TABLE `ict_transfer_tbl`
+  MODIFY `transfer_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `office_tbl`
@@ -319,9 +338,9 @@ ALTER TABLE `ict_network_hardware_tbl`
 -- Constraints for table `ict_transfer_tbl`
 --
 ALTER TABLE `ict_transfer_tbl`
-  ADD CONSTRAINT `fk_transfer_mac_address` FOREIGN KEY (`mac_address`) REFERENCES `employee_tbl` (`employee_id`),
-  ADD CONSTRAINT `fk_transfer_new_employee_id` FOREIGN KEY (`employee_id_old`) REFERENCES `employee_tbl` (`employee_id`),
-  ADD CONSTRAINT `fk_transfer_old_employee_id` FOREIGN KEY (`employee_id_new`) REFERENCES `employee_tbl` (`employee_id`);
+  ADD CONSTRAINT `fk_employee_id_new` FOREIGN KEY (`employee_id_new`) REFERENCES `employee_tbl` (`employee_id`),
+  ADD CONSTRAINT `fk_employee_id_old` FOREIGN KEY (`employee_id_old`) REFERENCES `employee_tbl` (`employee_id`),
+  ADD CONSTRAINT `fk_transfer_mac_address` FOREIGN KEY (`mac_address`) REFERENCES `ict_network_hardware_tbl` (`mac_address`);
 
 --
 -- Constraints for table `resource_sharing_tbl`

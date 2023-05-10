@@ -50,15 +50,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADD ICT NETWORK HARDWARE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/employee.css">
+    <link rel="stylesheet" href="inventory.css">
 </head>
 <body>
-    <div class="container d-flex align-items-center flex-column">
-    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
-        <div class="addDiv" style="width: 50%">
-        <button class="btn btn-dark mb-3" onclick="location.href='./manageInventory.php'">Manage Inventory</button>
+    <div class="inventory">
+        <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
+        <div class="addDiv">
+            <div class="dashboard-header" style="margin: 2rem 0">
+                <h3>ADD ICT NETWORK HARDWARE</h3>
+            </div>
+            <!-- <h3 class="text-center mt-5 mb-3">ADD ICT NETWORK HARDWARE</h3> -->
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
-                <h3 class="text-center mt-5 mb-3">ADD ICT NETWORK HARDWARE</h3>
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="macInp" name="macInp" required>
                     <label for="macInp" class="form-label" id="macLbl">MAC Address</label>

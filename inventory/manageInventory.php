@@ -23,7 +23,7 @@
 </head>
 <body>
     <div class="inventory">
-    <div style="" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
+    <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
     <div class="inventory-container">
     <div class="tbl_manage_inventory">
         <div class="dashboard-header" style="margin: 2rem 0">

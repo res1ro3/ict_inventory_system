@@ -22,11 +22,12 @@
     <link rel="stylesheet" href="styles/employee.css">
 </head>
 <body>
-    <div class="container">
-    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
-        <div class="manageaccounts">
-            <h3>Management of Accounts</h3>
-            <button class="btn btn-dark mb-3" onclick="location.href='./addEmployee.php'">Add Account</button>
+    <div class="accounts">
+        <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
+        <div class="accounts-container">
+            <div class="dashboard-header" style="margin: 2rem 0">
+                <h3>Manange Inventory</h3>
+            </div>
             <table id="accsTbl" class="display table table-light" style="width:100%">
                 <thead>
                     <tr>
@@ -60,9 +61,10 @@
                     </tr>
                     <?php $count++; } ?>
             </table>
+        </div>
 
             <!-- Edit Modal -->
-                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
@@ -179,14 +181,12 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6952492a89.js" crossorigin="anonymous"></script>
     <script>
-        
         function get(eid) {
             $.ajax({
                 type: "GET",

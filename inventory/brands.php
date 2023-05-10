@@ -6,6 +6,23 @@
     } else {
         header("Location: ../admin/signin.php");
     }
+
+    if (isset($_POST['addBtn'])) {
+        $name = $_POST['nameInp'];
+
+        $sql="INSERT INTO brand_tbl(name) VALUES(:nm)";
+        $query = $conn->prepare($sql);
+
+        $query->bindParam(':nm',$name,PDO::PARAM_STR);
+
+        $query->execute();
+
+        if($query->rowCount() == 1) {
+            echo '<script>alert("Added Successfully")</script>';
+        } else {
+            echo '<script>alert("An error has occured")</script>';
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,40 +36,65 @@
     <script src="../js/jquery.dataTables.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="inventory.css">
 </head>
 <body>
-    <div class="container">
-    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
-        <h3>Brands</h3>
-        <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Brand Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                    $sql="
-                    SELECT * FROM brand_tbl
-                    ";
-                    $query = $conn->prepare($sql);
-                    $query->execute();
-                    $result = $query->fetchAll();
-                    $count = 1;
-                    foreach ($result as $row) {
-                ?>
-                <tr>
-                    <td><?= $count ?></td>
-                    <td><?= $row['name'] ?></td>
-                    <td>
-                        <button id="editBtn" onclick="get('<?= $row['brand_id'] ?>')" type="button" data-id="<?= $row['brand_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                    </td>
-                    
-                </tr>
-                <?php $count++; } ?>
-        </table>
+    <div class="brands">
+        <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
+        <div class="brands-container">
+            <div class="dashboard-header" style="margin: 2rem 0">
+                <h3>Manage Brands</h3>
+            </div>
+            <div class="brands_tbl">
+                <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Brand Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $sql="
+                            SELECT * FROM brand_tbl
+                            ";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $result = $query->fetchAll();
+                            $count = 1;
+                            foreach ($result as $row) {
+                        ?>
+                        <tr>
+                            <td><?= $count ?></td>
+                            <td><?= $row['name'] ?></td>
+                            <td>
+                                <button id="editBtn" onclick="get('<?= $row['brand_id'] ?>')" type="button" data-id="<?= $row['brand_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                            </td>
+                            
+                        </tr>
+                        <?php $count++; } ?>
+                </table>
+            </div>
+            <div class="brands_add">
+                <div class="dashboard-header" style="margin: 2rem 0">
+                    <h3>Add Brand</h3>
+                </div>
+                <form class="needs-validation d-flex" novalidate id="addForm" name="addForm" method="post">
+                    <div class="mb-3 col form-floating">
+                        <input type="text" class="form-control" id="nameInp" name="nameInp" required>
+                        <label for="macInp" class="form-label" id="nameLbl">Brand Name</label>
+                        <div class="invalid-feedback">
+                            Please enter Brand Name
+                        </div>
+                    </div>
+                    <div class="mb-3 col">
+                        <button name="addBtn" class="btn btn-success">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
 
         <!-- Edit Modal -->
             <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -65,6 +107,7 @@
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
                     <div class="mb-3 col form-floating">
+                        <input type="hidden" class="form-control" id="brandIdInp" name="brandIdInp">
                         <input type="text" class="form-control" id="brandInp" name="brandInp" required>
                         <label for="brandInp" class="form-label" id="brandLbl">Brand Name</label>
                         <div class="invalid-feedback">
@@ -90,13 +133,13 @@
     <script>
         function get(brand_id) {
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "./get_brand.php",
                 data: {brand_id: brand_id},
                 success: function (res) {
-                    console.log(res);
-                    // res = JSON.parse(res);
-                    // $("#brandInp").val(res.brand_name);
+                    res = JSON.parse(res);
+                    $("#brandInp").val(res.name);
+                    $("#brandIdInp").val(res.brand_id);
                 }
             });
         }
@@ -104,17 +147,10 @@
         function update() {
             $.ajax({
                 type: "POST",
-                url: "./update.php",
+                url: "update_brand.php",
                 data: {
-                    mac_address: $("#macInp").val(),
-                    type_of_hardware: $("#typeofhardwareInp").val(),
-                    brand: $('#brandInp').val(),
-                    model: $('#modelInp').val(),
-                    serial_number:$('#serialnumberInp').val(),
-                    date_of_purchase:$('#dateofpurchaseInp').val(),
-                    warranty:$('#warrantyInp').val(),
-                    employee_id:$('#ownerInp').val(),
-                    status:$('#statusInp').val(),
+                    brand_id: $("#brandIdInp").val(),
+                    name: $("#brandInp").val(),
                 },
                 success: function (res) {
                     Swal.fire({
@@ -132,71 +168,7 @@
                         confirmButtonText: 'Okay'
                     }).then(()=>location.reload())
                 }
-            });
-        }
-
-        function change_status(userStatus, eid) {
-            $.ajax({
-                type: "POST",
-                url: "./changeStatus.php",
-                data: {
-                    employee_id: eid,
-                    status: userStatus,
-                },
-                success: function (res) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: res,
-                        icon: 'success',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                },
-                error: function (res) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: res,
-                        icon: 'error',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                }
-            });
-        }
-
-        function transfer() {
-            if ($('#newownerInp').val() == $('#currentownerInp').val()) {
-                Swal.fire({
-                        title: 'Error!',
-                        text: "Current Owner cannot be the New Owner",
-                        icon: 'error',
-                        confirmButtonText: 'Okay'
-                    })
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "./transfer.php",
-                    data: {
-                        mac_address: $("#macInp").val(),
-                        current_owner: $('#currentownerInp').val(),
-                        new_owner: $('#newownerInp').val(),
-                    }
-                }).then((res) => {
-                    if (res > 0) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: "Transferred successfully",
-                            icon: 'success',
-                            confirmButtonText: 'Okay'
-                        }).then(()=>location.reload())
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Transferred failed",
-                            icon: 'error',
-                            confirmButtonText: 'Okay'
-                        }).then(()=>location.reload())
-                    }
-                });
-            }
+            })
         }
 
         $(document).ready(function () {

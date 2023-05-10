@@ -1,9 +1,9 @@
-.inventory {
+.inventory, .brands {
     width: 100%;
     display: flex;
 }
 
-.inventory .inventory-container {
+.inventory .inventory-container, .brands .brands-container {
     width: 100%;
     margin: 0 2rem;
 }
@@ -21,4 +21,9 @@
 .inventory .addDiv {
     width: 50%;
     margin: 0 auto;
+}
+
+#addForm {
+    width: 50%;
+    column-gap: 2rem;
 }

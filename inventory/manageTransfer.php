@@ -27,17 +27,22 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Transfer ID</th>
+                    <th>Date Transferred</th>
+                    <th>Type of Hardware</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Serial Number</th>
                     <th>New Owner</th>
                     <th>Old Owner</th>
-                    <th>Date Transferred</th>
-                    <th>Mac Address</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $sql="
-                    SELECT 
+                    SELECT date_transferred, type_of_hardware, brand, model, serial_number, new_owner, old_owner
+                    FROM ict_transfer_tbl 
+                    JOIN ict_network_hardware_tbl
+                    ON ict_network_hardware_tbl.mac_address = ict_transfer_tbl.mac_address
                     ";
                     $query = $conn->prepare($sql);
                     $query->execute();
@@ -47,11 +52,13 @@
                 ?>
                 <tr>
                     <td><?= $count ?></td>
-                    <td><?= $row['transfer_id'] ?></td>
-                    <td><?= $row['employee_id_new'] ?></td>
-                    <td><?= $row['employee_id_old'] ?></td>
                     <td><?= $row['date_transferred'] ?></td>
-                    <td><?= $row['mac_address'] ?></td>
+                    <td><?= $row['type_of_hardware'] ?></td>
+                    <td><?= $row['brand'] ?></td>
+                    <td><?= $row['model'] ?></td>
+                    <td><?= $row['serial_number'] ?></td>
+                    <td><?= $row['new_owner'] ?></td>
+                    <td><?= $row['old_owner'] ?></td>
                     
                 </tr>
                 <?php $count++; } ?>
@@ -271,6 +278,8 @@
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);
                 }
+            }).then((res) => {
+                console.log(res);
             });
         }
 

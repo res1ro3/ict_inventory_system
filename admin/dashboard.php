@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div>sadasd
+            <div>Chart Here
                 <canvas id="myChart"></canvas>
             </div>
         </div>

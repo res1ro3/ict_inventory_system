@@ -10,7 +10,7 @@
     $current_owner = $_POST['current_owner'];
     $new_owner = $_POST['new_owner'];
 
-    $response = [$mac_address, $current_owner, $new_owner];
+    // $response = [$mac_address, $current_owner, $new_owner];
 
     date_default_timezone_set("Asia/Hong_Kong");
     // $date = date('h:i:sa');

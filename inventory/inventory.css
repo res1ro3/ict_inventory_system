@@ -1,0 +1,19 @@
+.inventory {
+    width: 100%;
+    display: flex;
+}
+
+.inventory .inventory-container {
+    width: 100%;
+    margin: 0 2rem;
+}
+
+.dashboard-header {
+    background-color: #0056FB;
+    width: max-content;
+    color: #fff;
+    margin: 0 0 30px 0;
+    padding: 0px 20px;
+    border: #000 1px solid;
+    border-radius: 5px;
+}

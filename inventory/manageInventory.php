@@ -19,60 +19,113 @@
     <script src="../js/jquery.dataTables.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="inventory.css">
 </head>
 <body>
-    <div class="container">
-    <div style="position: absolute; left: 0; top: 0;" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
-        <h3>Inventory</h3>
-        <button class="btn btn-dark mb-3" onclick="location.href='./add.php'">Add</button>
-        <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>MAC Address</th>
-                    <th>Type of Hardware</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Serial Number</th>
-                    <th>Date of Purchase</th>
-                    <th>Warranty</th>
-                    <th>Owner</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                    $sql="
-                    SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.lname, employee_tbl.fname, ict_network_hardware_tbl.status, owner_name
-                    FROM ict_network_hardware_tbl
-                    INNER JOIN employee_tbl ON ict_network_hardware_tbl.employee_id=employee_tbl.employee_id;
-                    ";
-                    $query = $conn->prepare($sql);
-                    $query->execute();
-                    $result = $query->fetchAll();
-                    $count = 1;
-                    foreach ($result as $row) {
-                ?>
-                <tr>
-                    <td><?= $count ?></td>
-                    <td><?= $row['mac_address'] ?></td>
-                    <td><?= $row['type_of_hardware'] ?></td>
-                    <td><?= $row['brand'] ?></td>
-                    <td><?= $row['model'] ?></td>
-                    <td><?= $row['serial_number'] ?></td>
-                    <td><?= $row['date_of_purchase'] ?></td>
-                    <td><?= $row['warranty'] ?></td>
-                    <td><?= $row['owner_name'] //$row['lname'].', '.$row['fname'] ?></td>
-                    <td><?= $row['status'] ?></td>
-                    <td>
-                        <button id="editBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                        <button id="editBtn" onclick="getTransfer('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer</button>
-                    </td>
-                    
-                </tr>
-                <?php $count++; } ?>
-        </table>
+    <div class="inventory">
+    <div style="" id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
+    <div class="inventory-container">
+    <div class="tbl_manage_inventory">
+        <div class="dashboard-header" style="margin: 2rem 0">
+            <h3>Manange Inventory</h3>
+        </div>
+            <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>MAC Address</th>
+                        <th>Type of Hardware</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Serial Number</th>
+                        <th>Date of Purchase</th>
+                        <th>Warranty</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $sql="
+                        SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.lname, employee_tbl.fname, ict_network_hardware_tbl.status, owner_name
+                        FROM ict_network_hardware_tbl
+                        INNER JOIN employee_tbl ON ict_network_hardware_tbl.employee_id=employee_tbl.employee_id;
+                        ";
+                        $query = $conn->prepare($sql);
+                        $query->execute();
+                        $result = $query->fetchAll();
+                        $count = 1;
+                        foreach ($result as $row) {
+                    ?>
+                    <tr>
+                        <td><?= $count ?></td>
+                        <td><?= $row['mac_address'] ?></td>
+                        <td><?= $row['type_of_hardware'] ?></td>
+                        <td><?= $row['brand'] ?></td>
+                        <td><?= $row['model'] ?></td>
+                        <td><?= $row['serial_number'] ?></td>
+                        <td><?= $row['date_of_purchase'] ?></td>
+                        <td><?= $row['warranty'] ?></td>
+                        <td><?= $row['owner_name'] //$row['lname'].', '.$row['fname'] ?></td>
+                        <td><?= $row['status'] ?></td>
+                        <td>
+                            <button id="editBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                            <button id="editBtn" onclick="getTransfer('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer</button>
+                        </td>
+                        
+                    </tr>
+                    <?php $count++; } ?>
+            </table>
+        </div>
+
+        <div class="tbl_transfer">
+        <div class="dashboard-header" style="margin: 2rem 0">
+            <h3>Transfer Table</h3>
+        </div>
+            <table id="tbl_transfer" class="display table table-light" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date Transferred</th>
+                        <th>Type of Hardware</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Serial Number</th>
+                        <th>New Owner</th>
+                        <th>Old Owner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $sql="
+                        SELECT date_transferred, type_of_hardware, brand, model, serial_number, new_owner, old_owner
+                        FROM ict_transfer_tbl 
+                        JOIN ict_network_hardware_tbl
+                        ON ict_network_hardware_tbl.mac_address = ict_transfer_tbl.mac_address
+                        ";
+                        $query = $conn->prepare($sql);
+                        $query->execute();
+                        $result = $query->fetchAll();
+                        $count = 1;
+                        foreach ($result as $row) {
+                    ?>
+                    <tr>
+                        <td><?= $count ?></td>
+                        <td><?= $row['date_transferred'] ?></td>
+                        <td><?= $row['type_of_hardware'] ?></td>
+                        <td><?= $row['brand'] ?></td>
+                        <td><?= $row['model'] ?></td>
+                        <td><?= $row['serial_number'] ?></td>
+                        <td><?= $row['new_owner'] ?></td>
+                        <td><?= $row['old_owner'] ?></td>
+                        
+                    </tr>
+                    <?php $count++; } ?>
+            </table>
+        </div>
+    </div>
+        
 
         <!-- Edit Modal -->
             <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -295,7 +348,7 @@
                     // $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.owner_name);
                 }
-            });
+            })
         }
 
         function update() {
@@ -376,7 +429,8 @@
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
                     }
-                }).then((res) => {
+                })
+                .then((res) => {
                     if (res > 0) {
                         Swal.fire({
                             title: 'Success!',
@@ -432,6 +486,7 @@
 
         $(document).ready(function () {
             $('#ictnetworkhardwareTbl').DataTable();
+            $('#tbl_transfer').DataTable();
         });
     </script>
 </html>

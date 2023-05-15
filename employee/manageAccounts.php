@@ -2,7 +2,7 @@
     require_once('../dbconfig.php');
     session_start();
     if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
-        
+        $_SESSION['accType'] == "Super Admin" ? $showType = "Admin" : $showType = "Ordinary User" ;
     } else {
         header("Location: ../admin/signin.php");
     }
@@ -41,7 +41,7 @@
                 </thead>
                 <tbody>
                     <?php
-                        $sql="SELECT * FROM employee_tbl WHERE type_of_account <> 'Super Admin' ";
+                        $sql="SELECT * FROM employee_tbl WHERE type_of_account = '".$showType."'";
                         $query = $conn->prepare($sql);
                         $query->execute();
                         $result = $query->fetchAll();

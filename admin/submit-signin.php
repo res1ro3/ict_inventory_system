@@ -6,7 +6,7 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT * FROM employee_tbl WHERE username = :un";
+        $sql = "SELECT * FROM employee_tbl WHERE username = :un AND type_of_account <> 'Ordinary User'";
         $query = $conn->prepare($sql);
         $query->bindParam(':un',$username,PDO::PARAM_STR);
         $query->execute();

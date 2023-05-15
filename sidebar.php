@@ -92,7 +92,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/manageAccounts.php" ?>">View</a></li>
-                <li style="<?php echo $accType == "Super Admin" ? 'display: block' : 'display: none' ?>"><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/addEmployee.php" ?>">Add</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/addEmployee.php" ?>">Add</a></li>
             </ul>
         </li>
         <li class="nav-item">

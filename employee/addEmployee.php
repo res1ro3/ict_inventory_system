@@ -2,10 +2,7 @@
 
     session_start();
     if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
-        $accType = $_SESSION['accType'];
-        if ($accType != 'Super Admin') {
-            header("Location: ../employee/manageAccounts.php");
-        }
+        $_SESSION['accType'] == 'Super Admin' ? $typeofaccount = "Admin" : $typeofaccount = "Ordinary User";
     } else {
         header("Location: ../admin/signin.php");
     }
@@ -21,7 +18,7 @@
         $office = $_POST['officeInp'];
         $position = $_POST['positionInp'];
         $typeofemployment = $_POST['typeOfEmploymentInp'];
-        $typeofaccount = "Admin";
+        
         $status = "Active";
 
         $PASSWORD = $password;

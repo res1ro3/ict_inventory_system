@@ -80,7 +80,7 @@
             Services
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#">View</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/service/manageService.php" ?>">View</a></li>
                 <li><a class="dropdown-item" href="#">Add</a></li>
             </ul>
         </li>

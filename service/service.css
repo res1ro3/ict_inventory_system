@@ -1,0 +1,7 @@
+.service {
+    display: flex;
+}
+
+.service-container {
+    margin: 3rem;
+}

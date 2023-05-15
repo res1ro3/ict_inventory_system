@@ -56,7 +56,7 @@
                         <td><?= $row['status'] ?></td>
                         <td>
                             <button id="editBtn" onclick="get('<?= $row['employee_id'] ?>')" type="button" data-id="<?= $row['employee_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                            <button class="btn btn-warning">Reset Password</button>
+                            <button class="btn btn-warning" onClick="res_pass('<?= $row['employee_id'] ?>')">Reset Password</button>
                             <button onclick="change_status('<?= $row['status'] ?>','<?= $row['employee_id'] ?>')" id="btnStatus" class="btn btn-danger"><?= $row['status'] == "Active" ? "Inactivate" : "Activate" ?></button>
                         </td>
                     </tr>
@@ -236,6 +236,32 @@
                 data: {
                     employee_id: eid,
                     status: userStatus,
+                },
+                success: function (res) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: res,
+                        icon: 'success',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
+                },
+                error: function (res) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: res,
+                        icon: 'error',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
+                }
+            });
+        }
+
+        function ress_pass(eid) {
+            $.ajax({
+                type: "POST",
+                url: "./resetpass.php",
+                data: {
+                    employee_id: eid,
                 },
                 success: function (res) {
                     Swal.fire({

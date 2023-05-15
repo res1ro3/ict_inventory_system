@@ -161,18 +161,6 @@
                                 Please select Type of Employment
                             </div>
                         </div>
-
-                        <div class="mb-3 form-floating">
-                            <select class="form-select" id="typeOfAccountInp" name="typeOfAccountInp" required>
-                                <option value="" selected disabled>Select Type of Account</option>
-                                <option>Admin</option>
-                                <option>Ordinary User</option>
-                            </select>
-                            <label for="typeOfAccountInp" id="typeOfAccounttLbl">Type of Account</label>
-                            <div class="invalid-feedback">
-                                Please select Type of Account
-                            </div>
-                        </div>
                     </form>
                     </div>
                     <div class="modal-footer">
@@ -200,12 +188,10 @@
                     $("#lnameInp").val(res.lname);
                     $("#fnameInp").val(res.fname);
                     $("#usernameInp").val(res.username);
-                    $("#passwordInp").val(res.password);
                     $("#sexInp").val(res.sex);
                     $("#officeInp").val(res.unitOffice);
                     $("#positionInp").val(res.position);
                     $("#typeOfEmploymentInp").val(res.type_of_employment);
-                    $("#typeOfAccountInp").val(res.type_of_account);
                 }
             });
         }
@@ -219,12 +205,10 @@
                     lname: $("#lnameInp").val(),
                     fname: $("#fnameInp").val(),
                     username: $("#usernameInp").val(),
-                    password: $("#passwordInp").val(),
                     sex: $("#sexInp").val(),
                     unitOffice: $("#officeInp").val(),
                     position: $("#positionInp").val(),
-                    type_of_employment: $("#typeOfEmploymentInp").val(),
-                    type_of_account: $("#typeOfAccountInp").val()
+                    type_of_employment: $("#typeOfEmploymentInp").val()
                 },
                 success: function (res) {
                     Swal.fire({

@@ -21,7 +21,7 @@
         $office = $_POST['officeInp'];
         $position = $_POST['positionInp'];
         $typeofemployment = $_POST['typeOfEmploymentInp'];
-        $typeofaccount = $_POST['typeOfAccountInp'];
+        $typeofaccount = "Admin";
         $status = "Active";
 
         $PASSWORD = $password;
@@ -175,18 +175,6 @@
                         <label for="typeOfEmploymentInp" id="typeOfEmploymentLbl">Type of Employment</label>
                         <div class="invalid-feedback">
                             Please select Type of Employment
-                        </div>
-                    </div>
-
-                    <div class="mb-3 form-floating">
-                        <select class="form-select" id="typeOfAccountInp" name="typeOfAccountInp" required>
-                            <option value="" selected disabled>Select Type of Account</option>
-                            <option>Admin</option>
-                            <option>Ordinary User</option>
-                        </select>
-                        <label for="typeOfAccountInp" id="typeOfAccounttLbl">Type of Account</label>
-                        <div class="invalid-feedback">
-                            Please select Type of Account
                         </div>
                     </div>
                     <div class="mb-3">

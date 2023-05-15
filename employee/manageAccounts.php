@@ -41,7 +41,7 @@
                 </thead>
                 <tbody>
                     <?php
-                        $sql="SELECT * FROM employee_tbl";
+                        $sql="SELECT * FROM employee_tbl WHERE type_of_account <> 'Super Admin' ";
                         $query = $conn->prepare($sql);
                         $query->execute();
                         $result = $query->fetchAll();

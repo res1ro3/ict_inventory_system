@@ -2,7 +2,10 @@
 
     session_start();
     if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
-        
+        $accType = $_SESSION['accType'];
+        if ($accType != 'Super Admin') {
+            header("Location: ../employee/manageAccounts.php");
+        }
     } else {
         header("Location: ../admin/signin.php");
     }

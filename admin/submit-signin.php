@@ -6,12 +6,13 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT password FROM employee_tbl WHERE username = :un";
+        $sql = "SELECT * FROM employee_tbl WHERE username = :un";
         $query = $conn->prepare($sql);
         $query->bindParam(':un',$username,PDO::PARAM_STR);
         $query->execute();
         $res = $query->fetch(PDO::FETCH_ASSOC);
 
+        $type_of_account = $res['type_of_account'];
         $pwd_hashed = $res['password'];
 
         $salt = "94665FAE66173BF677A723E4E38E5";
@@ -23,6 +24,7 @@
             session_start();
             $_SESSION['status'] = 'valid';
             $_SESSION['username'] = $username;
+            $_SESSION['accType'] = $type_of_account;
             echo 1;
         } else {
         //INCORRECT

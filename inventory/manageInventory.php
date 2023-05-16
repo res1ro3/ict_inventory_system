@@ -261,10 +261,13 @@
                                         <tbody>
                                             <?php
                                                 $mac_address =  $_SESSION['selected_mac'];
-                                                $sql="SELECT * FROM services_tbl WHERE ICT_ID = :mac";
+                                                $type = "Repair";
+                                                $sql="SELECT * FROM services_tbl WHERE ICT_ID = :mac AND type_of_services=:type";
                                                 $query = $conn->prepare($sql);
-                                                $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
-                                                $query->execute();
+                                                $query->execute(array(
+                                                    ':mac'	=>$mac_address,
+                                                    ':type'	=>$type
+                                                ));
                                                 $results=$query->fetchAll(PDO::FETCH_OBJ);
                                                 $count=1;
                                                 if($query->rowCount() > 0) {

@@ -74,7 +74,6 @@
                     <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" required>
                         <option value="" selected disabled>Select Type of Hardware</option>
                         <option>Equipment</option>
-                        <option>Tools</option>
                     </select>
                     <label for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
                     <div class="invalid-feedback">
@@ -85,8 +84,20 @@
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="brandInp" name="brandInp" required>
                         <option value="" selected disabled>Please select Brand</option>
-                        <option>HP</option>
-                        <option>ACER</option>
+                        <?php
+                            $sql="SELECT * FROM `brand_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                        ?>
+                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                        <?php }} ?>
                     </select>
                     <label for="brandInp" id="brandLbl">Brand</label>
                     <div class="invalid-feedback">

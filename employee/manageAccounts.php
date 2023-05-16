@@ -256,30 +256,43 @@
             });
         }
 
-        function ress_pass(eid) {
-            $.ajax({
-                type: "POST",
-                url: "./resetpass.php",
-                data: {
-                    employee_id: eid,
-                },
-                success: function (res) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: res,
-                        icon: 'success',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                },
-                error: function (res) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: res,
-                        icon: 'error',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
+        function res_pass(eid) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "./resetpass.php",
+                        data: {
+                            employee_id: eid,
+                        },
+                        success: function (res) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: res,
+                                icon: 'success',
+                                confirmButtonText: 'Okay'
+                            }).then(()=>location.reload())
+                        },
+                        error: function (res) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: res,
+                                icon: 'error',
+                                confirmButtonText: 'Okay'
+                            }).then(()=>location.reload())
+                        }
+                    });
                 }
-            });
+            })
+            
         }
 
         $(document).ready(function () {

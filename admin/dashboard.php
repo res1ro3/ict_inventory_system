@@ -19,7 +19,7 @@
 
 <body>
     <div class="dashboard">
-    <?php include("../sidebar.php") ?>
+    <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="container-fluid m-5">
             <div class="row d-flex flex-column">
                 <div class="col data-header"><h3>As of Today <?= '('.date("m/d/Y").')'?></h3></div>
@@ -47,30 +47,11 @@
 
             <div class="row d-flex flex-column">
                 <div class="col data-header"><h3>Brand VS Repair</h3></div>
-                <div class="col d-flex flex-row">
-                    <div class="col data-card">
-                        <div class="col-4 data-digit"><p>3</p></div>
-                        <div class="col-8 data-text">
-                            <p>Dell</p>
-                        </div>
-                    </div>
-                    <div class="col data-card">
-                        <div class="col-4 data-digit"><p>1</p></div>
-                        <div class="col-8 data-text">
-                            <p>HP</p>
-                        </div>
-                    </div>
-                    <div class="col data-card">
-                        <div class="col-4 data-digit"><p>2</p></div>
-                        <div class="col-8 data-text">
-                            <p>Acer</p>
-                        </div>
-                    </div>
+                <div class="col-8">
+                    <canvas id="brands_chart"></canvas>
                 </div>
             </div>
-            <div>Chart Here
-                <canvas id="myChart"></canvas>
-            </div>
+            
         </div>
         
     </div>
@@ -81,65 +62,57 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-            },
-            options: {
-            scales: {
-                yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-                }]
-            }
-            }
-        });
-
-        const signout = () => {
+        
+        $(document).ready(function() {
+            var brands = [];
             $.ajax({
-                    url: 'signout.php',
+                    url: 'getBrands.php',
+                    method: 'GET',
                 }).then((res) => {
-                    if (res > 0) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: "Signed out",
-                            icon: 'success',
-                            confirmButtonText: 'Okay'
-                        }).then(()=>location.reload())
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "An error occurred",
-                            icon: 'error',
-                            confirmButtonText: 'Okay'
-                        })
-                    }
-                }); 
-        }
+                    brands = JSON.parse(res);
+                    var ctx = document.getElementById("brands_chart").getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                        labels: brands,
+                        datasets: [{
+                            label: 'Brand VS Repair',
+                            data: [12, 19, 3, 5, 2, 3, 6, 2, 3, 1, 4, 12, 1],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                        },
+                        options: {
+                        scales: {
+                            yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                            }]
+                        }
+                        }
+                    });
+                });
+
+            
+        })
+        
+        
     </script>
 </body>
 </html>

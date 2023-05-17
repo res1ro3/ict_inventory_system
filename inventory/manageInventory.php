@@ -235,7 +235,48 @@
                                                 <td><?= $result->date_received?></td>
                                                 <td><?= $result->date_returned?></td>
                                                 <td><?= $result->type_of_services?></td>
-                                                <td><?= $result->service_status?></td>
+                                                <td>
+                                                    <div class="mb-3">
+                                                        <select onchange="changeServiceStatus('<?= $result->ICT_ID ?>',this.options[this.selectedIndex].text)" class="form-select" id="statusViewInp" name="statusViewInp">
+                                                            <?php
+                                                                $selected = $result->service_status;
+                                                                switch ($selected) {
+                                                                    case "Finished": {
+                                                                        ?>
+                                                                        <option selected>Finished</option>
+                                                                        <option>On Going</option>
+                                                                        <option>Pending</option>
+                                                                        <?php
+                                                                        break;
+                                                                    }
+                                                                    case "On Going": {
+                                                                        ?>
+                                                                        <option>Finished</option>
+                                                                        <option selected>On Going</option>
+                                                                        <option>Pending</option>
+                                                                        <?php
+                                                                        break;
+                                                                    }
+                                                                    case "Pending": {
+                                                                        ?>
+                                                                        <option>Finished</option>
+                                                                        <option>On Going</option>
+                                                                        <option selected>Pending</option>
+                                                                        <?php
+                                                                        break;
+                                                                    }
+                                                                    default: {
+                                                                        ?>
+                                                                        <option>Finished</option>
+                                                                        <option>On Going</option>
+                                                                        <option>Pending</option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
                                         <?php }} ?>
@@ -549,13 +590,13 @@
             });
         }
 
-        function change_status(userStatus, eid) {
+        function changeServiceStatus(ictid, status) {
             $.ajax({
                 type: "POST",
-                url: "./changeStatus.php",
+                url: "changeServiceStatus.php",
                 data: {
-                    employee_id: eid,
-                    status: userStatus,
+                    ictid,
+                    status
                 },
                 success: function (res) {
                     Swal.fire({

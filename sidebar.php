@@ -75,16 +75,16 @@
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/brands.php" ?>">Manage Brands</a></li>
             </ul>
         </li>
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
             <i class="fa-solid fa-list-check"></i>
             Services
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/service/manageService.php" ?>">View</a></li>
+                <li><a class="dropdown-item" href="<?php //echo $base_url . "ict_inventory_system/service/manageService.php" ?>">View</a></li>
                 <li><a class="dropdown-item" href="#">Add</a></li>
             </ul>
-        </li>
+        </li> -->
         <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
             <i class="fa-solid fa-users"></i>

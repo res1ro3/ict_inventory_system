@@ -209,8 +209,10 @@
                                 <div class="accordion-body">
                                 <table class="table table-striped table-hover">
                                         <thead>
+                                            <th>Date Received</th>
                                             <th>Date Returned</th>
                                             <th>Type of Service</th>
+                                            <th>Status</th>
                                         </thead>
                                         <tbody>
                                             <?php
@@ -230,8 +232,10 @@
                                                 {
                                             ?>
                                             <tr>
+                                                <td><?= $result->date_received?></td>
                                                 <td><?= $result->date_returned?></td>
                                                 <td><?= $result->type_of_services?></td>
+                                                <td><?= $result->service_status?></td>
                                             </tr>
                                         </tbody>
                                         <?php }} ?>

@@ -72,55 +72,9 @@
                         <td><?= $row['status'] ?></td>
                         <td>
                             <button id="viewBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
-                            <button id="editBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                            <button id="editBtn" onclick="getEdit('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                             <button id="editBtn" onclick="getTransfer('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer</button>
                         </td>
-                        
-                    </tr>
-                    <?php $count++; } ?>
-            </table>
-        </div>
-
-        <div class="tbl_transfer">
-        <div class="dashboard-header" style="margin: 2rem 0">
-            <h3>Transfer Table</h3>
-        </div>
-            <table id="tbl_transfer" class="display table table-light" style="width: 100%">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Date Transferred</th>
-                        <th>Type of Hardware</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Serial Number</th>
-                        <th>New Owner</th>
-                        <th>Old Owner</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $sql="
-                        SELECT date_transferred, type_of_hardware, brand, model, serial_number, new_owner, old_owner
-                        FROM ict_transfer_tbl 
-                        JOIN ict_network_hardware_tbl
-                        ON ict_network_hardware_tbl.mac_address = ict_transfer_tbl.mac_address
-                        ";
-                        $query = $conn->prepare($sql);
-                        $query->execute();
-                        $result = $query->fetchAll();
-                        $count = 1;
-                        foreach ($result as $row) {
-                    ?>
-                    <tr>
-                        <td><?= $count ?></td>
-                        <td><?= $row['date_transferred'] ?></td>
-                        <td><?= $row['type_of_hardware'] ?></td>
-                        <td><?= $row['brand'] ?></td>
-                        <td><?= $row['model'] ?></td>
-                        <td><?= $row['serial_number'] ?></td>
-                        <td><?= $row['new_owner'] ?></td>
-                        <td><?= $row['old_owner'] ?></td>
                         
                     </tr>
                     <?php $count++; } ?>
@@ -133,17 +87,17 @@
             <div class="modal-dialog modal-xl modal-dialog-scrollable">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="viewModalLabel">Edit ICT Network Hardware</h1>
+                    <h1 class="modal-title fs-5" id="viewModalLabel">View Hardware</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                 <form>
                     <div class="col">
-                        <label for="macInp" class="form-label" id="macLbl">MAC Address</label>
+                        <label for="macInp" class="form-label">MAC Address</label>
                         <input type="text" class="form-control" id="macInp" name="macInp" disabled>
                     </div>
                     <div class="mb-3 col">
-                        <label for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
+                        <label for="typeofhardwareInp">Type of Hardware</label>
                         <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" disabled>
                             <option value="" selected disabled>Select Type of Hardware</option>
                             <option>Equipment</option>
@@ -151,7 +105,7 @@
                         </select>
                     </div>
                     <div class="mb-3 col">
-                        <label for="brandInp" id="brandLbl">Brand</label>
+                        <label for="brandInp">Brand</label>
                         <select class="form-select" id="brandInp" name="brandInp" disabled>
                             <option value="" selected disabled>Please select Brand</option>
                             <?php
@@ -172,32 +126,32 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label for="modelInp" class="form-label" id="modelLbl">Model</label>
+                            <label for="modelInp" class="form-label">Model</label>
                             <input type="text" class="form-control" id="modelInp" name="modelInp" disabled>
                         </div>
 
                         <div class="col">
-                            <label for="serialnumberInp" class="form-label" id="serialnumberLbl">Serial Number</label>
+                            <label for="serialnumberInp" class="form-label">Serial Number</label>
                             <input type="text" class="form-control" id="serialnumberInp" name="serialnumberInp" disabled>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label for="dateofpurchaseInp" class="form-label ps-4" id="dateofpurchaseLbl">Date of Purchase</label>
+                            <label for="dateofpurchaseInp" class="form-label ps-4">Date of Purchase</label>
                             <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" disabled>
                         </div>
 
                         <div class="col">
-                            <label for="warrantyInp" class="form-label ps-4" id="warrantyLbl">End of Warranty</label>
+                            <label for="warrantyInp" class="form-label ps-4">End of Warranty</label>
                             <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" disabled>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="ownerInpName" id="ownerNameLbl">Owner</label>
+                        <label for="ownerInpName">Owner</label>
                         <input type="text" class="form-control" id="ownerInpName" name="ownerInpName" disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="statusInp" id="statusLbl">Status</label>
+                        <label for="statusInp">Status</label>
                         <select class="form-select" id="statusInp" name="statusInp" disabled>
                             <option value="" selected disabled>Please select Status</option>
                             <option>Serviceable</option>
@@ -291,7 +245,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Encode Service</button>
+                    <button onclick="encodeService('<?= $_SESSION['selected_mac']; ?>')" type="button" class="btn btn-primary">Encode Service</button>
                     <button id="editBtn" onclick="getTransfer('<?= $_SESSION['selected_mac']; ?>')" type="button" data-id="<?= $_SESSION['selected_mac']; ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
                 </div>
                 </div>
@@ -308,27 +262,27 @@
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
                     <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control" id="macInp" name="macInp" required>
-                        <label for="macInp" class="form-label" id="macLbl">MAC Address</label>
+                        <input type="text" class="form-control" id="macInpEdit" name="macInpEdit" required>
+                        <label for="macInpEdit" class="form-label">MAC Address</label>
                         <div class="invalid-feedback">
                             Please enter MAC Address
                         </div>
                     </div>
 
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" required>
+                        <select class="form-select" id="typeofhardwareInpEdit" name="typeofhardwareInpEdit" required>
                             <option value="" selected disabled>Select Type of Hardware</option>
                             <option>Equipment</option>
                             <option>Tools</option>
                         </select>
-                        <label for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
+                        <label for="typeofhardwareInpEdit">Type of Hardware</label>
                         <div class="invalid-feedback">
                             Please select Type of Hardware
                         </div>
                     </div>
 
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="brandInp" name="brandInp" required>
+                        <select class="form-select" id="brandInpEdit" name="brandInpEdit" required>
                             <option value="" selected disabled>Please select Brand</option>
                             <?php
                             $sql="SELECT * FROM `brand_tbl`";
@@ -345,23 +299,23 @@
                             <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                         </select>
-                        <label for="brandInp" id="brandLbl">Brand</label>
+                        <label for="brandInpEdit">Brand</label>
                         <div class="invalid-feedback">
                             Please select Brand
                         </div>
                     </div>
 
                     <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control" id="modelInp" name="modelInp" required>
-                        <label for="modelInp" class="form-label" id="modelLbl">Model</label>
+                        <input type="text" class="form-control" id="modelInpEdit" name="modelInpEdit" required>
+                        <label for="modelInpEdit" class="form-label">Model</label>
                         <div class="invalid-feedback">
                             Please enter Model
                         </div>
                     </div>
 
                     <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control" id="serialnumberInp" name="serialnumberInp" required>
-                        <label for="serialnumberInp" class="form-label" id="serialnumberLbl">Serial Number</label>
+                        <input type="text" class="form-control" id="serialnumberInpEdit" name="serialnumberInpEdit" required>
+                        <label for="serialnumberInpEdit" class="form-label">Serial Number</label>
                         <div class="invalid-feedback">
                             Please enter Serial Number
                         </div>
@@ -369,23 +323,23 @@
 
                     <div class="row mb-3">
                         <div class="mb-3 col form-floating">
-                            <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" required>
-                            <label for="dateofpurchaseInp" class="form-label ps-4" id="dateofpurchaseLbl">Date of Purchase</label>
+                            <input type="date" class="form-control" id="dateofpurchaseInpEdit" name="dateofpurchaseInpEdit" required>
+                            <label for="dateofpurchaseInpEdit" class="form-label ps-4">Date of Purchase</label>
                             <div class="invalid-feedback">
                                 Please set Date of Purchase
                             </div>
                         </div>
 
                         <div class="col form-floating">
-                            <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" required>
-                            <label for="warrantyInp" class="form-label ps-4" id="warrantyLbl">End of Warranty</label>
+                            <input type="date" class="form-control" id="warrantyInpEdit" name="warrantyInpEdit" required>
+                            <label for="warrantyInpEdit" class="form-label ps-4">End of Warranty</label>
                             <div class="invalid-feedback">
                                 Please enter End of Warranty
                             </div>
                         </div>
                     </div>
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="ownerInp" name="ownerInp" disabled>
+                        <select class="form-select" id="ownerInpEdit" name="ownerInpEdit" disabled>
                             <option value="" selected disabled>Select Owner</option>
                         <?php
                             $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
@@ -402,15 +356,15 @@
                             <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
                         <?php }} ?>
                         </select>
-                        <label for="ownerInp" id="ownerLbl">Owner</label>
+                        <label for="ownerInpEdit">Owner</label>
                     </div>
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="statusInp" name="statusInp" required>
+                        <select class="form-select" id="statusInpEdit" name="statusInpEdit" required>
                             <option value="" selected disabled>Please select Status</option>
                             <option>Serviceable</option>
                             <option>Non-Serviceable</option>
                         </select>
-                        <label for="statusInp" id="statusLbl">Status</label>
+                        <label for="statusInpEdit">Status</label>
                         <div class="invalid-feedback">
                             Please select Status
                         </div>
@@ -479,7 +433,7 @@
                             <option value="<?php //echo htmlentities($result->employee_id);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
                         <?php //}} ?>
                         </select>
-                        <label for="newownerInp" id="newownerLbl">New Owner</label>
+                        <label for="newownerInp">New Owner</label>
                         <div class="invalid-feedback">
                             Please select New Owner
                         </div>
@@ -503,23 +457,43 @@
         // // refresh current page
         //     location.reload();-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
         // })
-        function get(mac) {
+        const get = async (mac) => {
+            $.ajax({
+                type: "GET",
+                url: "./get.php",
+                data: {mac_address:mac}
+            }).then((res) => {
+                res = JSON.parse(res);
+                $("#macInp").val(res.mac_address);
+                $("#typeofhardwareInp").val(res.type_of_hardware);
+                $('#brandInp').val(res.brand);
+                $('#modelInp').val(res.model);
+                $('#serialnumberInp').val(res.serial_number);
+                $('#dateofpurchaseInp').val(res.date_of_purchase);
+                $('#warrantyInp').val(res.warranty);
+                $('#ownerInp').val(res.employee_id);
+                $('#ownerInpName').val(res.owner_name);
+                $('#statusInp').val(res.status);
+            });
+        }
+
+        function getEdit(mac) {
             $.ajax({
                 type: "GET",
                 url: "./get.php",
                 data: {mac_address:mac}
             }).then((res) => {
                     res = JSON.parse(res);
-                    $("#macInp").val(res.mac_address);
-                    $("#typeofhardwareInp").val(res.type_of_hardware);
-                    $('#brandInp').val(res.brand);
-                    $('#modelInp').val(res.model);
-                    $('#serialnumberInp').val(res.serial_number);
-                    $('#dateofpurchaseInp').val(res.date_of_purchase);
-                    $('#warrantyInp').val(res.warranty);
-                    $('#ownerInp').val(res.employee_id);
-                    $('#ownerInpName').val(res.owner_name);
-                    $('#statusInp').val(res.status);
+                    $("#macInpEdit").val(res.mac_address);
+                    $("#typeofhardwareInpEdit").val(res.type_of_hardware);
+                    $('#brandInpEdit').val(res.brand);
+                    $('#modelInpEdit').val(res.model);
+                    $('#serialnumberInpEdit').val(res.serial_number);
+                    $('#dateofpurchaseInpEdit').val(res.date_of_purchase);
+                    $('#warrantyInpEdit').val(res.warranty);
+                    $('#ownerInpEdit').val(res.employee_id);
+                    $('#ownerInpNameEdit').val(res.owner_name);
+                    $('#statusInpEdit').val(res.status);
                 });
         }
 
@@ -668,6 +642,11 @@
             //         }
             //     });
             // }
+        }
+
+        function encodeService(ictid) {
+            location.href = `../service/encode.php?type=Hardware&ictid=${ictid}`;
+            
         }
 
         $(document).ready(function () {

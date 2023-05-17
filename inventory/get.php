@@ -1,9 +1,7 @@
 <?php 
     require_once('../dbConfig.php');
-
-    $mac_address = $_GET['mac_address'];
-
     session_start();
+    $mac_address = $_GET['mac_address'];
     $_SESSION['selected_mac'] = $mac_address;
 
     $sql = "

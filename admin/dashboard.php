@@ -41,7 +41,7 @@
                 <div class="col data-header"><h3>As of Today <?= '('.date("m/d/Y").')'?></h3></div>
                 <div class="col d-flex flex-row">
                     <div class="col data-card">
-                        <div class="col-4 data-digit"><p>3</p></div>
+                        <div class="col-4 data-digit"><p>0</p></div>
                         <div class="col-8 data-text">
                             <p>ICT Equipments to be replace</p>
                         </div>

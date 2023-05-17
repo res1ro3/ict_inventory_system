@@ -11,6 +11,12 @@
         $query->bindParam(':un',$username,PDO::PARAM_STR);
         $query->execute();
         $res = $query->fetch(PDO::FETCH_ASSOC);
+        $accStatus = $res['status'];
+        
+        if ($accStatus == 'Inactive') {
+            echo 0;
+            return false;
+        }
 
         $type_of_account = $res['type_of_account'];
         $pwd_hashed = $res['password'];

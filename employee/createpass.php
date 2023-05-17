@@ -1,5 +1,5 @@
 <?php 
-        $PASSWORD = "12345678";
+        $PASSWORD = "Super";
 
         $salt = "94665FAE66173BF677A723E4E38E5";
         $hash_salt = hash_hmac("sha256", $PASSWORD, $salt);

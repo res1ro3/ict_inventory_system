@@ -2,17 +2,31 @@
 
     require("../dbConfig.php");
 
-    function getRepairs($type, $brand) {
+    function getRepairs($type) {
         if ($type == 'Hardware') {
             require('../dbConfig.php');
-            $sql = "SELECT * FROM ict_network_hardware_tbl WHERE brand = :br";
+            $sql = "SELECT ict_network_hardware_tbl.brand
+                    FROM services_tbl
+                    JOIN ict_network_hardware_tbl
+                    ON ict_network_hardware_tbl.mac_address = services_tbl.ICT_ID";
             $query = $conn->prepare($sql);
-            $query->execute(array(
-                'br' => $brand
-            ));
-    
-            $res = $query->rowCount();
+            $query->execute();
+            $res = $query->fetchAll(PDO::FETCH_ASSOC);
             return $res;
+        }
+    }
+
+    function countRepairs($type) {
+        if ($type == 'Hardware') {
+            require('../dbConfig.php');
+            $sql = "SELECT ict_network_hardware_tbl.brand
+                    FROM services_tbl
+                    JOIN ict_network_hardware_tbl
+                    ON ict_network_hardware_tbl.mac_address = services_tbl.ICT_ID";
+            $query = $conn->prepare($sql);
+            $query->execute();
+            $refcount = $query->rowCount();
+            return $refcount;
         }
     }
 
@@ -27,13 +41,24 @@
     }
 
     $repairs = [];
+    $repairs = getRepairs("Hardware");
+    
+    $refcount = [];
+    $refcount = countRepairs("Hardware");
+
+    $repair_counts = [];
 
     for ($i = 0; $i < $brandCount; $i++) {
-        $row = getRepairs("Hardware", $brands[$i]);
-        $repairs[] = $row;
+        $ctr = 0;
+        foreach ($repairs as $repair) {
+            if ($repair['brand'] == $brands[$i]) {
+                $ctr++;
+            }
+        }
+        $repair_counts[$i] = $ctr;
     }
-    
-    $json = json_encode([$brands, $repairs]);
+
+    $json = json_encode([$brands, $repair_counts]);
     echo $json;
 
 ?>

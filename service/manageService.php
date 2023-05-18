@@ -69,6 +69,7 @@
                     <th>Recommendation</th>
                     <th>Owner Name</th>
                     <th>Processed By</th>
+                    <th>Action</th>
                 </thead>
                 <tbody>
                     <?php
@@ -92,6 +93,7 @@
                         <td><?= $row['recommendation'] ?></td>
                         <td><?= getEmployee($row['ICT_ID'], $row['type_of_ict']) ?></td>
                         <td><?= $row['processed_by'] ?></td>
+                        <td><button class="btn btn-warning">Edit</button></td>
                     </tr>
                     <?php $count++; } ?>
                 </tbody>

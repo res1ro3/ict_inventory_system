@@ -75,7 +75,14 @@
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/brands.php" ?>">Manage Brands</a></li>
             </ul>
         </li>
+        <li class="nav-item">
+            <a href="<?php echo $base_url . "ict_inventory_system/service/manageService.php" ?>" class="nav-link link-body-emphasis">
+            <i class="fa-solid fa-list-check"></i>
+            Services
+            </a>
+        </li>
         <!-- <li class="nav-item dropdown">
+            
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
             <i class="fa-solid fa-list-check"></i>
             Services

@@ -1,5 +1,4 @@
 <?php 
-
     session_start();
     if (isset($_SESSION) && $_SESSION['status'] == 'valid') {
         $_SESSION['accType'] == 'Super Admin' ? $typeofaccount = "Admin" : $typeofaccount = "Ordinary User";
@@ -19,7 +18,7 @@
         $position = $_POST['positionInp'];
         $typeofemployment = $_POST['typeOfEmploymentInp'];
         
-        $status = "Active";
+        $status = "Active";     
 
         $PASSWORD = $password;
 
@@ -257,10 +256,5 @@
                 
             });
         });
-
-        $(document).ready(function() {
-            $('#sidebar-placeholder').load('../sidebar.html');
-        })
-
     </script>
 </html>

@@ -16,7 +16,7 @@
     // $date = date('h:i:sa');
     $date = date('m/d/Y');
 
-    $sql="INSERT INTO ict_transfer_tbl (date_transferred, mac_address, new_owner, old_owner) VALUES ('".$date."', :mac, :new, :old)";
+    $sql="INSERT INTO ict_transfer_tbl (employee_id_old, employee_id_new, date_transferred, mac_address, new_owner, old_owner) VALUES (1,1,'".$date."', :mac, :new, :old)";
     $query = $conn->prepare($sql);
     $query->bindParam(':new',$new_owner,PDO::PARAM_STR);
     $query->bindParam(':old',$current_owner,PDO::PARAM_STR);

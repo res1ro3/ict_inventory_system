@@ -20,16 +20,17 @@
 
     $sql="UPDATE ict_network_hardware_tbl SET mac_address=:mac, type_of_hardware=:toh, brand=:br, model=:md, serial_number=:sn, date_of_purchase=:dop, warranty=:wt, employee_id=:eid, status=:st WHERE mac_address=:mac";
     $query = $conn->prepare($sql);
-    $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
-    $query->bindParam(':toh',$type_of_hardware,PDO::PARAM_STR);
-    $query->bindParam(':br',$brand,PDO::PARAM_STR);
-    $query->bindParam(':md',$model,PDO::PARAM_STR);
-    $query->bindParam(':sn',$serial_number,PDO::PARAM_STR);
-    $query->bindParam(':dop',$date_of_purchase,PDO::PARAM_STR);
-    $query->bindParam(':wt',$warranty,PDO::PARAM_STR);
-    $query->bindParam(':eid',$employee_id,PDO::PARAM_STR);
-    $query->bindParam(':st',$status,PDO::PARAM_STR);
-    $query->execute();
+    $query->execute(array(
+        'mac' => $mac_address,
+        'toh' => $type_of_hardware,
+        'br' => $brand,
+        'md' => $model,
+        'sn' => $serial_number,
+        'dop' => $date_of_purchase,
+        'wt' => $warranty,
+        'eid' => $employee_id,
+        'st' => $status
+    ));
 
     if ($query->rowCount()) {
         echo "Updated Successfully";

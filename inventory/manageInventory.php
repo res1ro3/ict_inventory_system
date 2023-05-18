@@ -561,15 +561,15 @@
                 type: "POST",
                 url: "./update.php",
                 data: {
-                    mac_address: $("#macInp").val(),
-                    type_of_hardware: $("#typeofhardwareInp").val(),
-                    brand: $('#brandInp').val(),
-                    model: $('#modelInp').val(),
-                    serial_number:$('#serialnumberInp').val(),
-                    date_of_purchase:$('#dateofpurchaseInp').val(),
-                    warranty:$('#warrantyInp').val(),
-                    employee_id:$('#ownerInp').val(),
-                    status:$('#statusInp').val(),
+                    mac_address: $("#macInpEdit").val(),
+                    type_of_hardware: $("#typeofhardwareInpEdit").val(),
+                    brand: $('#brandInpEdit').val(),
+                    model: $('#modelInpEdit').val(),
+                    serial_number:$('#serialnumberInpEdit').val(),
+                    date_of_purchase:$('#dateofpurchaseInpEdit').val(),
+                    warranty:$('#warrantyInpEdit').val(),
+                    employee_id:$('#ownerInpEdit').val(),
+                    status:$('#statusInpEdit').val(),
                 },
                 success: function (res) {
                     Swal.fire({
@@ -644,12 +644,13 @@
                             confirmButtonText: 'Okay'
                         }).then(()=>location.reload())
                     } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Transferred failed",
-                            icon: 'error',
-                            confirmButtonText: 'Okay'
-                        }).then(()=>location.reload())
+                        console.log(res);
+                        // Swal.fire({
+                        //     title: 'Error!',
+                        //     text: "Transferred failed",
+                        //     icon: 'error',
+                        //     confirmButtonText: 'Okay'
+                        // }).then(()=>location.reload())
                     }
                 });
             }

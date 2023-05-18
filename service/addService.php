@@ -25,7 +25,7 @@
         'rec' => $recommendation,
         'toi' => $type_of_ict,
         'prb' => $processed_by,
-        'eid' => 'id1'
+        'eid' => 1
     ));
 
     if($query->rowCount() == 1) {

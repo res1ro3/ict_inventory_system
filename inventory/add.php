@@ -17,23 +17,25 @@
         $date_of_purchase = $_POST['dateofpurchaseInp'];
         $warranty = $_POST['warrantyInp'];
         // $employee_id = $_POST['ownerInp'];
+        $employee_id = 1;
         $owner_name = $_POST['ownerInp'];
         $status = $_POST['statusInp'];
 
-        $sql="INSERT INTO ict_network_hardware_tbl(mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, status, owner_name) VALUES(:mac,:toh,:br,:md,:sn,:dop,:wt,:st,:on)";
+        $sql="INSERT INTO ict_network_hardware_tbl(mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, status, owner_name, employee_id) VALUES(:mac,:toh,:br,:md,:sn,:dop,:wt,:st,:on,:eid)";
         $query = $conn->prepare($sql);
 
-        $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
-        $query->bindParam(':toh',$type_of_hardware,PDO::PARAM_STR);
-        $query->bindParam(':br',$brand,PDO::PARAM_STR);
-        $query->bindParam(':md',$model,PDO::PARAM_STR);
-        $query->bindParam(':sn',$serial_number,PDO::PARAM_STR);
-        $query->bindParam(':dop',$date_of_purchase,PDO::PARAM_STR);
-        $query->bindParam(':wt',$warranty,PDO::PARAM_STR);
-        $query->bindParam(':on',$owner_name,PDO::PARAM_STR);
-        $query->bindParam(':st',$status,PDO::PARAM_STR);
-
-        $query->execute();
+        $query->execute(array(
+            'mac' => $mac_address,
+            'toh' => $type_of_hardware,
+            'br' => $brand,
+            'md' => $model,
+            'sn' => $serial_number,
+            'dop' => $date_of_purchase,
+            'wt' => $warranty,
+            'on' => $owner_name,
+            'st' => $status,
+            'eid' => $employee_id
+        ));
 
         if($query->rowCount() == 1) {
             echo '<script>alert("Added Successfully")</script>';

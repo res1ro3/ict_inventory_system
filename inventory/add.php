@@ -73,10 +73,14 @@
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" required>
+                    <input class="form-control" list="datalistOptions" id="typeofhardwareInp" name="typeofhardwareInp" placeholder="Click to Select Type of Hardware">
+                    <datalist id="datalistOptions">
+                        <option value="Equipment">
+                    </datalist>
+                    <!-- <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" required>
                         <option value="" selected disabled>Select Type of Hardware</option>
                         <option>Equipment</option>
-                    </select>
+                    </select> -->
                     <label for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
                     <div class="invalid-feedback">
                         Please select Type of Hardware

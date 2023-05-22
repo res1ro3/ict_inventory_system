@@ -66,6 +66,7 @@
                     <th>Date Returned</th>
                     <th>Description of Service</th>
                     <th>Action Done</th>
+                    <th>Remarks</th>
                     <th>Recommendation</th>
                     <th>Owner Name</th>
                     <th>Processed By</th>
@@ -90,6 +91,7 @@
                         <td><?= $row['date_returned'] ?></td>
                         <td><?= $row['description_of_service'] ?></td>
                         <td><?= $row['action_done'] ?></td>
+                        <td><?= $row['remarks'] ?></td>
                         <td><?= $row['recommendation'] ?></td>
                         <td><?= getEmployee($row['ICT_ID'], $row['type_of_ict']) ?></td>
                         <td><?= $row['processed_by'] ?></td>

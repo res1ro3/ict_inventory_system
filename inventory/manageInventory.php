@@ -30,6 +30,13 @@
         <div class="dashboard-header" style="margin: 2rem 0">
             <h3>Manange Inventory</h3>
         </div>
+        <div class="tab-div d-flex gap-3 mb-5">
+            <ul class="nav nav-tabs justify-content-end">
+                <li class="nav-item">
+                    <button class="btn btn-success" onclick="location.href='/ict_inventory_system/inventory/add.php'">Add</button>
+                </li>
+            </ul>
+        </div>
             <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
                 <thead>
                     <tr>
@@ -71,9 +78,8 @@
                         <td><?= $row['owner_name'] //$row['lname'].', '.$row['fname'] ?></td>
                         <td><?= $row['status'] ?></td>
                         <td>
-                            <button id="viewBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
+                            <button id="viewBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
                             <button id="editBtn" onclick="getEdit('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                            <button id="editBtn" onclick="getTransfer('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer</button>
                         </td>
                         
                     </tr>
@@ -501,28 +507,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6952492a89.js" crossorigin="anonymous"></script>
     <script>
-        // $('#viewModal').on('hidden.bs.modal', function () {
-        // // refresh current page
-        //     location.reload();-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-        // })
+        
         const get = async (mac) => {
-            $.ajax({
-                type: "GET",
-                url: "./get.php",
-                data: {mac_address:mac}
-            }).then((res) => {
-                res = JSON.parse(res);
-                $("#macInp").val(res.mac_address);
-                $("#typeofhardwareInp").val(res.type_of_hardware);
-                $('#brandInp').val(res.brand);
-                $('#modelInp').val(res.model);
-                $('#serialnumberInp').val(res.serial_number);
-                $('#dateofpurchaseInp').val(res.date_of_purchase);
-                $('#warrantyInp').val(res.warranty);
-                $('#ownerInp').val(res.employee_id);
-                $('#ownerInpName').val(res.owner_name);
-                $('#statusInp').val(res.status);
-            });
+            location.href = "/ict_inventory_system/inventory/view.php?macAddress=" + mac;
         }
 
         function getEdit(mac) {

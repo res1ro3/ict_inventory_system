@@ -8,12 +8,12 @@
     }
 
     if (isset($_POST['addBtn'])) {
-        $name = $_POST['nameInp'];
+        $title = $_POST['titleInp'];
 
-        $sql="INSERT INTO brand_tbl(name) VALUES(:nm)";
+        $sql="INSERT INTO [positions_tbl(name) VALUES(:tl)";
         $query = $conn->prepare($sql);
 
-        $query->bindParam(':nm',$name,PDO::PARAM_STR);
+        $query->bindParam(':tl',$title,PDO::PARAM_STR);
 
         $query->execute();
 
@@ -36,7 +36,7 @@
     <script src="../js/jquery.dataTables.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="inventory.css">
+    <link rel="stylesheet" href="../inventory/inventory.css">
     <link rel="stylesheet" href="../styles/index.css">
 </head>
 <body>
@@ -44,15 +44,15 @@
         <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="brands-container">
             <div class="dashboard-header" style="margin: 2rem 0">
-                <h3>Manage Brands</h3>
+                <h3>Manage Positions</h3>
             </div>
             <div class="brands_add">
                 <form class="needs-validation d-flex" novalidate id="addForm" name="addForm" method="post">
                     <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control" id="nameInp" name="nameInp" required>
-                        <label for="nameInp" class="form-label" id="nameLbl">Brand Name</label>
+                        <input type="text" class="form-control" id="titleInp" name="titleInp" required>
+                        <label for="titleInp" class="form-label" id="titleLbl">Title</label>
                         <div class="invalid-feedback">
-                            Please enter Brand Name
+                            Please enter Title
                         </div>
                     </div>
                     <div class="mb-3 col">
@@ -72,7 +72,7 @@
                     <tbody>
                         <?php
                             $sql="
-                            SELECT * FROM brand_tbl
+                            SELECT * FROM positions_tbl
                             ";
                             $query = $conn->prepare($sql);
                             $query->execute();
@@ -82,9 +82,9 @@
                         ?>
                         <tr>
                             <td><?= $count ?></td>
-                            <td><?= $row['name'] ?></td>
+                            <td><?= $row['title'] ?></td>
                             <td>
-                                <button id="editBtn" onclick="get('<?= $row['brand_id'] ?>')" type="button" data-id="<?= $row['brand_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                <button id="editBtn" onclick="get('<?= $row['position_id'] ?>')" type="button" data-id="<?= $row['position_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                             </td>
                             
                         </tr>
@@ -99,17 +99,17 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="editModalLabel">Edit Brand</h1>
+                    <h1 class="modal-title fs-5" id="editModalLabel">Edit Position</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
                     <div class="mb-3 col form-floating">
-                        <input type="hidden" class="form-control" id="brandIdInp" name="brandIdInp">
-                        <input type="text" class="form-control" id="brandInp" name="brandInp" required>
-                        <label for="brandInp" class="form-label" id="brandLbl">Brand Name</label>
+                        <input type="hidden" class="form-control" id="positionIdInp" name="positionIdInp">
+                        <input type="text" class="form-control" id="positionInp" name="positionInp" required>
+                        <label for="positionInp" class="form-label" id="positionLbl">Position</label>
                         <div class="invalid-feedback">
-                            Please enter Brand Name
+                            Please enter Position
                         </div>
                     </div>
                 </form>
@@ -132,12 +132,12 @@
         function get(brand_id) {
             $.ajax({
                 type: "POST",
-                url: "./get_brand.php",
-                data: {brand_id: brand_id},
+                url: "./position_api.php",
+                data: {brand_id: brand_id, api_type: "get"},
                 success: function (res) {
                     res = JSON.parse(res);
-                    $("#brandInp").val(res.name);
-                    $("#brandIdInp").val(res.brand_id);
+                    $("#positionInp").val(res.title);
+                    $("#positionIdInp").val(res.position_id);
                 }
             });
         }

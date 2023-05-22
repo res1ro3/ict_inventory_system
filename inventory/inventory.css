@@ -20,3 +20,7 @@
     width: 50%;
     column-gap: 2rem;
 }
+
+.tab-div ul li a{
+    cursor: pointer;
+}

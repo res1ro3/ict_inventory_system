@@ -73,14 +73,15 @@
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/manageInventory.php" ?>">View Inventory</a></li>
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/add.php" ?>">Add Inventory</a></li>
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/brands.php" ?>">Manage Brands</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/type_of_hardware.php" ?>">Manage Type of Hardware</a></li>
             </ul>
         </li>
-        <li class="nav-item">
-            <a href="<?php echo $base_url . "ict_inventory_system/service/manageService.php" ?>" class="nav-link link-body-emphasis">
+        <!-- <li class="nav-item">
+            <a href="<?php //echo $base_url . "ict_inventory_system/service/manageService.php" ?>" class="nav-link link-body-emphasis">
             <i class="fa-solid fa-list-check"></i>
             Services
             </a>
-        </li>
+        </li> -->
         <!-- <li class="nav-item dropdown">
             
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
@@ -98,8 +99,9 @@
             Employees
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/manageAccounts.php" ?>">View</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/addEmployee.php" ?>">Add</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/manageAccounts.php" ?>">View Employees</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/addEmployee.php" ?>">Add Employees</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/positions.php" ?>">Manage Positions</a></li>
             </ul>
         </li>
         <li class="nav-item">

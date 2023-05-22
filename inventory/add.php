@@ -73,14 +73,23 @@
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <input class="form-control" list="datalistOptions" id="typeofhardwareInp" name="typeofhardwareInp" placeholder="Click to Select Type of Hardware">
-                    <datalist id="datalistOptions">
-                        <option value="Equipment">
-                    </datalist>
-                    <!-- <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" required>
-                        <option value="" selected disabled>Select Type of Hardware</option>
-                        <option>Equipment</option>
-                    </select> -->
+                    <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" required>
+                        <option value="" selected disabled>Please select Type of Hardware</option>
+                        <?php
+                            $sql="SELECT * FROM `type_of_hardware_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                        ?>
+                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                        <?php }} ?>
+                    </select>
                     <label for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
                     <div class="invalid-feedback">
                         Please select Type of Hardware

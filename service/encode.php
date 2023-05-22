@@ -120,6 +120,13 @@
                     </div>
                 </div>
                 <div class="mb-3 col form-floating">
+                    <textarea class="form-control" id="remarksInp" name="remarksInp" rows="3" required></textarea>
+                    <label for="remarksInp" class="form-label" id="actionDoneInpLbl">Remarks</label>
+                    <div class="invalid-feedback">
+                        Please enter Remarks
+                    </div>
+                </div>
+                <div class="mb-3 col form-floating">
                     <textarea class="form-control" id="recommendationInp" name="recommendationInp" rows="3" required></textarea>
                     <label for="recommendationInp" class="form-label" id="recommendationInpLbl">Recommendation</label>
                     <div class="invalid-feedback">
@@ -169,6 +176,7 @@
                     date_returned : $('#datereturnedInp').val(),
                     description_of_service : $('#descriptionInp').val(),
                     action_done : $('#actionDoneInp').val(),
+                    remarks: $('#remarksInp').val(),
                     recommendation : $('#recommendationInp').val(),
                     processed_by : $('#processedbyInp').val()
                 },

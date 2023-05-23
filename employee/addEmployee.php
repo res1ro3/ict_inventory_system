@@ -148,17 +148,12 @@
                             Please select an Office
                         </div>
                     </div>
-
-                    <div class="mb-3 form-floating">
-                        <select class="form-select" id="positionInp" name="positionInp" required>
-                            <option value="" selected disabled>Select Position</option>
-                            <option>Position 1</option>
-                            <option>Position 2</option>
-                            <option>Position 3</option>
-                        </select>
-                        <label for="positionInp" id="positionLbl">Position</label>
+                    
+                    <div class="mb-3 col form-floating">
+                        <input type="text" class="form-control addAccInp" id="positionInp" name="positionInp" required>
+                        <label for="positionInp" class="form-label" id="positionLbl">Position</label>
                         <div class="invalid-feedback">
-                            Please select a Position
+                            Please enter a Position
                         </div>
                     </div>
 

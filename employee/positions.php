@@ -133,7 +133,10 @@
             $.ajax({
                 type: "POST",
                 url: "./position_api.php",
-                data: {position_id: position_id, api_type: "get"},
+                data: {
+                    position_id: position_id, 
+                    api_type: "get"
+                },
                 success: function (res) {
                     console.log(res);
                     res = JSON.parse(res);
@@ -146,10 +149,11 @@
         function update() {
             $.ajax({
                 type: "POST",
-                url: "update_brand.php",
+                url: "./position_api.php",
                 data: {
-                    brand_id: $("#brandIdInp").val(),
-                    name: $("#brandInp").val(),
+                    position_id: $("#positionIdInp").val(),
+                    title: $("#positionInp").val(),
+                    api_type: "update"
                 },
                 success: function (res) {
                     Swal.fire({

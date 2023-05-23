@@ -6,6 +6,17 @@
     } else {
         header("Location: ../admin/signin.php");
     }
+
+    $query=$conn->prepare("SELECT * FROM ict_network_hardware_tbl WHERE mac_address =:mac");
+    $query->execute(array(':mac' => $_GET['macAddress']));
+    $hardware=$query->fetch(PDO::FETCH_ASSOC);
+
+    $count=$query->rowCount();
+
+    if($count <=0){
+        //reidrect homepage/ ict inventory module
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,84 +44,61 @@
         <div class="tab-div mb-5">
             <ul class="nav d-flex gap-3">
                 <li class="nav-item">
-                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/inventory/manageInventory.php'">View Inventory</button>
+                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/inventory/hardware.php'">View Inventory</button>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-success" onclick="encodeService('<?= $_SESSION['selected_mac']; ?>')">Encode Service</button>
+                    <button class="btn btn-success" onclick="encodeService('<?= $_GET['macAddress']; ?>')">Encode Service</button>
                 </li>
                 <li class="nav-item">
-                    <button onclick="getTransfer('<?= $_SESSION['selected_mac']; ?>')" type="button" data-id="<?= $_SESSION['selected_mac']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
+                    <button onclick="getTransfer('<?= $_GET['macAddress']; ?>')" type="button" data-id="<?= $_GET['macAddress']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
                 </li>
             </ul>
         </div>
             <form>
                 <div class="col">
                     <label for="macInp" class="form-label">MAC Address</label>
-                    <input type="text" class="form-control" id="macInp" name="macInp" disabled>
+                    <input type="text" class="form-control" id="macInp" name="macInp" value="<?= $hardware['mac_address'] ?>" disabled>
                 </div>
-                <div class="mb-3 col">
-                    <label for="typeofhardwareInp">Type of Hardware</label>
-                    <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" disabled>
-                        <option value="" selected disabled>Select Type of Hardware</option>
-                        <option>Equipment</option>
-                        <option>Tools</option>
-                    </select>
+                <div class="col">
+                    <label for="macInp" class="form-label">Type of Hardware</label>
+                    <input type="text" class="form-control" id="typeofhardwareInp" name="typeofhardwareInp" value="<?= $hardware['type_of_hardware'] ?>" disabled>
                 </div>
-                <div class="mb-3 col">
-                    <label for="brandInp">Brand</label>
-                    <select class="form-select" id="brandInp" name="brandInp" disabled>
-                        <option value="" selected disabled>Please select Brand</option>
-                        <?php
-                        $sql="SELECT * FROM `brand_tbl`";
-                        $query = $conn->prepare($sql);
-                        $query->execute();
-                        $results=$query->fetchAll(PDO::FETCH_OBJ);
-                        
-                        $count=1;
-                        if($query->rowCount() > 0) {
-                        //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                            foreach($results as $result)
-                        {
-                    ?>
-                        <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
-                    <?php }} ?>
-                    </select>
+                <div class="col">
+                    <label for="macInp" class="form-label">Brand</label>
+                    <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $hardware['brand'] ?>" disabled>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="modelInp" class="form-label">Model</label>
-                        <input type="text" class="form-control" id="modelInp" name="modelInp" disabled>
+                        <input type="text" class="form-control" id="modelInp" name="modelInp" value="<?= $hardware['model'] ?>" disabled>
                     </div>
 
                     <div class="col">
                         <label for="serialnumberInp" class="form-label">Serial Number</label>
-                        <input type="text" class="form-control" id="serialnumberInp" name="serialnumberInp" disabled>
+                        <input type="text" class="form-control" id="serialnumberInp" name="serialnumberInp" value="<?= $hardware['serial_number'] ?>" disabled>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="dateofpurchaseInp" class="form-label ps-4">Date of Purchase</label>
-                        <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" disabled>
+                        <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" value="<?= $hardware['date_of_purchase'] ?>" disabled>
                     </div>
 
                     <div class="col">
                         <label for="warrantyInp" class="form-label ps-4">End of Warranty</label>
-                        <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" disabled>
+                        <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" value="<?= $hardware['warranty'] ?>" disabled>
                     </div>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="ownerInpName">Owner</label>
                     <input type="text" class="form-control" id="ownerInpName" name="ownerInpName" disabled>
+                </div> -->
+                <div class="col">
+                    <label for="macInp" class="form-label">MAC Address</label>
+                    <input type="text" class="form-control" id="statusInp" name="statusInp" value="<?= $hardware['status'] ?>" disabled>
                 </div>
-                <div class="mb-3">
-                    <label for="statusInp">Status</label>
-                    <select class="form-select" id="statusInp" name="statusInp" disabled>
-                        <option value="" selected disabled>Please select Status</option>
-                        <option>Serviceable</option>
-                        <option>Non-Serviceable</option>
-                    </select>
-                </div>
-                <div class="mb-3">
+
+                <div class="my-3">
                     <div class="accordion" id="accordionPanelsStayOpenExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
@@ -128,7 +116,7 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $mac_address =  $_SESSION['selected_mac'];
+                                            $mac_address =  $_GET['macAddress'];
                                             $sql="SELECT * FROM ict_transfer_tbl WHERE mac_address = :mac";
                                             $query = $conn->prepare($sql);
                                             $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
@@ -139,11 +127,18 @@
                                             //In case that the query returned at least one record, we can echo the records within a foreach loop:
                                                 foreach($results as $result)
                                             {
+                                                $get_old_owner = $conn->prepare("SELECT * FROM `employee_tbl` WHERE employee_id = :id");
+                                                $get_old_owner->execute(array(':id' => $result->employee_id_old));
+                                                $old_owner=$get_old_owner->fetch(PDO::FETCH_ASSOC);
+
+                                                $get_new_owner = $conn->prepare("SELECT * FROM `employee_tbl` WHERE employee_id = :id");
+                                                $get_new_owner->execute(array(':id' => $result->employee_id_new));
+                                                $new_owner=$get_new_owner->fetch(PDO::FETCH_ASSOC);
                                         ?>
                                         <tr>
                                             <td><?= $result->date_transferred?></td>
-                                            <td><?= $result->old_owner?></td>
-                                            <td><?= $result->new_owner?></td>
+                                            <td><?= $old_owner['lname'] .', '. $old_owner['fname']?></td>
+                                            <td><?= $new_owner['lname'] .', '. $new_owner['fname']?></td>
                                         </tr>
                                     </tbody>
                                     <?php }} ?>
@@ -154,7 +149,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#repairHistoryDiv" aria-expanded="false" aria-controls="repairHistoryDiv">
-                                Repair History
+                                Service History
                             </button>
                             </h2>
                             <div id="repairHistoryDiv" class="accordion-collapse collapse">
@@ -169,13 +164,12 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $mac_address =  $_SESSION['selected_mac'];
+                                            $mac_address =  $_GET['macAddress'];
                                             $type = "Repair";
-                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :mac AND type_of_services=:type";
+                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :mac";
                                             $query = $conn->prepare($sql);
                                             $query->execute(array(
-                                                ':mac'	=>$mac_address,
-                                                ':type'	=>$type
+                                                ':mac'	=>$mac_address
                                             ));
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $count=1;
@@ -253,56 +247,56 @@
                 </div>
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label" for="currentownerInp">Current Owner</label>
                         <input class="form-control" type="text" name="currentownerInp" id="currentownerInp" disabled>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="newownerInp">New Owner</label>
                         <input class="form-control" type="text" name="newownerInp" id="newownerInp">
-                    </div>
-                    <!-- <div class="mb-3 col form-floating">
+                    </div> -->
+                    <div class="mb-3 col form-floating">
                         <select class="form-select" id="currentownerInp" name="currentownerInp" disabled>
                                 <option value="" selected disabled>Select Owner</option>
                             <?php
-                                // $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                                // $query = $conn->prepare($sql);
-                                // $query->execute();
-                                // $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                                $query = $conn->prepare($sql);
+                                $query->execute();
+                                $results=$query->fetchAll(PDO::FETCH_OBJ);
                                 
-                                // $count=1;
-                                // if($query->rowCount() > 0) {
-                                //     foreach($results as $result)
-                                // {
+                                $count=1;
+                                if($query->rowCount() > 0) {
+                                    foreach($results as $result)
+                                {
                             ?>
-                                <option value="<?php //echo htmlentities($result->employee_id);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
-                            <?php //}} ?>
+                                <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                            <?php }} ?>
                         </select>
                         <label for="currentownerInp" class="form-label" id="currentownerLbl">Current Owner</label>
-                    </div> -->
-                    <!-- <div class="mb-3 form-floating">
+                    </div>
+                    <div class="mb-3 form-floating">
                         <select class="form-select" id="newownerInp" name="newownerInp" required>
                             <option value="" selected disabled>Select New Owner</option>
                         <?php
-                            // $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                            // $query = $conn->prepare($sql);
-                            // $query->execute();
-                            // $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
                             
-                            // $count=1;
-                            // if($query->rowCount() > 0) {
-                            // //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                            //     foreach($results as $result)
-                            // {
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
                         ?>
-                            <option value="<?php //echo htmlentities($result->employee_id);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
-                        <?php //}} ?>
+                            <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                        <?php }} ?>
                         </select>
                         <label for="newownerInp">New Owner</label>
                         <div class="invalid-feedback">
                             Please select New Owner
                         </div>
-                    </div> -->
+                    </div>
                 </form>
                 </div>
                 <div class="modal-footer">
@@ -346,8 +340,8 @@
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#macInp").val(res.mac_address);
-                    // $('#ownerInp').val(res.employee_id);
-                    $('#currentownerInp').val(res.owner_name);
+                    $('#ownerInp').val(res.employee_id);
+                    $('#currentownerInp').val(res.employee_id);
                 }
             })
         }
@@ -454,32 +448,11 @@
 
         function encodeService(ictid) {
             location.href = `../service/encode.php?type=Hardware&ictid=${ictid}`;
-            
         }
 
         $(document).ready(function () {
             $('#ictnetworkhardwareTbl').DataTable();
             $('#tbl_transfer').DataTable();
-
-            var mac = window.location.search.substring(1).split("&")[0].split("=")[1];
-            console.log(mac);
-            $.ajax({
-                type: "GET",
-                url: "./get.php",
-                data: {mac_address: mac}
-            }).then((res) => {
-                res = JSON.parse(res);
-                $("#macInp").val(res.mac_address);
-                $("#typeofhardwareInp").val(res.type_of_hardware);
-                $('#brandInp').val(res.brand);
-                $('#modelInp').val(res.model);
-                $('#serialnumberInp').val(res.serial_number);
-                $('#dateofpurchaseInp').val(res.date_of_purchase);
-                $('#warrantyInp').val(res.warranty);
-                $('#ownerInp').val(res.employee_id);
-                $('#ownerInpName').val(res.owner_name);
-                $('#statusInp').val(res.status);
-            });
         });
     </script>
 </html>

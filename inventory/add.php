@@ -16,8 +16,8 @@
         $serial_number = $_POST['serialnumberInp'];
         $date_of_purchase = $_POST['dateofpurchaseInp'];
         $warranty = $_POST['warrantyInp'];
-        // $employee_id = $_POST['ownerInp'];
-        $employee_id = 1;
+        $employee_id = $_POST['ownerInp'];
+        // $employee_id = 1;
         $owner_name = $_POST['ownerInp'];
         $status = $_POST['statusInp'];
 
@@ -154,37 +154,37 @@
                     </div>
                 </div>
 
-                <div class="mb-3 col form-floating">
+                <!-- <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="ownerInp" name="ownerInp" required>
                     <label for="ownerInp" class="form-label" id="ownerLbl">Owner</label>
                     <div class="invalid-feedback">
                         Please enter Owner
                     </div>
-                </div>
+                </div> -->
                 
-                <!-- <div class="mb-3 form-floating">
+                <div class="mb-3 form-floating">
                     <select class="form-select" id="ownerInp" name="ownerInp" required>
                         <option value="" selected disabled>Select Owner</option>
                     <?php
-                        // $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                        // $query = $conn->prepare($sql);
-                        // $query->execute();
-                        // $results=$query->fetchAll(PDO::FETCH_OBJ);
+                        $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                        $query = $conn->prepare($sql);
+                        $query->execute();
+                        $results=$query->fetchAll(PDO::FETCH_OBJ);
                         
-                        // $count=1;
-                        // if($query->rowCount() > 0) {
-                        // //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                        //     foreach($results as $result)
-                        // {
+                        $count=1;
+                        if($query->rowCount() > 0) {
+                        //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                            foreach($results as $result)
+                        {
                     ?>
-                        <option value="<?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
-                    <?php //}} ?>
+                        <option value="<?php echo htmlentities($result->employee_id) ?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                    <?php }} ?>
                     </select>
                     <label for="ownerInp" id="ownerLbl">Owner</label>
                     <div class="invalid-feedback">
                         Please select Owner
                     </div>
-                </div> -->
+                </div>
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="statusInp" name="statusInp" required>
                         <option value="" selected disabled>Please select Status</option>

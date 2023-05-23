@@ -56,7 +56,7 @@
             <div class="dashboard-header" style="margin: 2rem 0">
                 <h3>Encode Service</h3>
             </div>
-            <form onsubmit="event.preventDefault(); handleSubmit()" class="needs-validation" novalidate id="encodeForm" name="encodeForm" method="post">
+            <form onsubmit="e.preventDefault(); handleSubmit()" class="needs-validation" novalidate id="encodeForm" name="encodeForm" method="post">
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="typeofictInp" name="typeofictInp" disabled>
                         <option value="" selected disabled>Select Type of ICT</option>
@@ -133,6 +133,18 @@
                         Please enter Recommendation
                     </div>
                 </div>
+                <div class="mb-3 form-floating">
+                    <select class="form-select" id="statusInp" name="statusInp" required>
+                        <option value="" selected disabled>Select a Status</option>
+                        <option>Pending</option>
+                        <option>On Going</option>
+                        <option>Finished</option>
+                    </select>
+                    <label for="statusInp" class="form-label" id="statusLbl">Status</label>
+                    <div class="invalid-feedback">
+                        Please enter status
+                    </div>
+                </div>
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="processedbyInp" name="processedbyInp" required>
                     <label for="processedbyInp" class="form-label" id="processedbyInpLbl">Processed by</label>
@@ -151,6 +163,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6952492a89.js" crossorigin="anonymous"></script>
     <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })();
+        
         $(document).ready(function () {
             $('#service_tbl').DataTable();
 
@@ -178,6 +210,7 @@
                     action_done : $('#actionDoneInp').val(),
                     remarks: $('#remarksInp').val(),
                     recommendation : $('#recommendationInp').val(),
+                    status: $('#statusInp').val(),
                     processed_by : $('#processedbyInp').val()
                 },
                 success: function (res) {
@@ -186,7 +219,7 @@
                         text: res,
                         icon: 'success',
                         confirmButtonText: 'Okay'
-                    }).then(()=>location.href = '../inventory/manageInventory.php')
+                    }).then(()=>location.href = '../inventory/hardware.php')
                 },
                 error: function (res) {
                     Swal.fire({

@@ -70,10 +70,10 @@
             Inventory
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/manageInventory.php" ?>">View Inventory</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/add.php" ?>">Add Inventory</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/brands.php" ?>">Manage Brands</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/type_of_hardware.php" ?>">Manage Type of Hardware</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Hardware</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Software</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Accessories</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Tools and Supplies</a></li>
             </ul>
         </li>
         <!-- <li class="nav-item">
@@ -101,7 +101,6 @@
             <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/manageAccounts.php" ?>">View Employees</a></li>
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/addEmployee.php" ?>">Add Employees</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/employee/positions.php" ?>">Manage Positions</a></li>
             </ul>
         </li>
         <li class="nav-item">
@@ -109,6 +108,16 @@
             <i class="fa-solid fa-user"></i>
             Profile
             </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page">
+            <i class="fa-solid fa-gears"></i>
+            Settings
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/brands.php" ?>">Manage Brands</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/type_of_hardware.php" ?>">Manage Type of Hardware</a></li>
+            </ul>
         </li>
     </ul>
     <hr>

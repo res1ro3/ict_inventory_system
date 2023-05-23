@@ -28,64 +28,58 @@
     <div class="inventory-container">
     <div class="tbl_manage_inventory">
         <div class="dashboard-header" style="margin: 2rem 0">
-            <h3>Manange Inventory</h3>
+            <h3>Hardware</h3>
         </div>
-        <div class="tab-div d-flex gap-3 mb-5">
-            <ul class="nav nav-tabs justify-content-end">
-                <li class="nav-item">
-                    <button class="btn btn-success" onclick="location.href='/ict_inventory_system/inventory/add.php'">Add</button>
-                </li>
-            </ul>
+            <div>
+                <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Type of Hardware</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Owner</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $sql="
+                            SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.lname, employee_tbl.fname, ict_network_hardware_tbl.status, owner_name
+                            FROM ict_network_hardware_tbl
+                            INNER JOIN employee_tbl ON ict_network_hardware_tbl.employee_id=employee_tbl.employee_id;
+                            ";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $result = $query->fetchAll();
+                            $count = 1;
+                            foreach ($result as $row) {
+                        ?>
+                        <tr>
+                            <td><?= $count ?></td>
+                            <td><?= $row['type_of_hardware'] ?></td>
+                            <td><?= $row['brand'] ?></td>
+                            <td><?= $row['model'] ?></td>
+                            <td><?= $row['lname'].', '.$row['fname'] ?></td>
+                            <td><?= $row['status'] ?></td>
+                            <td>
+                                <button id="viewBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
+                                <button id="editBtn" onclick="getEdit('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                            </td>
+                            
+                        </tr>
+                        <?php $count++; } ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7"><button style="width: 90px;" class="btn btn-success" onclick="location.href='/ict_inventory_system/inventory/add.php'">Add</button></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-            <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>MAC Address</th>
-                        <th>Type of Hardware</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Serial Number</th>
-                        <th>Date of Purchase</th>
-                        <th>Warranty</th>
-                        <th>Owner</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $sql="
-                        SELECT mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, employee_tbl.lname, employee_tbl.fname, ict_network_hardware_tbl.status, owner_name
-                        FROM ict_network_hardware_tbl
-                        INNER JOIN employee_tbl ON ict_network_hardware_tbl.employee_id=employee_tbl.employee_id;
-                        ";
-                        $query = $conn->prepare($sql);
-                        $query->execute();
-                        $result = $query->fetchAll();
-                        $count = 1;
-                        foreach ($result as $row) {
-                    ?>
-                    <tr>
-                        <td><?= $count ?></td>
-                        <td><?= $row['mac_address'] ?></td>
-                        <td><?= $row['type_of_hardware'] ?></td>
-                        <td><?= $row['brand'] ?></td>
-                        <td><?= $row['model'] ?></td>
-                        <td><?= $row['serial_number'] ?></td>
-                        <td><?= $row['date_of_purchase'] ?></td>
-                        <td><?= $row['warranty'] ?></td>
-                        <td><?= $row['owner_name'] //$row['lname'].', '.$row['fname'] ?></td>
-                        <td><?= $row['status'] ?></td>
-                        <td>
-                            <button id="viewBtn" onclick="get('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
-                            <button id="editBtn" onclick="getEdit('<?= $row['mac_address'] ?>')" type="button" data-id="<?= $row['mac_address'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                        </td>
-                        
-                    </tr>
-                    <?php $count++; } ?>
-            </table>
-        </div>
+        
     </div>
     
     <!-- View Modal -->
@@ -106,8 +100,20 @@
                         <label for="typeofhardwareInp">Type of Hardware</label>
                         <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" disabled>
                             <option value="" selected disabled>Select Type of Hardware</option>
-                            <option>Equipment</option>
-                            <option>Tools</option>
+                            <?php
+                            $sql="SELECT * FROM `type_of_hardware_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                            ?>
+                                <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                            <?php }} ?>
                         </select>
                     </div>
                     <div class="mb-3 col">
@@ -243,7 +249,7 @@
                                                 <td><?= $result->type_of_services?></td>
                                                 <td>
                                                     <div class="mb-3">
-                                                        <select onchange="changeServiceStatus('<?= $result->ICT_ID ?>',this.options[this.selectedIndex].text)" class="form-select" id="statusViewInp" name="statusViewInp">
+                                                        <select onchange="changeServiceStatus('<?= $result->ICT_ID ?>',this.options[this.selectedIndex].text)" class="form-select">
                                                             <?php
                                                                 $selected = $result->service_status;
                                                                 switch ($selected) {
@@ -275,7 +281,7 @@
                                                                         ?>
                                                                         <option>Finished</option>
                                                                         <option>On Going</option>
-                                                                        <option>Pending</option>
+                                                                        <option selected>Pending</option>
                                                                         <?php
                                                                     }
                                                                 }
@@ -321,15 +327,23 @@
                     </div>
 
                     <div class="mb-3 form-floating">
-                        <input class="form-control" list="datalistOptions" id="typeofhardwareInpEdit" name="typeofhardwareInpEdit" placeholder="Click to Select Type of Hardware">
-                        <datalist id="datalistOptions">
-                            <option value="Equipment">
-                        </datalist>
-                        <!-- <select class="form-select" id="typeofhardwareInpEdit" name="typeofhardwareInpEdit" required>
+                        <select class="form-select" id="typeofhardwareInpEdit" name="typeofhardwareInpEdit" required>
                             <option value="" selected disabled>Select Type of Hardware</option>
-                            <option>Equipment</option>
-                            <option>Tools</option>
-                        </select> -->
+                            <?php
+                            $sql="SELECT * FROM `type_of_hardware_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                            ?>
+                                <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                            <?php }} ?>
+                        </select>
                         <label for="typeofhardwareInpEdit">Type of Hardware</label>
                         <div class="invalid-feedback">
                             Please select Type of Hardware
@@ -442,56 +456,56 @@
                 </div>
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label" for="currentownerInp">Current Owner</label>
                         <input class="form-control" type="text" name="currentownerInp" id="currentownerInp" disabled>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="newownerInp">New Owner</label>
                         <input class="form-control" type="text" name="newownerInp" id="newownerInp">
-                    </div>
-                    <!-- <div class="mb-3 col form-floating">
+                    </div> -->
+                    <div class="mb-3 col form-floating">
                         <select class="form-select" id="currentownerInp" name="currentownerInp" disabled>
                                 <option value="" selected disabled>Select Owner</option>
                             <?php
-                                // $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                                // $query = $conn->prepare($sql);
-                                // $query->execute();
-                                // $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                                $query = $conn->prepare($sql);
+                                $query->execute();
+                                $results=$query->fetchAll(PDO::FETCH_OBJ);
                                 
-                                // $count=1;
-                                // if($query->rowCount() > 0) {
-                                //     foreach($results as $result)
-                                // {
+                                $count=1;
+                                if($query->rowCount() > 0) {
+                                    foreach($results as $result)
+                                {
                             ?>
-                                <option value="<?php //echo htmlentities($result->employee_id);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
-                            <?php //}} ?>
+                                <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                            <?php }} ?>
                         </select>
                         <label for="currentownerInp" class="form-label" id="currentownerLbl">Current Owner</label>
-                    </div> -->
-                    <!-- <div class="mb-3 form-floating">
+                    </div>
+                    <div class="mb-3 form-floating">
                         <select class="form-select" id="newownerInp" name="newownerInp" required>
                             <option value="" selected disabled>Select New Owner</option>
                         <?php
-                            // $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
-                            // $query = $conn->prepare($sql);
-                            // $query->execute();
-                            // $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
                             
-                            // $count=1;
-                            // if($query->rowCount() > 0) {
-                            // //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                            //     foreach($results as $result)
-                            // {
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
                         ?>
-                            <option value="<?php //echo htmlentities($result->employee_id);?>"><?php //echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
-                        <?php //}} ?>
+                            <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                        <?php }} ?>
                         </select>
-                        <label for="newownerInp">New Owner</label>
+                        <label for="newownerInp">Newest Owner</label>
                         <div class="invalid-feedback">
                             Please select New Owner
                         </div>
-                    </div> -->
+                    </div>
                 </form>
                 </div>
                 <div class="modal-footer">

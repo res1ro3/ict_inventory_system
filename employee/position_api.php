@@ -7,7 +7,7 @@
         $position_id = $_POST['position_id'];
 
         $sql = "
-            SELECT * FROM position_tbl WHERE position_id = :pos
+            SELECT * FROM positions_tbl WHERE position_id = :pos
         ";
         $query = $conn->prepare($sql);
         $query->bindParam(':pos',$position_id,PDO::PARAM_STR);
@@ -15,8 +15,8 @@
         $row = $query->fetch(PDO::FETCH_ASSOC);
         echo json_encode($row);
     }
-    else if ($api_type == '') {
-
+    else if ($api_type == 'add') {
+        
     }
 
 ?>

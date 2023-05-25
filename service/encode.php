@@ -56,7 +56,7 @@
             <div class="dashboard-header" style="margin: 2rem 0">
                 <h3>Encode Service</h3>
             </div>
-            <form onsubmit="e.preventDefault(); handleSubmit()" class="needs-validation" novalidate id="encodeForm" name="encodeForm" method="post">
+            <form onsubmit="event.preventDefault(); handleSubmit()" class="needs-validation" novalidate id="encodeForm" name="encodeForm" method="post">
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="typeofictInp" name="typeofictInp" disabled>
                         <option value="" selected disabled>Select Type of ICT</option>
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="col form-floating">
-                        <input type="date" class="form-control" id="datereturnedInp" name="datereturnedInp" required>
+                        <input type="date" class="form-control" id="datereturnedInp" name="datereturnedInp">
                         <label for="datereturnedInp" class="form-label ps-4" id="datereturnedInpLbl">Date Returned</label>
                         <div class="invalid-feedback">
                             Please set Date Returned
@@ -120,14 +120,14 @@
                     </div>
                 </div>
                 <div class="mb-3 col form-floating">
-                    <textarea class="form-control" id="remarksInp" name="remarksInp" rows="3" required></textarea>
+                    <textarea class="form-control" id="remarksInp" name="remarksInp" rows="3" ></textarea>
                     <label for="remarksInp" class="form-label" id="actionDoneInpLbl">Remarks</label>
                     <div class="invalid-feedback">
                         Please enter Remarks
                     </div>
                 </div>
                 <div class="mb-3 col form-floating">
-                    <textarea class="form-control" id="recommendationInp" name="recommendationInp" rows="3" required></textarea>
+                    <textarea class="form-control" id="recommendationInp" name="recommendationInp" rows="3" ></textarea>
                     <label for="recommendationInp" class="form-label" id="recommendationInpLbl">Recommendation</label>
                     <div class="invalid-feedback">
                         Please enter Recommendation

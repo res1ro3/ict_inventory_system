@@ -1,12 +1,12 @@
 <?php
     require_once('../dbConfig.php');
 
-    if (!isset($_POST['mac_address'], $_POST['current_owner'], $_POST['new_owner'])) {
+    if (!isset($_POST['hardware_id'], $_POST['current_owner'], $_POST['new_owner'])) {
         echo "Invalid Input";
         exit;
     }
 
-    $mac_address = $_POST['mac_address'];
+    $hardware_id = $_POST['hardware_id'];
     $current_owner = $_POST['current_owner'];
     $new_owner = $_POST['new_owner'];
 
@@ -23,11 +23,11 @@
     // $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
     // $res = $query->execute();
 
-    $sql="INSERT INTO ict_transfer_tbl (employee_id_new, employee_id_old, date_transferred, mac_address) VALUES (:new, :old, '".$date."', :mac)";
+    $sql="INSERT INTO ict_transfer_tbl (employee_id_new, employee_id_old, date_transferred, hardware_id) VALUES (:new, :old, '".$date."', :hid)";
     $query = $conn->prepare($sql);
     $query->bindParam(':new',$new_owner,PDO::PARAM_STR);
     $query->bindParam(':old',$current_owner,PDO::PARAM_STR);
-    $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
+    $query->bindParam(':hid',$hardware_id,PDO::PARAM_STR);
     $query->execute();
 
     // $sql="UPDATE ict_network_hardware_tbl SET owner_name = :new WHERE mac_address=:mac";
@@ -36,9 +36,9 @@
     // $query->bindParam(':new',$new_owner,PDO::PARAM_STR);
     // $query->execute();
 
-    $sql="UPDATE ict_network_hardware_tbl SET employee_id=:new WHERE mac_address=:mac";
+    $sql="UPDATE ict_network_hardware_tbl SET employee_id=:new WHERE hardware_id=:hid";
     $query = $conn->prepare($sql);
-    $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
+    $query->bindParam(':hid',$hardware_id,PDO::PARAM_STR);
     $query->bindParam(':new',$new_owner,PDO::PARAM_STR);
     $query->execute();
 

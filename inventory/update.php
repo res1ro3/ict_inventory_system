@@ -8,6 +8,7 @@
 
     require_once('../dbConfig.php');
 
+    $hardware_id = $_POST['hardware_id'];
     $mac_address = $_POST['mac_address'];
     $type_of_hardware = $_POST['type_of_hardware'];
     $brand = $_POST['brand'];
@@ -18,9 +19,10 @@
     $employee_id = $_POST['employee_id'];
     $status = $_POST['status'];
 
-    $sql="UPDATE ict_network_hardware_tbl SET mac_address=:mac, type_of_hardware=:toh, brand=:br, model=:md, serial_number=:sn, date_of_purchase=:dop, warranty=:wt, employee_id=:eid, status=:st WHERE mac_address=:mac";
+    $sql="UPDATE ict_network_hardware_tbl SET mac_address=:mac, type_of_hardware=:toh, brand=:br, model=:md, serial_number=:sn, date_of_purchase=:dop, warranty=:wt, employee_id=:eid, status=:st WHERE hardware_id=:hid";
     $query = $conn->prepare($sql);
     $query->execute(array(
+        'hid' => $hardware_id,
         'mac' => $mac_address,
         'toh' => $type_of_hardware,
         'br' => $brand,

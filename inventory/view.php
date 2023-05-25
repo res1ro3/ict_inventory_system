@@ -7,8 +7,8 @@
         header("Location: ../admin/signin.php");
     }
 
-    $query=$conn->prepare("SELECT * FROM ict_network_hardware_tbl WHERE mac_address =:mac");
-    $query->execute(array(':mac' => $_GET['macAddress']));
+    $query=$conn->prepare("SELECT * FROM ict_network_hardware_tbl WHERE hardware_id =:hid");
+    $query->execute(array(':hid' => $_GET['hid']));
     $hardware=$query->fetch(PDO::FETCH_ASSOC);
 
     $count=$query->rowCount();
@@ -47,45 +47,46 @@
                     <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/inventory/hardware.php'">View Inventory</button>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-success" onclick="encodeService('<?= $_GET['macAddress']; ?>')">Encode Service</button>
+                    <button class="btn btn-success" onclick="encodeService('<?= $_GET['hid']; ?>')">Encode Service</button>
                 </li>
                 <li class="nav-item">
-                    <button onclick="getTransfer('<?= $_GET['macAddress']; ?>')" type="button" data-id="<?= $_GET['macAddress']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
+                    <button onclick="getTransfer('<?= $_GET['hid']; ?>')" type="button" data-id="<?= $_GET['hid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
                 </li>
             </ul>
         </div>
             <form>
+                <input type="hidden" class="form-control" id="hidInp" name="hidInp">
                 <div class="col">
-                    <label for="macInp" class="form-label">MAC Address</label>
+                    <label for="macInp" class="form-label fw-bold">MAC Address</label>
                     <input type="text" class="form-control" id="macInp" name="macInp" value="<?= $hardware['mac_address'] ?>" disabled>
                 </div>
                 <div class="col">
-                    <label for="macInp" class="form-label">Type of Hardware</label>
+                    <label for="macInp" class="form-label fw-bold">Type of Hardware</label>
                     <input type="text" class="form-control" id="typeofhardwareInp" name="typeofhardwareInp" value="<?= $hardware['type_of_hardware'] ?>" disabled>
                 </div>
                 <div class="col">
-                    <label for="macInp" class="form-label">Brand</label>
+                    <label for="macInp" class="form-label fw-bold">Brand</label>
                     <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $hardware['brand'] ?>" disabled>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="modelInp" class="form-label">Model</label>
+                        <label for="modelInp" class="form-label fw-bold">Model</label>
                         <input type="text" class="form-control" id="modelInp" name="modelInp" value="<?= $hardware['model'] ?>" disabled>
                     </div>
 
                     <div class="col">
-                        <label for="serialnumberInp" class="form-label">Serial Number</label>
+                        <label for="serialnumberInp" class="form-label fw-bold">Serial Number</label>
                         <input type="text" class="form-control" id="serialnumberInp" name="serialnumberInp" value="<?= $hardware['serial_number'] ?>" disabled>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="dateofpurchaseInp" class="form-label ps-4">Date of Purchase</label>
+                        <label for="dateofpurchaseInp" class="form-label fw-bold">Date of Purchase</label>
                         <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" value="<?= $hardware['date_of_purchase'] ?>" disabled>
                     </div>
 
                     <div class="col">
-                        <label for="warrantyInp" class="form-label ps-4">End of Warranty</label>
+                        <label for="warrantyInp" class="form-label fw-bold">End of Warranty</label>
                         <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" value="<?= $hardware['warranty'] ?>" disabled>
                     </div>
                 </div>
@@ -94,7 +95,7 @@
                     <input type="text" class="form-control" id="ownerInpName" name="ownerInpName" disabled>
                 </div> -->
                 <div class="col">
-                    <label for="macInp" class="form-label">MAC Address</label>
+                    <label for="macInp" class="form-label fw-bold">Status</label>
                     <input type="text" class="form-control" id="statusInp" name="statusInp" value="<?= $hardware['status'] ?>" disabled>
                 </div>
 
@@ -116,10 +117,10 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $mac_address =  $_GET['macAddress'];
-                                            $sql="SELECT * FROM ict_transfer_tbl WHERE mac_address = :mac";
+                                            $hardware_id =  $_GET['hid'];
+                                            $sql="SELECT * FROM ict_transfer_tbl WHERE hardware_id = :hid";
                                             $query = $conn->prepare($sql);
-                                            $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
+                                            $query->bindParam(':hid',$hardware_id,PDO::PARAM_STR);
                                             $query->execute();
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $count=1;
@@ -164,12 +165,12 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $mac_address =  $_GET['macAddress'];
+                                            $hardware_id =  $_GET['hid'];
                                             $type = "Repair";
-                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :mac";
+                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :hid";
                                             $query = $conn->prepare($sql);
                                             $query->execute(array(
-                                                ':mac'	=>$mac_address
+                                                ':hid'	=>$hardware_id
                                             ));
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $count=1;
@@ -312,13 +313,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6952492a89.js" crossorigin="anonymous"></script>
     <script>
-        const get = async (mac) => {
+        const get = async (hid) => {
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {mac_address:mac}
+                data: {hardware_id:hid}
             }).then((res) => {
                 res = JSON.parse(res);
+                $("#hidInp").val(res.hardware_id);
                 $("#macInp").val(res.mac_address);
                 $("#typeofhardwareInp").val(res.type_of_hardware);
                 $('#brandInp').val(res.brand);
@@ -332,52 +334,19 @@
             });
         }
 
-        function getTransfer(mac) {
+        function getTransfer(hid) {
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {mac_address:mac},
+                data: {hardware_id:hid},
                 success: function (res) {
                     res = JSON.parse(res);
+                    $("#hidInp").val(res.hardware_id);
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);
                 }
             })
-        }
-
-        function update() {
-            $.ajax({
-                type: "POST",
-                url: "./update.php",
-                data: {
-                    mac_address: $("#macInpEdit").val(),
-                    type_of_hardware: $("#typeofhardwareInpEdit").val(),
-                    brand: $('#brandInpEdit').val(),
-                    model: $('#modelInpEdit').val(),
-                    serial_number:$('#serialnumberInpEdit').val(),
-                    date_of_purchase:$('#dateofpurchaseInpEdit').val(),
-                    warranty:$('#warrantyInpEdit').val(),
-                    employee_id:$('#ownerInpEdit').val(),
-                    status:$('#statusInpEdit').val(),
-                },
-                success: function (res) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: res,
-                        icon: 'success',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                },
-                error: function (res) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: res,
-                        icon: 'error',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                }
-            });
         }
 
         function changeServiceStatus(ictid, services_id, status) {
@@ -421,7 +390,7 @@
                     type: "POST",
                     url: "./transfer.php",
                     data: {
-                        mac_address: $("#macInp").val(),
+                        hardware_id: $("#hidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
                     }

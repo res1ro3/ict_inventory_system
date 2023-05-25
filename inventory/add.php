@@ -14,6 +14,8 @@
         $brand = $_POST['brandInp'];
         $model = $_POST['modelInp'];
         $serial_number = $_POST['serialnumberInp'];
+        $specifications = $_POST['specificationsInp'];
+        $cost = $_POST['costInp'];
         $date_of_purchase = $_POST['dateofpurchaseInp'];
         $warranty = $_POST['warrantyInp'];
         $employee_id = $_POST['ownerInp'];
@@ -21,7 +23,8 @@
         $owner_name = $_POST['ownerInp'];
         $status = $_POST['statusInp'];
 
-        $sql="INSERT INTO ict_network_hardware_tbl(mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, status, owner_name, employee_id) VALUES(:mac,:toh,:br,:md,:sn,:dop,:wt,:st,:on,:eid)";
+        $sql="INSERT INTO ict_network_hardware_tbl(mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, status, owner_name, employee_id, specifications, cost) 
+            VALUES(:mac,:toh,:br,:md,:sn,:dop,:wt,:st,:on,:eid,:specs,:cost)";
         $query = $conn->prepare($sql);
 
         $query->execute(array(
@@ -30,6 +33,8 @@
             'br' => $brand,
             'md' => $model,
             'sn' => $serial_number,
+            'specs' => $specifications,
+            'cost' => $cost,
             'dop' => $date_of_purchase,
             'wt' => $warranty,
             'on' => $owner_name,
@@ -66,7 +71,7 @@
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="macInp" name="macInp" required>
-                    <label for="macInp" class="form-label" id="macLbl">MAC Address</label>
+                    <label for="macInp" class="form-label fw-bold" id="macLbl">MAC Address</label>
                     <div class="invalid-feedback">
                         Please enter MAC Address
                     </div>
@@ -90,7 +95,7 @@
                             <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                     </select>
-                    <label for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
+                    <label class="form-label fw-bold" for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
                     <div class="invalid-feedback">
                         Please select Type of Hardware
                     </div>
@@ -114,7 +119,7 @@
                             <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                     </select>
-                    <label for="brandInp" id="brandLbl">Brand</label>
+                    <label class="form-label fw-bold" for="brandInp" id="brandLbl">Brand</label>
                     <div class="invalid-feedback">
                         Please select Brand
                     </div>
@@ -122,7 +127,7 @@
 
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="modelInp" name="modelInp" required>
-                    <label for="modelInp" class="form-label" id="modelLbl">Model</label>
+                    <label for="modelInp" class="form-label fw-bold" id="modelLbl">Model</label>
                     <div class="invalid-feedback">
                         Please enter Model
                     </div>
@@ -130,16 +135,33 @@
 
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="serialnumberInp" name="serialnumberInp" required>
-                    <label for="serialnumberInp" class="form-label" id="serialnumberLbl">Serial Number</label>
+                    <label for="serialnumberInp" class="form-label fw-bold" id="serialnumberLbl">Serial Number</label>
                     <div class="invalid-feedback">
                         Please enter Serial Number
+                    </div>
+                </div>
+
+                <div class="mb-3 col">
+                    <label for="specificationsInp" class="form-label fw-bold ps-2 text-secondary" id="specificationsInpLbl">Specifications</label>
+                    <textarea class="form-control" id="specificationsInp" name="specificationsInp" rows="4" cols="50" placeholder="Enter specification here" required></textarea>
+                   
+                    <div class="invalid-feedback">
+                        Please enter Specifications
+                    </div>
+                </div>
+
+                <div class="mb-3 col form-floating">
+                    <input type="number" class="form-control" id="costInp" name="costInp" required>
+                    <label for="costInp" class="form-label fw-bold" id="costInpsLbl">Cost (PHP)</label>
+                    <div class="invalid-feedback">
+                        Please enter Cost in PHP
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="mb-3 col form-floating">
                         <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" required>
-                        <label for="dateofpurchaseInp" class="form-label ps-4" id="dateofpurchaseLbl">Date of Purchase</label>
+                        <label for="dateofpurchaseInp" class="form-label ps-4 fw-bold" id="dateofpurchaseLbl">Date of Purchase</label>
                         <div class="invalid-feedback">
                             Please set Date of Purchase
                         </div>
@@ -147,7 +169,7 @@
 
                     <div class="col form-floating">
                         <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" required>
-                        <label for="warrantyInp" class="form-label ps-4" id="warrantyLbl">End of Warranty</label>
+                        <label for="warrantyInp" class="form-label ps-4 fw-bold" id="warrantyLbl">End of Warranty</label>
                         <div class="invalid-feedback">
                             Please enter End of Warranty
                         </div>
@@ -180,7 +202,7 @@
                         <option value="<?php echo htmlentities($result->employee_id) ?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
                     <?php }} ?>
                     </select>
-                    <label for="ownerInp" id="ownerLbl">Owner</label>
+                    <label class="form-label fw-bold" for="ownerInp" id="ownerLbl">Owner</label>
                     <div class="invalid-feedback">
                         Please select Owner
                     </div>
@@ -191,7 +213,7 @@
                         <option>Serviceable</option>
                         <option>Non-Serviceable</option>
                     </select>
-                    <label for="statusInp" id="statusLbl">Status</label>
+                    <label class="form-label fw-bold" for="statusInp" id="statusLbl">Status</label>
                     <div class="invalid-feedback">
                         Please select Status
                     </div>

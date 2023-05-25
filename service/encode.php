@@ -56,6 +56,13 @@
             <div class="dashboard-header" style="margin: 2rem 0">
                 <h3>Encode Service</h3>
             </div>
+            <div class="tab-div mb-5">
+                <ul class="nav d-flex gap-3">
+                    <li class="nav-item">
+                        <button class="btn btn-primary" onclick="location.href='javascript:history.back()'">Go Back</button>
+                    </li>
+                </ul>
+            </div>
             <form onsubmit="event.preventDefault(); handleSubmit()" class="needs-validation" novalidate id="encodeForm" name="encodeForm" method="post">
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="typeofictInp" name="typeofictInp" disabled>

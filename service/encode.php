@@ -71,14 +71,14 @@
                         <option>Software</option>
                         <option>Accessories</option>
                     </select>
-                    <label for="typeofictInp" id="typeofictInpLbl">Type of ICT</label>
+                    <label class="form-label fw-bold" for="typeofictInp" id="typeofictInpLbl">Type of ICT</label>
                     <div class="invalid-feedback">
                         Please select Type of Service
                     </div>
                 </div>
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="ictidInp" name="ictidInp" disabled>
-                    <label for="ictidInp" class="form-label" id="ictidInpLbl">ICT ID</label>
+                    <label for="ictidInp" class="form-label fw-bold" id="ictidInpLbl">ICT ID</label>
                     <div class="invalid-feedback">
                         Please enter ICT ID
                     </div>
@@ -90,7 +90,7 @@
                         <option>Maintenance</option>
                         <option>Installation</option>
                     </select>
-                    <label for="typeofserviceInp" id="typeofserviceInpLbl">Type of Service</label>
+                    <label class="form-label fw-bold" for="typeofserviceInp" id="typeofserviceInpLbl">Type of Service</label>
                     <div class="invalid-feedback">
                         Please select Type of Service
                     </div>
@@ -98,7 +98,7 @@
                 <div class="row mb-3">
                     <div class="mb-3 col form-floating">
                         <input type="date" class="form-control" id="datereceivedInp" name="datereceivedInp" required>
-                        <label for="datereceivedInp" class="form-label ps-4" id="datereceivedInpLbl">Date Received</label>
+                        <label for="datereceivedInp" class="form-label ps-4 fw-bold" id="datereceivedInpLbl">Date Received</label>
                         <div class="invalid-feedback">
                             Please set Date Received
                         </div>
@@ -106,36 +106,36 @@
 
                     <div class="col form-floating">
                         <input type="date" class="form-control" id="datereturnedInp" name="datereturnedInp">
-                        <label for="datereturnedInp" class="form-label ps-4" id="datereturnedInpLbl">Date Returned</label>
+                        <label for="datereturnedInp" class="form-label ps-4 fw-bold" id="datereturnedInpLbl">Date Returned</label>
                         <div class="invalid-feedback">
                             Please set Date Returned
                         </div>
                     </div>
                 </div>
-                <div class="mb-3 col form-floating">
-                    <textarea class="form-control" id="descriptionInp" name="descriptionInp" rows="3" required></textarea>
-                    <label for="descriptionInp" class="form-label" id="descriptionInpLbl">Description of service</label>
+                <div class="mb-3 col">
+                    <label for="descriptionInp" class="form-label fw-bold text-secondary" id="descriptionInpLbl">Description of service</label>
+                    <textarea class="form-control" id="descriptionInp" name="descriptionInp" rows="4" cols="50" required></textarea>
                     <div class="invalid-feedback">
                         Please enter Description of service
                     </div>
                 </div>
-                <div class="mb-3 col form-floating">
-                    <textarea class="form-control" id="actionDoneInp" name="actionDoneInp" rows="3" required></textarea>
-                    <label for="actionDoneInp" class="form-label" id="actionDoneInpLbl">Action Done</label>
+                <div class="mb-3 col">
+                    <label for="actionDoneInp" class="form-label fw-bold text-secondary" id="actionDoneInpLbl">Action Done</label>
+                    <textarea class="form-control" id="actionDoneInp" name="actionDoneInp" rows="4" cols="50" required></textarea>
                     <div class="invalid-feedback">
                         Please enter Action Done
                     </div>
                 </div>
-                <div class="mb-3 col form-floating">
-                    <textarea class="form-control" id="remarksInp" name="remarksInp" rows="3" ></textarea>
-                    <label for="remarksInp" class="form-label" id="actionDoneInpLbl">Remarks</label>
+                <div class="mb-3 col ">
+                    <label for="remarksInp" class="form-label fw-bold text-secondary" id="actionDoneInpLbl">Remarks</label>    
+                    <textarea class="form-control" id="remarksInp" name="remarksInp" rows="4" cols="50"></textarea>
                     <div class="invalid-feedback">
                         Please enter Remarks
                     </div>
                 </div>
-                <div class="mb-3 col form-floating">
-                    <textarea class="form-control" id="recommendationInp" name="recommendationInp" rows="3" ></textarea>
-                    <label for="recommendationInp" class="form-label" id="recommendationInpLbl">Recommendation</label>
+                <div class="mb-3 col">
+                    <label for="recommendationInp" class="form-label fw-bold text-secondary" id="recommendationInpLbl">Recommendation</label>
+                    <textarea class="form-control" id="recommendationInp" name="recommendationInp" rows="4" cols="50"></textarea>
                     <div class="invalid-feedback">
                         Please enter Recommendation
                     </div>
@@ -147,14 +147,14 @@
                         <option>On Going</option>
                         <option>Finished</option>
                     </select>
-                    <label for="statusInp" class="form-label" id="statusLbl">Status</label>
+                    <label for="statusInp" class="form-label fw-bold" id="statusLbl">Status</label>
                     <div class="invalid-feedback">
                         Please enter status
                     </div>
                 </div>
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="processedbyInp" name="processedbyInp" required>
-                    <label for="processedbyInp" class="form-label" id="processedbyInpLbl">Processed by</label>
+                    <label for="processedbyInp" class="form-label fw-bold" id="processedbyInpLbl">Processed by</label>
                     <div class="invalid-feedback">
                         Please enter a name
                     </div>

@@ -24,3 +24,10 @@
 .tab-div ul li a{
     cursor: pointer;
 }
+
+.form-control.disabled {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #555;
+    cursor: text;
+}

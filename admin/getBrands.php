@@ -8,7 +8,7 @@
             $sql = "SELECT ict_network_hardware_tbl.brand
                     FROM services_tbl
                     JOIN ict_network_hardware_tbl
-                    ON ict_network_hardware_tbl.mac_address = services_tbl.ICT_ID";
+                    ON ict_network_hardware_tbl.hardware_id = services_tbl.ICT_ID";
             $query = $conn->prepare($sql);
             $query->execute();
             $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -22,7 +22,7 @@
             $sql = "SELECT ict_network_hardware_tbl.brand
                     FROM services_tbl
                     JOIN ict_network_hardware_tbl
-                    ON ict_network_hardware_tbl.mac_address = services_tbl.ICT_ID";
+                    ON ict_network_hardware_tbl.hardware_id = services_tbl.ICT_ID";
             $query = $conn->prepare($sql);
             $query->execute();
             $refcount = $query->rowCount();

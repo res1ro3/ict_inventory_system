@@ -125,6 +125,7 @@
                                         <th>Date Transferred</th>
                                         <th>Old Owner</th>
                                         <th>New Owner</th>
+                                        <th>Action</th>
                                     </thead>
                                     <tbody>
                                         <?php
@@ -151,6 +152,9 @@
                                             <td><?= $result->date_transferred?></td>
                                             <td><?= $old_owner['lname'] .', '. $old_owner['fname']?></td>
                                             <td><?= $new_owner['lname'] .', '. $new_owner['fname']?></td>
+                                            <td>
+                                                <button onclick="getTransferEdit(<?= $result->hardware_id ?>)" type="button" data-id="<?= $result->hardware_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                     <?php }} ?>
@@ -435,6 +439,75 @@
                 </div>
             </div>
         </div>
+        <!-- Edit Transfer History Modal -->
+        <div class="modal fade" id="editTransferHistoryModal" tabindex="-1" aria-labelledby="editTransferHistoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editTransferHistoryModalLabel">Edit Ownership History</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form action="update_service.php" class="needs-validation" novalidate id="updateServiceForm" name="updateServiceForm" method="post">
+                    <input type="text" name="transferIdInp" id="transferIdInp">
+                    <div class="mb-3 col form-floating">
+                        <input type="date" class="form-control" id="dateTransferredEditInp" name="dateTransferredEditInp" required>
+                        <label for="dateTransferredEditInp" class="form-label fw-bold" id="dateTransferredEditInpLbl">Date Transferred</label>
+                        <div class="invalid-feedback">
+                            Please set Date Transferred
+                        </div>
+                    </div>
+                    <div class="mb-3 col form-floating">
+                        <select class="form-select" id="oldownerEditInp" name="oldownerEditInp" required>
+                                <option value="" selected disabled>Select Owner</option>
+                            <?php
+                                $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                                $query = $conn->prepare($sql);
+                                $query->execute();
+                                $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                
+                                $count=1;
+                                if($query->rowCount() > 0) {
+                                    foreach($results as $result)
+                                {
+                            ?>
+                                <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                            <?php }} ?>
+                        </select>
+                        <label for="oldownerEditInp" class="form-label fw-bold" id="oldownerEditInpLbl">Current Owner</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <select class="form-select" id="newownerEditInp" name="newownerEditInp" required>
+                            <option value="" selected disabled>Select New Owner</option>
+                        <?php
+                            $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                        ?>
+                            <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                        <?php }} ?>
+                        </select>
+                        <label for="newownerEditInp" class="form-label fw-bold">New Owner</label>
+                        <div class="invalid-feedback">
+                            Please select New Owner
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end gap-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+                </div>
+                </div>
+            </div>
+        </div>
         <!-- Edit Modal -->
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -637,7 +710,24 @@
                 $("#processedbyEditInp").val(res.processed_by);
             });
         }
-        
+
+
+        function getTransferEdit(hid) {
+            $.ajax({
+                type: "GET",
+                url: "./get_transfer_edit.php",
+                data: {hardware_id:hid},
+                success: function (res) {
+                    res = JSON.parse(res);
+                    console.log(res.date_transferred);
+                    $("#transferIdInp").val(res.transfer_id);
+                    $("#dateTransferredEditInp").val(res.date_transferred);
+                    $('#newownerEditInp').val(res.new_owner);
+                    $('#oldownerEditInp').val(res.old_owner);
+                }
+            })
+        }
+
 
         function getTransfer(hid) {
             $.ajax({

@@ -449,10 +449,10 @@
                 </div>
                 <div class="modal-body">
                 <form action="update_service.php" class="needs-validation" novalidate id="updateServiceForm" name="updateServiceForm" method="post">
-                    <input type="text" name="transferIdInp" id="transferIdInp">
+                    <input type="hidden" name="transferIdInp" id="transferIdInp">
                     <div class="mb-3 col form-floating">
                         <input type="date" class="form-control" id="dateTransferredEditInp" name="dateTransferredEditInp" required>
-                        <label for="dateTransferredEditInp" class="form-label fw-bold" id="dateTransferredEditInpLbl">Date Transferred</label>
+                        <label for="dateTransferredEditInp" class="form-label" id="dateTransferredEditInpLbl">Date Transferred</label>
                         <div class="invalid-feedback">
                             Please set Date Transferred
                         </div>
@@ -719,7 +719,7 @@
                 data: {hardware_id:hid},
                 success: function (res) {
                     res = JSON.parse(res);
-                    console.log(res.date_transferred);
+                    console.log( $("#dateTransferredEditInp"));
                     $("#transferIdInp").val(res.transfer_id);
                     $("#dateTransferredEditInp").val(res.date_transferred);
                     $('#newownerEditInp').val(res.new_owner);

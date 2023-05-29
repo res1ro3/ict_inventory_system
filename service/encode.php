@@ -63,7 +63,7 @@
                     </li>
                 </ul>
             </div>
-            <form onsubmit="event.preventDefault(); handleSubmit()" class="needs-validation" novalidate id="encodeForm" name="encodeForm" method="post">
+            <form onsubmit="event.preventDefault(); if (form.checkValidity()) { handleSubmit(); } else { form.classList.add('was-validated'); }" class="needs-validation" novalidate id="encodeForm" name="encodeForm" method="post">
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="typeofictInp" name="typeofictInp" disabled>
                         <option value="" selected disabled>Select Type of ICT</option>
@@ -180,15 +180,17 @@
         // Loop over them and prevent submission
         Array.from(forms).forEach(form => {
             form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
+            if (form.checkValidity()) {
                 event.preventDefault()
                 event.stopPropagation()
+                handleSubmit()
+            } else {
+                form.classList.add('was-validated')
             }
-
-            form.classList.add('was-validated')
             }, false)
         })
-        })();
+        })()
+
         
         $(document).ready(function () {
             $('#service_tbl').DataTable();

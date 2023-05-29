@@ -23,9 +23,13 @@
             $get_new_owner->execute(array(':id' => $result->employee_id_new));
             $new_owner=$get_new_owner->fetch(PDO::FETCH_ASSOC);
 
+            $date=date_create($result->date_transferred);
+
+            $formattedDate = date_format($date, "Y-m-d");
+            
             $row = array(
                 "transfer_id" => $result->transfer_id,
-                "date_transferred" => $result->date_transferred,
+                "date_transferred" => $formattedDate,
                 "old_owner" => $result->employee_id_old,
                 "new_owner" => $result->employee_id_new
             );

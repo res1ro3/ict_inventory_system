@@ -136,7 +136,9 @@
                                             $query->execute();
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $count=1;
-                                            if($query->rowCount() > 0) {
+                                            $rowCount = $query->rowCount();
+
+                                            if ($rowCount > 0) {
                                             //In case that the query returned at least one record, we can echo the records within a foreach loop:
                                                 foreach($results as $result)
                                             {
@@ -152,12 +154,19 @@
                                             <td><?= $result->date_transferred?></td>
                                             <td><?= $old_owner['lname'] .', '. $old_owner['fname']?></td>
                                             <td><?= $new_owner['lname'] .', '. $new_owner['fname']?></td>
-                                            <td>
-                                                <button onclick="getTransferEdit(<?= $result->hardware_id ?>)" type="button" data-id="<?= $result->hardware_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button>
-                                            </td>
+                                            <?php 
+                                                if ($count == $rowCount) {
+                                            ?>
+                                            <td><button onclick="getTransferEdit(<?= $result->hardware_id ?>)" type="button" data-id="<?= $result->hardware_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
+                                            <?php 
+                                                } 
+                                                else {
+                                                    echo "<td></td>";
+                                                }
+                                            ?>
                                         </tr>
                                     </tbody>
-                                    <?php }} ?>
+                                    <?php $count++; }} ?>
                                 </table>
                             </div>
                             </div>
@@ -246,6 +255,7 @@
                                             <td>
                                                 <button onclick="getServiceView('<?= $result->services_id ?>')" type="button" data-id="<?= $result->services_id ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
                                                 <button onclick="getService(<?= $result->services_id ?>)" type="button" data-id="<?= $result->services_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                                <button onclick="" type="button" class="btn btn-warning">Generate Report</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -448,8 +458,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <form action="update_service.php" class="needs-validation" novalidate id="updateServiceForm" name="updateServiceForm" method="post">
+                <form action="update_transfer.php" class="needs-validation" novalidate id="updateTransferForm" name="updateTransferForm" method="post">
                     <input type="hidden" name="transferIdInp" id="transferIdInp">
+                    <input type="hidden" name="hardwareIdInp" id="hardwareIdInp">
                     <div class="mb-3 col form-floating">
                         <input type="date" class="form-control" id="dateTransferredEditInp" name="dateTransferredEditInp" required>
                         <label for="dateTransferredEditInp" class="form-label" id="dateTransferredEditInpLbl">Date Transferred</label>
@@ -458,7 +469,7 @@
                         </div>
                     </div>
                     <div class="mb-3 col form-floating">
-                        <select class="form-select" id="oldownerEditInp" name="oldownerEditInp" required>
+                        <select class="form-select" id="oldownerEditInp" name="oldownerEditInp" readonly>
                                 <option value="" selected disabled>Select Owner</option>
                             <?php
                                 $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";
@@ -474,7 +485,7 @@
                                 <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
                             <?php }} ?>
                         </select>
-                        <label for="oldownerEditInp" class="form-label fw-bold" id="oldownerEditInpLbl">Current Owner</label>
+                        <label for="oldownerEditInp" class="form-label fw-bold" id="oldownerEditInpLbl">Old Owner</label>
                     </div>
                     <div class="mb-3 form-floating">
                         <select class="form-select" id="newownerEditInp" name="newownerEditInp" required>
@@ -719,8 +730,8 @@
                 data: {hardware_id:hid},
                 success: function (res) {
                     res = JSON.parse(res);
-                    console.log( $("#dateTransferredEditInp"));
                     $("#transferIdInp").val(res.transfer_id);
+                    $("#hardwareIdInp").val(hid);
                     $("#dateTransferredEditInp").val(res.date_transferred);
                     $('#newownerEditInp').val(res.new_owner);
                     $('#oldownerEditInp').val(res.old_owner);

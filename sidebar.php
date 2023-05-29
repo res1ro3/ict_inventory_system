@@ -3,7 +3,7 @@
         session_start();
     }
 
-    $user = $_SESSION['username'];
+    $fname = $_SESSION['fname'];
     $accType = $_SESSION['accType'];
 
     if (!function_exists('base_url')){
@@ -54,7 +54,7 @@
 
 <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
     <h4 href="/" class="text-decoration-none text-center text-uppercase">
-        Hello, <?= $user ?>
+        Hello, <?= $fname ?>
     </h4>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">

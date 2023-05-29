@@ -12,6 +12,7 @@
         $query->execute();
         $res = $query->fetch(PDO::FETCH_ASSOC);
         $accStatus = $res['status'];
+        $fname = $res['fname'];
         
         if ($accStatus == 'Inactive') {
             echo 0;
@@ -29,7 +30,7 @@
         // //CONFIRMED - CORRECT PASSWORD
             session_start();
             $_SESSION['status'] = 'valid';
-            $_SESSION['username'] = $username;
+            $_SESSION['fname'] = $fname;
             $_SESSION['accType'] = $type_of_account;
             echo 1;
         } else {

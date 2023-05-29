@@ -14,7 +14,7 @@
 
     date_default_timezone_set("Asia/Hong_Kong");
     // $date = date('h:i:sa');
-    $date = date('m/d/Y');
+    $date = date('Y-m-d');
 
     // $sql="INSERT INTO ict_transfer_tbl (employee_id_old, employee_id_new, date_transferred, mac_address, new_owner, old_owner) VALUES (1,1,'".$date."', :mac, :new, :old)";
     // $query = $conn->prepare($sql);

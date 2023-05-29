@@ -15,6 +15,7 @@
 
     if($count <=0){
         //reidrect homepage/ ict inventory module
+        header("Location: hardware.php");
     }
 
 ?>
@@ -47,7 +48,13 @@
                     <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/inventory/hardware.php'">View Inventory</button>
                 </li>
                 <li class="nav-item">
+                    <?php if ($hardware['status'] == "Serviceable") { ?>
                     <button class="btn btn-success" onclick="encodeService('<?= $_GET['hid']; ?>')">Encode Service</button>
+                    <?php 
+                        } else {
+                            echo '<button class="btn btn-success" disabled>Encode Service</button>';
+                        } 
+                    ?>
                 </li>
                 <li class="nav-item">
                     <button onclick="getTransfer('<?= $_GET['hid']; ?>')" type="button" data-id="<?= $_GET['hid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>

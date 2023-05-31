@@ -228,7 +228,10 @@
                         text: res,
                         icon: 'success',
                         confirmButtonText: 'Okay'
-                    }).then(()=>location.href = '../inventory/hardware.php')
+                    }).then(()=>{
+                        let type = $('#typeofictInp').val();
+                        location.href = '../'+ type.toLowerCase() +'/index.php';
+                    })
                 },
                 error: function (res) {
                     Swal.fire({

@@ -806,7 +806,7 @@
         }
 
         function encodeService(ictid) {
-            location.href = `../service/software-encode.php?type=Software&ictid=${ictid}`;
+            location.href = `../service/encode.php?type=Software&ictid=${ictid}`;
         }
 
         $(document).ready(function () {

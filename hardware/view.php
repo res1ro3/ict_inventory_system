@@ -838,7 +838,7 @@
         }
 
         function encodeService(ictid) {
-            location.href = `../service/hardware-encode.php?type=Hardware&ictid=${ictid}`;
+            location.href = `../service/encode.php?type=Hardware&ictid=${ictid}`;
         }
 
         $(document).ready(function () {

@@ -45,7 +45,7 @@
         <div class="tab-div mb-5">
             <ul class="nav d-flex gap-3">
                 <li class="nav-item">
-                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/inventory/hardware.php'">View Inventory</button>
+                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/hardware/index.php'">View Inventory</button>
                 </li>
                 <li class="nav-item">
                     <?php if ($hardware['status'] == "Serviceable") { ?>

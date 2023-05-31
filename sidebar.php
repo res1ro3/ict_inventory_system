@@ -70,8 +70,8 @@
             Inventory
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Hardware</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Software</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/hardware/index.php" ?>">Hardware</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/software/index.php" ?>">Software</a></li>
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Accessories</a></li>
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Tools and Supplies</a></li>
             </ul>

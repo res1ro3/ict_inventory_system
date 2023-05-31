@@ -10,5 +10,6 @@
     $query->bindParam(':sid',$services_id,PDO::PARAM_STR);
     $query->execute();
     $row = $query->fetch(PDO::FETCH_ASSOC);
+    // echo '<script>console.log("Test")</script>';
     echo json_encode($row);
 ?>

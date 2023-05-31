@@ -18,6 +18,10 @@
         header("Location: hardware.php");
     }
 
+    $query=$conn->prepare("SELECT * FROM employee_tbl WHERE employee_id = :eid");
+    $query->execute(array(':eid' => $hardware['employee_id']));
+    $employee_list=$query->fetch(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +29,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory</title>
+    <title>Inventory | Hardware</title>
     <link rel="stylesheet" href="../styles/jquery.dataTables.min.css" />
     <script src="../js/jquery-3.5.1.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
@@ -108,10 +112,10 @@
                         <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" value="<?= $hardware['warranty'] ?>" disabled>
                     </div>
                 </div>
-                <!-- <div class="mb-3">
-                    <label for="ownerInpName">Owner</label>
-                    <input type="text" class="form-control" id="ownerInpName" name="ownerInpName" disabled>
-                </div> -->
+                <div class="col">
+                    <label for="ownerInpName" class="form-label fw-bold">Owner</label>
+                    <input type="text" class="form-control" id="ownerInpName" name="ownerInpName" value="<?= $employee_list['lname'].', '.$employee_list['fname'] ?>" disabled>
+                </div>
                 <div class="col">
                     <label for="macInp" class="form-label fw-bold">Status</label>
                     <input type="text" class="form-control" id="statusInp" name="statusInp" value="<?= $hardware['status'] ?>" disabled>
@@ -137,7 +141,7 @@
                                     <tbody>
                                         <?php
                                             $hardware_id =  $_GET['hid'];
-                                            $sql="SELECT * FROM ict_transfer_tbl WHERE hardware_id = :hid";
+                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :hid";
                                             $query = $conn->prepare($sql);
                                             $query->bindParam(':hid',$hardware_id,PDO::PARAM_STR);
                                             $query->execute();
@@ -164,7 +168,7 @@
                                             <?php 
                                                 if ($count == $rowCount) {
                                             ?>
-                                            <td><button onclick="getTransferEdit(<?= $result->hardware_id ?>)" type="button" data-id="<?= $result->hardware_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
+                                            <td><button onclick="getTransferEdit(<?= $result->ict_id ?>)" type="button" data-id="<?= $result->ict_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
                                             <?php 
                                                 } 
                                                 else {
@@ -198,11 +202,12 @@
                                     <tbody>
                                         <?php
                                             $hardware_id =  $_GET['hid'];
-                                            $type = "Repair";
-                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :hid";
+                                            $type = "Hardware";
+                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :hid AND type_of_ict = :icttype";
                                             $query = $conn->prepare($sql);
                                             $query->execute(array(
-                                                ':hid'	=>$hardware_id
+                                                ':hid'	=>$hardware_id,
+                                                ':icttype' => $type
                                             ));
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $count=1;
@@ -536,7 +541,7 @@
                 </div>
                 <div class="modal-body">
                 <form action="update_service.php" class="needs-validation" novalidate id="updateServiceForm" name="updateServiceForm" method="post">
-                    <input type="hidden" name="servicesIdInp" id="servicesIdInp">
+                    <input type="hidden" name="editServicesIdInp" id="editServicesIdInp">
                     <div class="mb-3 form-floating">
                         <div class="mb-3 col form-floating">
                         <input type="text" class="form-control" id="typeofictEditInp" name="typeofictEditInp" readonly>
@@ -714,7 +719,7 @@
                 data: {services_id:sid}
             }).then((res) => {
                 res = JSON.parse(res);
-                $("#servicesIdInp").val(res.services_id);
+                $("#editServicesIdInp").val(res.services_id);
                 $("#typeofictEditInp").val(res.type_of_ict);
                 $("#ictidEditInp").val(res.ICT_ID);
                 $("#typeofserviceEditInp").val(res.type_of_services);
@@ -730,15 +735,15 @@
         }
 
 
-        function getTransferEdit(hid) {
+        function getTransferEdit(ictid) {
             $.ajax({
                 type: "GET",
                 url: "./get_transfer_edit.php",
-                data: {hardware_id:hid},
+                data: {ict_id:ictid},
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#transferIdInp").val(res.transfer_id);
-                    $("#hardwareIdInp").val(hid);
+                    $("#hardwareIdInp").val(ictid);
                     $("#dateTransferredEditInp").val(res.date_transferred);
                     $('#newownerEditInp').val(res.new_owner);
                     $('#oldownerEditInp').val(res.old_owner);
@@ -751,10 +756,10 @@
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {hardware_id:hid},
+                data: {ict_id:hid},
                 success: function (res) {
                     res = JSON.parse(res);
-                    $("#hidInp").val(res.hardware_id);
+                    $("#hidInp").val(res.ict_id);
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);
@@ -803,7 +808,7 @@
                     type: "POST",
                     url: "./transfer.php",
                     data: {
-                        hardware_id: $("#hidInp").val(),
+                        ict_id: $("#hidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
                     }
@@ -833,7 +838,7 @@
         }
 
         function encodeService(ictid) {
-            location.href = `../service/encode.php?type=Hardware&ictid=${ictid}`;
+            location.href = `../service/hardware-encode.php?type=Hardware&ictid=${ictid}`;
         }
 
         $(document).ready(function () {

@@ -178,19 +178,19 @@
     <script>
 
         function changeDateFormat(dateString) {
-        // Create a new Date object from the date string.
-        const date = new Date(dateString);
+            // Create a new Date object from the date string.
+            const date = new Date(dateString);
 
-        // Get the year, month, and day from the Date object.
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
+            // Get the year, month, and day from the Date object.
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
 
-        // Format the date in the desired format.
-        const formattedDate = `${year}-${month}-${day}`;
+            // Format the date in the desired format.
+            const formattedDate = `${year}-${month}-${day}`;
 
-        // Return the formatted date.
-        return formattedDate;
+            // Return the formatted date.
+            return formattedDate;
         }
 
         
@@ -206,7 +206,6 @@
             }).then((res) => {
                     res = JSON.parse(res);
                     const formattedDate = changeDateFormat(res.date_developed_purchased);
-                    console.log(res);
 
                     $("#sidInpEdit").val(res.software_id);
                     $("#typeofsoftwareInpEdit").val(res.type_of_software);

@@ -7,16 +7,22 @@
         header("Location: ../admin/signin.php");
     }
 
-    $query=$conn->prepare("SELECT * FROM ict_network_hardware_tbl WHERE hardware_id =:hid");
-    $query->execute(array(':hid' => $_GET['hid']));
-    $hardware=$query->fetch(PDO::FETCH_ASSOC);
+    
+
+    $query=$conn->prepare("SELECT * FROM software_tbl WHERE software_id =:sid");
+    $query->execute(array(':sid' => $_GET['sid']));
+    $software=$query->fetch(PDO::FETCH_ASSOC);
 
     $count=$query->rowCount();
 
     if($count <=0){
         //reidrect homepage/ ict inventory module
-        header("Location: hardware.php");
+        header("Location: software.php");
     }
+
+    $query=$conn->prepare("SELECT * FROM employee_tbl WHERE employee_id = :eid");
+    $query->execute(array(':eid' => $software['employee_id']));
+    $employee_list=$query->fetch(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +31,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory</title>
+    <title>Inventory | Software</title>
     <link rel="stylesheet" href="../styles/jquery.dataTables.min.css" />
     <script src="../js/jquery-3.5.1.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
@@ -45,76 +51,42 @@
         <div class="tab-div mb-5">
             <ul class="nav d-flex gap-3">
                 <li class="nav-item">
-                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/hardware/index.php'">View Inventory</button>
+                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/software/index.php'">View Inventory</button>
                 </li>
                 <li class="nav-item">
-                    <?php if ($hardware['status'] == "Serviceable") { ?>
-                    <button class="btn btn-success" onclick="encodeService('<?= $_GET['hid']; ?>')">Encode Service</button>
-                    <?php 
-                        } else {
-                            echo '<button class="btn btn-success" disabled>Encode Service</button>';
-                        } 
-                    ?>
+                    <button class="btn btn-success" onclick="encodeService('<?= $_GET['sid']; ?>')">Encode Service</button>
                 </li>
                 <li class="nav-item">
-                    <button onclick="getTransfer('<?= $_GET['hid']; ?>')" type="button" data-id="<?= $_GET['hid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
+                    <button onclick="getTransfer('<?= $_GET['sid']; ?>')" type="button" data-id="<?= $_GET['sid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
                 </li>
             </ul>
         </div>
             <form>
-                <input type="hidden" class="form-control" id="hidInp" name="hidInp">
+                <input type="hidden" class="form-control" id="sidInp" name="sidInp">
                 <div class="col">
-                    <label for="macInp" class="form-label fw-bold">MAC Address</label>
-                    <input type="text" class="form-control" id="macInp" name="macInp" value="<?= $hardware['mac_address'] ?>" disabled>
-                </div>
-                <div class="col">
-                    <label for="macInp" class="form-label fw-bold">Type of Hardware</label>
-                    <input type="text" class="form-control" id="typeofhardwareInp" name="typeofhardwareInp" value="<?= $hardware['type_of_hardware'] ?>" disabled>
+                    <label for="typeofsoftwareInp" class="form-label fw-bold">Type of Software</label>
+                    <input type="text" class="form-control" id="typeofsoftwareInp" name="typeofsoftwareInp" value="<?= $software['type_of_software'] ?>" disabled>
                 </div>
                 <div class="col">
-                    <label for="macInp" class="form-label fw-bold">Brand</label>
-                    <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $hardware['brand'] ?>" disabled>
+                    <label for="softwarenameInp" class="form-label fw-bold">Software Name</label>
+                    <input type="text" class="form-control" id="softwarenameInp" name="softwarenameInp" value="<?= $software['software_name'] ?>" disabled>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="modelInp" class="form-label fw-bold">Model</label>
-                        <input type="text" class="form-control" id="modelInp" name="modelInp" value="<?= $hardware['model'] ?>" disabled>
-                    </div>
-
-                    <div class="col">
-                        <label for="serialnumberInp" class="form-label fw-bold">Serial Number</label>
-                        <input type="text" class="form-control" id="serialnumberInp" name="serialnumberInp" value="<?= $hardware['serial_number'] ?>" disabled>
-                    </div>
-                </div>
-
-                <div class="mb-3 col">
-                    <label for="specificationsInp" class="form-label fw-bold" id="specificationsInpLbl">Specifications</label>
-                    <textarea class="form-control" id="specificationsInp" name="specificationsInp" rows="4" cols="50" disabled><?= $hardware['specifications'] ?></textarea>
-                </div>
-
-                <div class="mb-3 col">
-                    <label for="costInp" class="form-label fw-bold" id="costInpsLbl">Cost (PHP)</label>
-                    <input type="number" class="form-control" id="costInp" name="costInp" value="<?= $hardware['cost'] ?>" disabled>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <label for="dateofpurchaseInp" class="form-label fw-bold">Date of Purchase</label>
-                        <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" value="<?= $hardware['date_of_purchase'] ?>" disabled>
-                    </div>
-
-                    <div class="col">
-                        <label for="warrantyInp" class="form-label fw-bold">End of Warranty</label>
-                        <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" value="<?= $hardware['warranty'] ?>" disabled>
-                    </div>
-                </div>
-                <!-- <div class="mb-3">
-                    <label for="ownerInpName">Owner</label>
-                    <input type="text" class="form-control" id="ownerInpName" name="ownerInpName" disabled>
-                </div> -->
                 <div class="col">
-                    <label for="macInp" class="form-label fw-bold">Status</label>
-                    <input type="text" class="form-control" id="statusInp" name="statusInp" value="<?= $hardware['status'] ?>" disabled>
+                    <label for="manufacturerInp" class="form-label fw-bold">Manufacturer</label>
+                    <input type="text" class="form-control" id="manufacturerInp" name="manufacturerInp" value="<?= $software['manufacturer'] ?>" disabled>
+                </div>
+                <div class="col">
+                    <label for="typeofsubscriptionInp" class="form-label fw-bold">Type of Subsciprion</label>
+                    <input type="text" class="form-control" id="typeofsubscriptionInp" name="typeofsubscriptionInp" value="<?= $software['type_of_subscription'] ?>" disabled>
+                </div>
+                
+                <div class="col">
+                    <label for="datedevelopedpurchasedInp" class="form-label fw-bold">Date Developed/Purchased</label>
+                    <input type="date" class="form-control" id="datedevelopedpurchasedInp" name="datedevelopedpurchasedInp" value="<?= $software['date_developed_purchased'] ?>" disabled>
+                </div>
+                <div class="col">
+                    <label for="ownerInpName" class="form-label fw-bold">Owner</label>
+                    <input type="text" class="form-control" id="ownerInpName" name="ownerInpName" value="<?= $employee_list['lname'].', '.$employee_list['fname'] ?>" disabled>
                 </div>
 
                 <div class="my-3">
@@ -136,10 +108,10 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $hardware_id =  $_GET['hid'];
-                                            $sql="SELECT * FROM ict_transfer_tbl WHERE hardware_id = :hid";
+                                            $software_id =  $_GET['sid'];
+                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :sid";
                                             $query = $conn->prepare($sql);
-                                            $query->bindParam(':hid',$hardware_id,PDO::PARAM_STR);
+                                            $query->bindParam(':sid',$software_id,PDO::PARAM_STR);
                                             $query->execute();
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $count=1;
@@ -164,7 +136,7 @@
                                             <?php 
                                                 if ($count == $rowCount) {
                                             ?>
-                                            <td><button onclick="getTransferEdit(<?= $result->hardware_id ?>)" type="button" data-id="<?= $result->hardware_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
+                                            <td><button onclick="getTransferEdit(<?= $result->software_id ?>)" type="button" data-id="<?= $result->software_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
                                             <?php 
                                                 } 
                                                 else {
@@ -197,12 +169,13 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $hardware_id =  $_GET['hid'];
-                                            $type = "Repair";
-                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :hid";
+                                            $software_id =  $_GET['sid'];
+                                            $type = "Software";
+                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :sid AND type_of_ict = :icttype";
                                             $query = $conn->prepare($sql);
                                             $query->execute(array(
-                                                ':hid'	=>$hardware_id
+                                                ':sid' => $software_id,
+                                                ':icttype' => $type
                                             ));
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $count=1;
@@ -281,7 +254,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="transferModalLabel">Transfer ICT Hardware</h1>
+                    <h1 class="modal-title fs-5" id="transferModalLabel">Transfer ICT Software</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -467,7 +440,7 @@
                 <div class="modal-body">
                 <form action="update_transfer.php" class="needs-validation" novalidate id="updateTransferForm" name="updateTransferForm" method="post">
                     <input type="hidden" name="transferIdInp" id="transferIdInp">
-                    <input type="hidden" name="hardwareIdInp" id="hardwareIdInp">
+                    <input type="hidden" name="softwareIdInp" id="softwareIdInp">
                     <div class="mb-3 col form-floating">
                         <input type="date" class="form-control" id="dateTransferredEditInp" name="dateTransferredEditInp" required>
                         <label for="dateTransferredEditInp" class="form-label" id="dateTransferredEditInpLbl">Date Transferred</label>
@@ -664,20 +637,20 @@
         })
         })();
 
-        const get = async (hid) => {
+        const get = async (sid) => {
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {hardware_id:hid}
+                data: {software_id:sid}
             }).then((res) => {
                 res = JSON.parse(res);
-                $("#hidInp").val(res.hardware_id);
+                $("#sidInp").val(res.software_id);
                 $("#macInp").val(res.mac_address);
-                $("#typeofhardwareInp").val(res.type_of_hardware);
-                $('#brandInp').val(res.brand);
-                $('#modelInp').val(res.model);
-                $('#serialnumberInp').val(res.serial_number);
-                $('#dateofpurchaseInp').val(res.date_of_purchase);
+                $("#typeofsoftwareInp").val(res.type_of_software);
+                $('#softwarenameInp').val(res.softwarename);
+                $('#manufacturerInp').val(res.manufacturer);
+                $('#typeofsubscriptionInp').val(res.serial_number);
+                $('#datedevelopedpurchasedInp').val(res.date_developed_purchased);
                 $('#warrantyInp').val(res.warranty);
                 $('#ownerInp').val(res.employee_id);
                 $('#ownerInpName').val(res.owner_name);
@@ -730,15 +703,15 @@
         }
 
 
-        function getTransferEdit(hid) {
+        function getTransferEdit(sid) {
             $.ajax({
                 type: "GET",
                 url: "./get_transfer_edit.php",
-                data: {hardware_id:hid},
+                data: {software_id:sid},
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#transferIdInp").val(res.transfer_id);
-                    $("#hardwareIdInp").val(hid);
+                    $("#softwareIdInp").val(sid);
                     $("#dateTransferredEditInp").val(res.date_transferred);
                     $('#newownerEditInp').val(res.new_owner);
                     $('#oldownerEditInp').val(res.old_owner);
@@ -747,14 +720,14 @@
         }
 
 
-        function getTransfer(hid) {
+        function getTransfer(sid) {
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {hardware_id:hid},
+                data: {software_id:sid},
                 success: function (res) {
                     res = JSON.parse(res);
-                    $("#hidInp").val(res.hardware_id);
+                    $("#sidInp").val(res.software_id);
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);
@@ -803,7 +776,7 @@
                     type: "POST",
                     url: "./transfer.php",
                     data: {
-                        hardware_id: $("#hidInp").val(),
+                        software_id: $("#sidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
                     }
@@ -833,11 +806,11 @@
         }
 
         function encodeService(ictid) {
-            location.href = `../service/encode.php?type=Hardware&ictid=${ictid}`;
+            location.href = `../service/software-encode.php?type=Software&ictid=${ictid}`;
         }
 
         $(document).ready(function () {
-            $('#ictnetworkhardwareTbl').DataTable();
+            $('#ictnetworksoftwareTbl').DataTable();
             $('#tbl_transfer').DataTable();
         });
     </script>

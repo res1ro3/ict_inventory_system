@@ -9,36 +9,23 @@
     require_once('../dbConfig.php');
 
     if (isset($_POST['addBtn'])) {
-        $mac_address = $_POST['macInp'];
-        $type_of_hardware = $_POST['typeofhardwareInp'];
-        $brand = $_POST['brandInp'];
-        $model = $_POST['modelInp'];
-        $serial_number = $_POST['serialnumberInp'];
-        $specifications = $_POST['specificationsInp'];
-        $cost = $_POST['costInp'];
-        $date_of_purchase = $_POST['dateofpurchaseInp'];
-        $warranty = $_POST['warrantyInp'];
+        $type_of_software = $_POST['typeofsoftwareInp'];
+        $software_name = $_POST['softwarenameInp'];
+        $manufacturer = $_POST['manufacturerInp'];
+        $type_of_subscription = $_POST['typeofsubscriptionInp'];
+        $date_developed_purchased = $_POST['datedevelopedInp'];
         $employee_id = $_POST['ownerInp'];
-        // $employee_id = 1;
-        $owner_name = $_POST['ownerInp'];
-        $status = $_POST['statusInp'];
 
-        $sql="INSERT INTO ict_network_hardware_tbl(mac_address, type_of_hardware, brand, model, serial_number, date_of_purchase, warranty, status, owner_name, employee_id, specifications, cost) 
-            VALUES(:mac,:toh,:br,:md,:sn,:dop,:wt,:st,:on,:eid,:specs,:cost)";
+        $sql="INSERT INTO software_tbl(type_of_software, software_name, manufacturer, type_of_subscription, date_developed_purchased, employee_id) 
+            VALUES(:tosoft, :sn, :man, :tosubs, :dt, :eid)";
         $query = $conn->prepare($sql);
 
         $query->execute(array(
-            'mac' => $mac_address,
-            'toh' => $type_of_hardware,
-            'br' => $brand,
-            'md' => $model,
-            'sn' => $serial_number,
-            'specs' => $specifications,
-            'cost' => $cost,
-            'dop' => $date_of_purchase,
-            'wt' => $warranty,
-            'on' => $owner_name,
-            'st' => $status,
+            'tosoft' => $type_of_software,
+            'sn' => $software_name,
+            'man' => $manufacturer,
+            'tosubs' => $type_of_subscription,
+            'dt' => $date_developed_purchased,
             'eid' => $employee_id
         ));
 
@@ -55,7 +42,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADD ICT NETWORK HARDWARE</title>
+    <title>Add Software</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="inventory.css">
     <link rel="stylesheet" href="../styles/index.css">
@@ -65,125 +52,58 @@
         <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="addDiv">
             <div class="dashboard-header" style="margin: 2rem 0">
-                <h3>ADD ICT NETWORK HARDWARE</h3>
+                <h3>ADD SOFTWARE</h3>
             </div>
             <!-- <h3 class="text-center mt-5 mb-3">ADD ICT NETWORK HARDWARE</h3> -->
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
-                <div class="mb-3 col form-floating">
-                    <input type="text" class="form-control" id="macInp" name="macInp" required>
-                    <label for="macInp" class="form-label fw-bold" id="macLbl">MAC Address</label>
+                <div class="mb-3 form-floating">
+                    <select class="form-select" id="typeofsoftwareInp" name="typeofsoftwareInp" required>
+                        <option value="" selected disabled>Select Type of Software</option>
+                        <option>Productivity</option>
+                        <option>Editing</option>
+                    </select>
+                    <label for="typeofsoftwareInp">Type of Software</label>
                     <div class="invalid-feedback">
-                        Please enter MAC Address
+                        Please select Type of Software
+                    </div>
+                </div>
+
+                <div class="mb-3 col form-floating">
+                    <input type="text" class="form-control" id="softwarenameInp" name="softwarenameInp" required>
+                    <label for="softwarenameInp" class="form-label">Software Name</label>
+                    <div class="invalid-feedback">
+                        Please enter Software Name
+                    </div>
+                </div>
+
+                <div class="mb-3 col form-floating">
+                    <input type="text" class="form-control" id="manufacturerInp" name="manufacturerInp" required>
+                    <label for="manufacturerInp" class="form-label">Manufacturer</label>
+                    <div class="invalid-feedback">
+                        Please enter Manufacturer
                     </div>
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeofhardwareInp" name="typeofhardwareInp" required>
-                        <option value="" selected disabled>Please select Type of Hardware</option>
-                        <?php
-                            $sql="SELECT * FROM `type_of_hardware_tbl`";
-                            $query = $conn->prepare($sql);
-                            $query->execute();
-                            $results=$query->fetchAll(PDO::FETCH_OBJ);
-                            
-                            $count=1;
-                            if($query->rowCount() > 0) {
-                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                                foreach($results as $result)
-                            {
-                        ?>
-                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
-                        <?php }} ?>
+                    <select class="form-select" id="typeofsubscriptionInp" name="typeofsubscriptionInp" required>
+                        <option value="" selected disabled>Select Type of Subscription</option>
+                        <option>Monthly</option>
+                        <option>Yearly</option>
                     </select>
-                    <label class="form-label fw-bold" for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
+                    <label for="typeofsubscriptionInp">Type of Subscription</label>
                     <div class="invalid-feedback">
-                        Please select Type of Hardware
-                    </div>
-                </div>
-
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="brandInp" name="brandInp" required>
-                        <option value="" selected disabled>Please select Brand</option>
-                        <?php
-                            $sql="SELECT * FROM `brand_tbl`";
-                            $query = $conn->prepare($sql);
-                            $query->execute();
-                            $results=$query->fetchAll(PDO::FETCH_OBJ);
-                            
-                            $count=1;
-                            if($query->rowCount() > 0) {
-                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                                foreach($results as $result)
-                            {
-                        ?>
-                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
-                        <?php }} ?>
-                    </select>
-                    <label class="form-label fw-bold" for="brandInp" id="brandLbl">Brand</label>
-                    <div class="invalid-feedback">
-                        Please select Brand
+                        Please select Type of Subscription
                     </div>
                 </div>
 
                 <div class="mb-3 col form-floating">
-                    <input type="text" class="form-control" id="modelInp" name="modelInp" required>
-                    <label for="modelInp" class="form-label fw-bold" id="modelLbl">Model</label>
+                    <input type="date" class="form-control" id="datedevelopedInp" name="datedevelopedInp" required>
+                    <label for="datedevelopedInp" class="form-label">Date Developed/Purchased</label>
                     <div class="invalid-feedback">
-                        Please enter Model
+                        Please set Date Developed/Purchased
                     </div>
                 </div>
 
-                <div class="mb-3 col form-floating">
-                    <input type="text" class="form-control" id="serialnumberInp" name="serialnumberInp" required>
-                    <label for="serialnumberInp" class="form-label fw-bold" id="serialnumberLbl">Serial Number</label>
-                    <div class="invalid-feedback">
-                        Please enter Serial Number
-                    </div>
-                </div>
-
-                <div class="mb-3 col">
-                    <label for="specificationsInp" class="form-label fw-bold ps-2 text-secondary" id="specificationsInpLbl">Specifications</label>
-                    <textarea class="form-control" id="specificationsInp" name="specificationsInp" rows="4" cols="50" placeholder="Enter specification here" required></textarea>
-                   
-                    <div class="invalid-feedback">
-                        Please enter Specifications
-                    </div>
-                </div>
-
-                <div class="mb-3 col form-floating">
-                    <input type="number" class="form-control" id="costInp" name="costInp" required>
-                    <label for="costInp" class="form-label fw-bold" id="costInpsLbl">Cost (PHP)</label>
-                    <div class="invalid-feedback">
-                        Please enter Cost in PHP
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="mb-3 col form-floating">
-                        <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" required>
-                        <label for="dateofpurchaseInp" class="form-label ps-4 fw-bold" id="dateofpurchaseLbl">Date of Purchase</label>
-                        <div class="invalid-feedback">
-                            Please set Date of Purchase
-                        </div>
-                    </div>
-
-                    <div class="col form-floating">
-                        <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" required>
-                        <label for="warrantyInp" class="form-label ps-4 fw-bold" id="warrantyLbl">End of Warranty</label>
-                        <div class="invalid-feedback">
-                            Please enter End of Warranty
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <div class="mb-3 col form-floating">
-                    <input type="text" class="form-control" id="ownerInp" name="ownerInp" required>
-                    <label for="ownerInp" class="form-label" id="ownerLbl">Owner</label>
-                    <div class="invalid-feedback">
-                        Please enter Owner
-                    </div>
-                </div> -->
-                
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="ownerInp" name="ownerInp" required>
                         <option value="" selected disabled>Select Owner</option>
@@ -199,24 +119,10 @@
                             foreach($results as $result)
                         {
                     ?>
-                        <option value="<?php echo htmlentities($result->employee_id) ?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
+                        <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
                     <?php }} ?>
                     </select>
-                    <label class="form-label fw-bold" for="ownerInp" id="ownerLbl">Owner</label>
-                    <div class="invalid-feedback">
-                        Please select Owner
-                    </div>
-                </div>
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="statusInp" name="statusInp" required>
-                        <option value="" selected disabled>Please select Status</option>
-                        <option>Serviceable</option>
-                        <option>Non-Serviceable</option>
-                    </select>
-                    <label class="form-label fw-bold" for="statusInp" id="statusLbl">Status</label>
-                    <div class="invalid-feedback">
-                        Please select Status
-                    </div>
+                    <label for="ownerInp">Owner</label>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success" id="addBtn" name="addBtn">ADD</button>
@@ -250,40 +156,5 @@
             }, false)
         })
         })();
-
-        function update() {
-            $.ajax({
-                type: "POST",
-                url: "./update.php",
-                data: {
-                    mac_address: $("#macInp").val(),
-                    type_of_hardware: $("#typeofhardwareInp").val(),
-                    brand: $('#brandInp').val(),
-                    model: $('#modelInp').val(),
-                    serial_number:$('#serialnumberInp').val(),
-                    date_of_purchase:$('#dateofpurchaseInp').val(),
-                    warranty:$('#warrantyInp').val(),
-                    // employee_id:$('#ownerInp').val(),
-                    owner_name:$('#ownerInp').val(),
-                    status:$('#statusInp').val(),
-                },
-                success: function (res) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: res,
-                        icon: 'success',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                },
-                error: function (res) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: res,
-                        icon: 'error',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                }
-            });
-        }
     </script>
 </html>

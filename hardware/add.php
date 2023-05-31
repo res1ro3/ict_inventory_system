@@ -55,7 +55,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADD ICT NETWORK HARDWARE</title>
+    <title>Add Hardware</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="inventory.css">
     <link rel="stylesheet" href="../styles/index.css">
@@ -65,7 +65,7 @@
         <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="addDiv">
             <div class="dashboard-header" style="margin: 2rem 0">
-                <h3>ADD ICT NETWORK HARDWARE</h3>
+                <h3>ADD HARDWARE</h3>
             </div>
             <!-- <h3 class="text-center mt-5 mb-3">ADD ICT NETWORK HARDWARE</h3> -->
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
@@ -250,40 +250,5 @@
             }, false)
         })
         })();
-
-        function update() {
-            $.ajax({
-                type: "POST",
-                url: "./update.php",
-                data: {
-                    mac_address: $("#macInp").val(),
-                    type_of_hardware: $("#typeofhardwareInp").val(),
-                    brand: $('#brandInp').val(),
-                    model: $('#modelInp').val(),
-                    serial_number:$('#serialnumberInp').val(),
-                    date_of_purchase:$('#dateofpurchaseInp').val(),
-                    warranty:$('#warrantyInp').val(),
-                    // employee_id:$('#ownerInp').val(),
-                    owner_name:$('#ownerInp').val(),
-                    status:$('#statusInp').val(),
-                },
-                success: function (res) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: res,
-                        icon: 'success',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                },
-                error: function (res) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: res,
-                        icon: 'error',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                }
-            });
-        }
     </script>
 </html>

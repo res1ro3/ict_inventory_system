@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2023 at 10:43 AM
+-- Generation Time: Jun 01, 2023 at 09:41 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -28,13 +28,22 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `accessories_tbl` (
+  `accessories_id` int(8) NOT NULL,
   `generic_name` varchar(128) NOT NULL,
   `employee_id` int(8) NOT NULL,
-  `unit` int(11) NOT NULL,
+  `unit` varchar(128) NOT NULL,
   `quantity` int(11) NOT NULL,
   `specifications` varchar(32) NOT NULL,
   `brand` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `accessories_tbl`
+--
+
+INSERT INTO `accessories_tbl` (`accessories_id`, `generic_name`, `employee_id`, `unit`, `quantity`, `specifications`, `brand`) VALUES
+(2, 'HDMI', 3, 'Office of the Regional Director', 3, 'HDMI v1', 'No Brand'),
+(3, 'Headset', 2, 'Administrative Division', 4, 'HQ Sound', 'Logitech');
 
 -- --------------------------------------------------------
 
@@ -126,8 +135,8 @@ CREATE TABLE `ict_network_hardware_tbl` (
 --
 
 INSERT INTO `ict_network_hardware_tbl` (`hardware_id`, `mac_address`, `type_of_hardware`, `brand`, `model`, `serial_number`, `date_of_purchase`, `warranty`, `employee_id`, `status`, `owner_name`, `specifications`, `cost`) VALUES
-(1, '78-9F-BD-88-5E-A1', 'Desktop', 'HP', 'Model A', 'sdfe4w23dsf', '2023-05-25', '2024-05-25', 5, 'Serviceable', '3', 'Specs here', 45000),
-(2, '68-9F-BD-88-5E-A0', 'Laptop', 'Dell', 'Model B', 'sdfe4w23dsg', '2023-05-25', '2024-05-25', 2, 'Serviceable', '2', '8GB RAM, Ryzen 7', 100000),
+(1, '78-9F-BD-88-5E-A1', 'Desktop', 'Acer', 'Model A', 'sdfe4w23dsf', '2023-05-25', '2024-05-25', 5, 'Serviceable', '3', 'Specs here', 45000),
+(2, '68-9F-BD-88-5E-A0', 'Laptop', 'Dell', 'Model B', 'sdfe4w23dsg', '2023-05-25', '2024-05-25', 2, 'Non-Serviceable', '2', '8GB RAM, Ryzen 7', 100000),
 (3, '43-F8-6A-1T-2S-3A', 'Printer', 'HP', 'Printer X', 'p4r56i7n0t3e1r', '2023-05-25', '2024-05-25', 2, 'Serviceable', '8', 'High Quality Laser Printer, With Washing Machine', 30000);
 
 -- --------------------------------------------------------
@@ -140,7 +149,8 @@ CREATE TABLE `ict_transfer_tbl` (
   `transfer_id` int(8) NOT NULL,
   `employee_id_new` int(8) NOT NULL,
   `employee_id_old` int(8) NOT NULL,
-  `hardware_id` int(8) NOT NULL,
+  `ict_id` int(8) NOT NULL,
+  `ict_type` varchar(32) NOT NULL,
   `date_transferred` varchar(32) NOT NULL,
   `new_owner` varchar(128) NOT NULL,
   `old_owner` varchar(128) NOT NULL
@@ -150,9 +160,11 @@ CREATE TABLE `ict_transfer_tbl` (
 -- Dumping data for table `ict_transfer_tbl`
 --
 
-INSERT INTO `ict_transfer_tbl` (`transfer_id`, `employee_id_new`, `employee_id_old`, `hardware_id`, `date_transferred`, `new_owner`, `old_owner`) VALUES
-(43, 5, 3, 1, '05/25/2023', '', ''),
-(44, 2, 8, 3, '05/26/2023', '', '');
+INSERT INTO `ict_transfer_tbl` (`transfer_id`, `employee_id_new`, `employee_id_old`, `ict_id`, `ict_type`, `date_transferred`, `new_owner`, `old_owner`) VALUES
+(51, 2, 8, 3, '', '2023-06-01', '', ''),
+(52, 5, 2, 1, '', '2023-06-01', '', ''),
+(53, 4, 2, 3, '', '2023-06-01', '', ''),
+(54, 3, 2, 2, '', '2023-06-01', '', '');
 
 -- --------------------------------------------------------
 
@@ -221,8 +233,15 @@ CREATE TABLE `services_tbl` (
 --
 
 INSERT INTO `services_tbl` (`services_id`, `type_of_services`, `ICT_ID`, `date_received`, `date_returned`, `description_of_service`, `action_done`, `remarks`, `recommendation`, `type_of_ict`, `employee_id`, `processed_by`, `service_status`) VALUES
-(27, 'Repair', '1', '2023-05-25', '', '123123123', 'Erase the RAM with pencil eraser', '', 'Clean the unit', 'Hardware', 1, 'MIS Unit', 'Pending'),
-(29, 'Repair', '1', '2023-05-26', '2023-05-27', 'qwerty', 'dasdasd', 'asdasdasd', 'asdasdasd', 'Hardware', 1, 'MIS Unit', 'Finished');
+(27, 'Repair', '1', '2023-05-25', '', '123123123', 'Erase the RAM with pencil eraser', 'asdasdasd', 'Clean the unit', 'Hardware', 1, 'MIS Unit', 'Pending'),
+(29, 'Repair', '1', '2023-05-26', '2023-05-27', 'qwerty', 'dasdasd', 'asdasdasd', 'asdasdasd', 'Hardware', 1, 'MIS Unit', 'Finished'),
+(30, 'Repair', '2', '2023-05-29', '', 'aas', 'dasdassdasd', 'asda', 'asdasd', 'Hardware', 1, 'MIS Unit', 'Pending'),
+(33, 'Repair', '1', '2023-05-29', '', 'asd', 'asdasdasd', 'qweqweqwe', '12341231', 'Hardware', 1, 'MIS Unit', 'Pending'),
+(34, 'Installation', '2', '2023-05-31', '2023-05-31', 'Install Photoshop', 'Install Photoshop', 'Install Photoshop', 'Install Photoshop', 'Software', 1, 'MIS Unit', 'Finished'),
+(36, 'Maintenance', '3', '2023-05-31', '', 'asd', 'asd', 'q2312', '123123', 'Hardware', 1, 'MIS Unit', 'Pending'),
+(37, 'Repair', '2', '2023-05-31', '', 'Can\'t Open', 'Can\'t Open', 'Can\'t Open', 'Can\'t Open', 'Software', 1, 'MIS Unit', 'Pending'),
+(41, 'Repair', '3', '2023-06-01', '', 'asdasd', 'asdasd', '123412', 'asdasd', 'Accessories', 1, 'MIS Unit', 'On Going'),
+(42, 'Repair', '2', '2023-06-08', '2023-06-04', 'asd123123123', 'asdasdasd', 'asdasdasdasd', 'as123123123', 'Accessories', 1, '123123123123', 'Finished');
 
 -- --------------------------------------------------------
 
@@ -247,7 +266,9 @@ CREATE TABLE `software_tbl` (
 --
 
 INSERT INTO `software_tbl` (`software_id`, `software_name`, `date_developed_purchased`, `employee_id`, `type_of_software`, `type_of_subscription`, `manufacturer`, `type_developed`, `owner_name`) VALUES
-(2, 'Photoshop 2023', '10/10/2023', 1, 'Editing', 'Yearly', 'Adobe', 'Lorem Ipsum', 'JB');
+(2, 'Photoshop 2023', '2023-10-10', 3, 'Editing', 'Yearly', 'Adobe', 'Lorem Ipsum', 'JB'),
+(3, 'Illustrator', '2023-05-31', 4, 'Editing', 'Monthly', 'Adobe', '', ''),
+(4, 'asd', '2023-05-31', 5, 'Productivity', 'Monthly', 'asdasd', '', '');
 
 -- --------------------------------------------------------
 
@@ -300,7 +321,7 @@ INSERT INTO `type_of_hardware_tbl` (`type_of_hardware_id`, `name`) VALUES
 -- Indexes for table `accessories_tbl`
 --
 ALTER TABLE `accessories_tbl`
-  ADD PRIMARY KEY (`generic_name`),
+  ADD PRIMARY KEY (`accessories_id`),
   ADD KEY `fk_employee_id` (`employee_id`);
 
 --
@@ -328,8 +349,7 @@ ALTER TABLE `ict_network_hardware_tbl`
 ALTER TABLE `ict_transfer_tbl`
   ADD PRIMARY KEY (`transfer_id`),
   ADD KEY `fk_employee_id_old` (`employee_id_old`),
-  ADD KEY `fk_employee_id_new` (`employee_id_new`),
-  ADD KEY `fk_hardware_id` (`hardware_id`);
+  ADD KEY `fk_employee_id_new` (`employee_id_new`);
 
 --
 -- Indexes for table `office_tbl`
@@ -375,6 +395,12 @@ ALTER TABLE `type_of_hardware_tbl`
 --
 
 --
+-- AUTO_INCREMENT for table `accessories_tbl`
+--
+ALTER TABLE `accessories_tbl`
+  MODIFY `accessories_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `brand_tbl`
 --
 ALTER TABLE `brand_tbl`
@@ -396,7 +422,7 @@ ALTER TABLE `ict_network_hardware_tbl`
 -- AUTO_INCREMENT for table `ict_transfer_tbl`
 --
 ALTER TABLE `ict_transfer_tbl`
-  MODIFY `transfer_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `transfer_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `office_tbl`
@@ -408,19 +434,19 @@ ALTER TABLE `office_tbl`
 -- AUTO_INCREMENT for table `services_tbl`
 --
 ALTER TABLE `services_tbl`
-  MODIFY `services_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `services_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `software_tbl`
 --
 ALTER TABLE `software_tbl`
-  MODIFY `software_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `software_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `type_of_hardware_tbl`
 --
 ALTER TABLE `type_of_hardware_tbl`
-  MODIFY `type_of_hardware_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `type_of_hardware_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -443,8 +469,7 @@ ALTER TABLE `ict_network_hardware_tbl`
 --
 ALTER TABLE `ict_transfer_tbl`
   ADD CONSTRAINT `fk_employee_id_new` FOREIGN KEY (`employee_id_new`) REFERENCES `employee_tbl` (`employee_id`),
-  ADD CONSTRAINT `fk_employee_id_old` FOREIGN KEY (`employee_id_old`) REFERENCES `employee_tbl` (`employee_id`),
-  ADD CONSTRAINT `fk_hardware_id` FOREIGN KEY (`hardware_id`) REFERENCES `ict_network_hardware_tbl` (`hardware_id`);
+  ADD CONSTRAINT `fk_employee_id_old` FOREIGN KEY (`employee_id_old`) REFERENCES `employee_tbl` (`employee_id`);
 
 --
 -- Constraints for table `resource_sharing_tbl`

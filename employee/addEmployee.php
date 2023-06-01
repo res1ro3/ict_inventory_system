@@ -43,7 +43,7 @@
         $query->execute();
 
         if($query->rowCount() == 1) {
-            echo '<script>alert("User Added Successfully")</script>';
+            echo '<script>alert("User Added Successfully"); location.href="index.php";</script>';
         } else {
             echo '<script>alert("An error has occured")</script>';
         }

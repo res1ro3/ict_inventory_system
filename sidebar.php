@@ -72,8 +72,8 @@
             <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/hardware/index.php" ?>">Hardware</a></li>
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/software/index.php" ?>">Software</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Accessories</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/hardware.php" ?>">Tools and Supplies</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/accessories/index.php" ?>">Accessories</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/tools-and-supplies/index.php" ?>">Tools and Supplies</a></li>
             </ul>
         </li>
         <!-- <li class="nav-item">

@@ -51,7 +51,7 @@
         <div class="tab-div mb-5">
             <ul class="nav d-flex gap-3">
                 <li class="nav-item">
-                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/software/index.php'">View Inventory</button>
+                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/software/index.php'">View Software Inventory</button>
                 </li>
                 <li class="nav-item">
                     <button class="btn btn-success" onclick="encodeService('<?= $_GET['sid']; ?>')">Encode Service</button>
@@ -136,7 +136,7 @@
                                             <?php 
                                                 if ($count == $rowCount) {
                                             ?>
-                                            <td><button onclick="getTransferEdit(<?= $result->software_id ?>)" type="button" data-id="<?= $result->software_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
+                                            <td><button onclick="getTransferEdit(<?= $result->ict_id ?>)" type="button" data-id="<?= $result->ict_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
                                             <?php 
                                                 } 
                                                 else {
@@ -707,7 +707,7 @@
             $.ajax({
                 type: "GET",
                 url: "./get_transfer_edit.php",
-                data: {software_id:sid},
+                data: {ict_id:sid},
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#transferIdInp").val(res.transfer_id);
@@ -776,7 +776,7 @@
                     type: "POST",
                     url: "./transfer.php",
                     data: {
-                        software_id: $("#sidInp").val(),
+                        ict_id: $("#sidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
                     }
@@ -792,7 +792,7 @@
                     } else {
                         Swal.fire({
                             title: 'Error!',
-                            // text: "Transferred failed",
+                            text: "Transferred failed",
                             text: res,
                             icon: 'error',
                             confirmButtonText: 'Okay'

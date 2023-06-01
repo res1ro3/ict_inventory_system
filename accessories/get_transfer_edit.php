@@ -1,12 +1,12 @@
 <?php 
     require_once('../dbConfig.php');
     session_start();
-    $hardware_id = $_GET['hardware_id'];
-    $_SESSION['selected_hid'] = $hardware_id;
+    $ict_id = $_GET['ict_id'];
+    $_SESSION['selected_aid'] = $ict_id;
     
-    $sql="SELECT * FROM ict_transfer_tbl WHERE hardware_id = :hid";
+    $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :ict_id";
     $query = $conn->prepare($sql);
-    $query->bindParam(':hid',$hardware_id,PDO::PARAM_STR);
+    $query->bindParam(':ict_id',$ict_id,PDO::PARAM_STR);
     $query->execute();
     $results=$query->fetchAll(PDO::FETCH_OBJ);
     $count=1;

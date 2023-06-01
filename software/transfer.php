@@ -1,12 +1,12 @@
 <?php
     require_once('../dbConfig.php');
 
-    if (!isset($_POST['software_id'], $_POST['current_owner'], $_POST['new_owner'])) {
+    if (!isset($_POST['ict_id'], $_POST['current_owner'], $_POST['new_owner'])) {
         echo "Invalid Input";
         exit;
     }
 
-    $software_id = $_POST['software_id'];
+    $software_id = $_POST['ict_id'];
     $current_owner = $_POST['current_owner'];
     $new_owner = $_POST['new_owner'];
 

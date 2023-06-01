@@ -204,8 +204,8 @@
         }
 
         
-        const get = async (sid) => {
-            location.href = "/ict_inventory_system/software/view.php?sid=" + sid;
+        const get = async (aid) => {
+            location.href = "/ict_inventory_system/accessories/view.php?aid=" + aid;
         }
 
         function getEdit(aid) {

@@ -49,7 +49,7 @@
         <div class="tab-div mb-5">
             <ul class="nav d-flex gap-3">
                 <li class="nav-item">
-                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/hardware/index.php'">View Inventory</button>
+                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/hardware/index.php'">View Hardware Inventory</button>
                 </li>
                 <li class="nav-item">
                     <?php if ($hardware['status'] == "Serviceable") { ?>
@@ -735,15 +735,15 @@
         }
 
 
-        function getTransferEdit(ictid) {
+        function getTransferEdit(hid) {
             $.ajax({
                 type: "GET",
                 url: "./get_transfer_edit.php",
-                data: {ict_id:ictid},
+                data: {ict_id:hid},
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#transferIdInp").val(res.transfer_id);
-                    $("#hardwareIdInp").val(ictid);
+                    $("#hardwareIdInp").val(hid);
                     $("#dateTransferredEditInp").val(res.date_transferred);
                     $('#newownerEditInp').val(res.new_owner);
                     $('#oldownerEditInp').val(res.old_owner);
@@ -756,10 +756,10 @@
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {ict_id:hid},
+                data: {hardware_id:hid},
                 success: function (res) {
                     res = JSON.parse(res);
-                    $("#hidInp").val(res.ict_id);
+                    $("#hidInp").val(res.hardware_id);
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);

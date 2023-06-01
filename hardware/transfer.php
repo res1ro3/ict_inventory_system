@@ -1,12 +1,12 @@
 <?php
     require_once('../dbConfig.php');
 
-    if (!isset($_POST['hardware_id'], $_POST['current_owner'], $_POST['new_owner'])) {
+    if (!isset($_POST['ict_id'], $_POST['current_owner'], $_POST['new_owner'])) {
         echo "Invalid Input";
         exit;
     }
 
-    $hardware_id = $_POST['hardware_id'];
+    $hardware_id = $_POST['ict_id'];
     $current_owner = $_POST['current_owner'];
     $new_owner = $_POST['new_owner'];
 
@@ -23,7 +23,7 @@
     // $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
     // $res = $query->execute();
 
-    $sql="INSERT INTO ict_transfer_tbl (employee_id_new, employee_id_old, date_transferred, hardware_id) VALUES (:new, :old, '".$date."', :hid)";
+    $sql="INSERT INTO ict_transfer_tbl (employee_id_new, employee_id_old, date_transferred, ict_id) VALUES (:new, :old, '".$date."', :hid)";
     $query = $conn->prepare($sql);
     $query->bindParam(':new',$new_owner,PDO::PARAM_STR);
     $query->bindParam(':old',$current_owner,PDO::PARAM_STR);

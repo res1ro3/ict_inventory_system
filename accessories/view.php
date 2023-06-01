@@ -7,9 +7,9 @@
         header("Location: ../admin/signin.php");
     }
 
-    $query=$conn->prepare("SELECT * FROM software_tbl WHERE software_id =:sid");
-    $query->execute(array(':sid' => $_GET['sid']));
-    $software=$query->fetch(PDO::FETCH_ASSOC);
+    $query=$conn->prepare("SELECT * FROM accessories_tbl WHERE accessories_id =:aid");
+    $query->execute(array(':aid' => $_GET['aid']));
+    $accessories=$query->fetch(PDO::FETCH_ASSOC);
 
     $count=$query->rowCount();
 
@@ -19,7 +19,7 @@
     }
 
     $query=$conn->prepare("SELECT * FROM employee_tbl WHERE employee_id = :eid");
-    $query->execute(array(':eid' => $software['employee_id']));
+    $query->execute(array(':eid' => $accessories['employee_id']));
     $employee_list=$query->fetch(PDO::FETCH_ASSOC);
 
 ?>
@@ -49,38 +49,38 @@
         <div class="tab-div mb-5">
             <ul class="nav d-flex gap-3">
                 <li class="nav-item">
-                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/accessories/index.php'">View Inventory</button>
+                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/accessories/index.php'">View Accessories Inventory</button>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-success" onclick="encodeService('<?= $_GET['sid']; ?>')">Encode Service</button>
+                    <button class="btn btn-success" onclick="encodeService('<?= $_GET['aid']; ?>')">Encode Service</button>
                 </li>
                 <li class="nav-item">
-                    <button onclick="getTransfer('<?= $_GET['sid']; ?>')" type="button" data-id="<?= $_GET['sid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
+                    <button onclick="getTransfer('<?= $_GET['aid']; ?>')" type="button" data-id="<?= $_GET['aid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
                 </li>
             </ul>
         </div>
             <form>
-                <input type="hidden" class="form-control" id="sidInp" name="sidInp">
+                <input type="hidden" class="form-control" id="aidInp" name="aidInp">
                 <div class="col">
-                    <label for="typeofsoftwareInp" class="form-label fw-bold">Type of Software</label>
-                    <input type="text" class="form-control" id="typeofsoftwareInp" name="typeofsoftwareInp" value="<?= $software['type_of_software'] ?>" disabled>
+                    <label for="genericnameInp" class="form-label fw-bold">Generic Name</label>
+                    <input type="text" class="form-control" id="genericnameInp" name="genericnameInp" value="<?= $accessories['generic_name'] ?>" disabled>
                 </div>
                 <div class="col">
-                    <label for="softwarenameInp" class="form-label fw-bold">Software Name</label>
-                    <input type="text" class="form-control" id="softwarenameInp" name="softwarenameInp" value="<?= $software['software_name'] ?>" disabled>
+                    <label for="brandInp" class="form-label fw-bold">Brand</label>
+                    <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $accessories['brand'] ?>" disabled>
                 </div>
                 <div class="col">
-                    <label for="manufacturerInp" class="form-label fw-bold">Manufacturer</label>
-                    <input type="text" class="form-control" id="manufacturerInp" name="manufacturerInp" value="<?= $software['manufacturer'] ?>" disabled>
+                    <label for="quantityInp" class="form-label fw-bold">Quantity</label>
+                    <input type="text" class="form-control" id="quantityInp" name="quantityInp" value="<?= $accessories['quantity'] ?>" disabled>
                 </div>
                 <div class="col">
-                    <label for="typeofsubscriptionInp" class="form-label fw-bold">Type of Subsciprion</label>
-                    <input type="text" class="form-control" id="typeofsubscriptionInp" name="typeofsubscriptionInp" value="<?= $software['type_of_subscription'] ?>" disabled>
+                    <label for="specificationsInp" class="form-label fw-bold">Specifications</label>
+                    <input type="text" class="form-control" id="specificationsInp" name="specificationsInp" value="<?= $accessories['specifications'] ?>" disabled>
                 </div>
                 
                 <div class="col">
-                    <label for="datedevelopedpurchasedInp" class="form-label fw-bold">Date Developed/Purchased</label>
-                    <input type="date" class="form-control" id="datedevelopedpurchasedInp" name="datedevelopedpurchasedInp" value="<?= $software['date_developed_purchased'] ?>" disabled>
+                    <label for="unitInp" class="form-label fw-bold">Unit</label>
+                    <input type="text" class="form-control" id="unitInp" name="unitInp" value="<?= $accessories['unit'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="ownerInpName" class="form-label fw-bold">Owner</label>
@@ -106,10 +106,10 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $software_id =  $_GET['sid'];
-                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :sid";
+                                            $accessories_id =  $_GET['aid'];
+                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :aid";
                                             $query = $conn->prepare($sql);
-                                            $query->bindParam(':sid',$software_id,PDO::PARAM_STR);
+                                            $query->bindParam(':aid',$accessories_id,PDO::PARAM_STR);
                                             $query->execute();
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $count=1;
@@ -134,7 +134,7 @@
                                             <?php 
                                                 if ($count == $rowCount) {
                                             ?>
-                                            <td><button onclick="getTransferEdit(<?= $result->software_id ?>)" type="button" data-id="<?= $result->software_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
+                                            <td><button onclick="getTransferEdit(<?= $result->ict_id ?>)" type="button" data-id="<?= $result->ict_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
                                             <?php 
                                                 } 
                                                 else {
@@ -167,12 +167,12 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $software_id =  $_GET['sid'];
-                                            $type = "Software";
-                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :sid AND type_of_ict = :icttype";
+                                            $accessories_id =  $_GET['aid'];
+                                            $type = "Accessories";
+                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :aid AND type_of_ict = :icttype";
                                             $query = $conn->prepare($sql);
                                             $query->execute(array(
-                                                ':sid' => $software_id,
+                                                ':aid' => $accessories_id,
                                                 ':icttype' => $type
                                             ));
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -252,7 +252,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="transferModalLabel">Transfer ICT Software</h1>
+                    <h1 class="modal-title fs-5" id="transferModalLabel">Transfer ICT accessories</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -438,7 +438,7 @@
                 <div class="modal-body">
                 <form action="update_transfer.php" class="needs-validation" novalidate id="updateTransferForm" name="updateTransferForm" method="post">
                     <input type="hidden" name="transferIdInp" id="transferIdInp">
-                    <input type="hidden" name="softwareIdInp" id="softwareIdInp">
+                    <input type="hidden" name="accessoriesIdInp" id="accessoriesIdInp">
                     <div class="mb-3 col form-floating">
                         <input type="date" class="form-control" id="dateTransferredEditInp" name="dateTransferredEditInp" required>
                         <label for="dateTransferredEditInp" class="form-label" id="dateTransferredEditInpLbl">Date Transferred</label>
@@ -507,7 +507,7 @@
                 </div>
                 <div class="modal-body">
                 <form action="update_service.php" class="needs-validation" novalidate id="updateServiceForm" name="updateServiceForm" method="post">
-                    <input type="hidden" name="servicesIdInp" id="servicesIdInp">
+                    <input type="text" name="servicesIdEditInp" id="servicesIdEditInp">
                     <div class="mb-3 form-floating">
                         <div class="mb-3 col form-floating">
                         <input type="text" class="form-control" id="typeofictEditInp" name="typeofictEditInp" readonly>
@@ -639,10 +639,10 @@
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {software_id:sid}
+                data: {accessories_id:sid}
             }).then((res) => {
                 res = JSON.parse(res);
-                $("#sidInp").val(res.software_id);
+                $("#aidInp").val(res.accessories_id);
                 $("#macInp").val(res.mac_address);
                 $("#typeofsoftwareInp").val(res.type_of_software);
                 $('#softwarenameInp').val(res.softwarename);
@@ -685,7 +685,9 @@
                 data: {services_id:sid}
             }).then((res) => {
                 res = JSON.parse(res);
-                $("#servicesIdInp").val(res.services_id);
+                console.log(res);
+
+                $("#servicesIdEditInp").val(res.services_id);
                 $("#typeofictEditInp").val(res.type_of_ict);
                 $("#ictidEditInp").val(res.ICT_ID);
                 $("#typeofserviceEditInp").val(res.type_of_services);
@@ -701,15 +703,15 @@
         }
 
 
-        function getTransferEdit(sid) {
+        function getTransferEdit(aid) {
             $.ajax({
                 type: "GET",
                 url: "./get_transfer_edit.php",
-                data: {software_id:sid},
+                data: {ict_id:aid},
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#transferIdInp").val(res.transfer_id);
-                    $("#softwareIdInp").val(sid);
+                    $("#accessoriesIdInp").val(aid);
                     $("#dateTransferredEditInp").val(res.date_transferred);
                     $('#newownerEditInp').val(res.new_owner);
                     $('#oldownerEditInp').val(res.old_owner);
@@ -718,14 +720,14 @@
         }
 
 
-        function getTransfer(sid) {
+        function getTransfer(aid) {
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {software_id:sid},
+                data: {accessories_id:aid},
                 success: function (res) {
                     res = JSON.parse(res);
-                    $("#sidInp").val(res.software_id);
+                    $("#aidInp").val(res.accessories_id);
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);
@@ -774,7 +776,7 @@
                     type: "POST",
                     url: "./transfer.php",
                     data: {
-                        software_id: $("#sidInp").val(),
+                        ict_id: $("#aidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
                     }
@@ -805,11 +807,11 @@
         }
 
         function encodeService(ictid) {
-            location.href = `../service/encode.php?type=Software&ictid=${ictid}`;
+            location.href = `../service/encode.php?type=Accessories&ictid=${ictid}`;
         }
 
         $(document).ready(function () {
-            $('#ictnetworksoftwareTbl').DataTable();
+            $('#ictnetworkaccessoriesTbl').DataTable();
             $('#tbl_transfer').DataTable();
         });
     </script>

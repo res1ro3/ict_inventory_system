@@ -1,7 +1,7 @@
 <?php
     require_once('../dbConfig.php');
     
-    $services_id = $_POST['servicesIdInp'];
+    $services_id = $_POST['servicesIdEditInp'];
     $type_of_services = $_POST['typeofserviceEditInp'];
     $date_received = $_POST['datereceivedEditInp'];
     $date_returned = $_POST['datereturnedEditInp'];

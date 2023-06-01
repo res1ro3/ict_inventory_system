@@ -9,30 +9,28 @@
     require_once('../dbConfig.php');
 
     if (isset($_POST['addBtn'])) {
-        $type_of_software = $_POST['typeofsoftwareInp'];
-        $software_name = $_POST['softwarenameInp'];
-        $manufacturer = $_POST['manufacturerInp'];
-        $type_of_subscription = $_POST['typeofsubscriptionInp'];
-        $date_developed_purchased = $_POST['datedevelopedInp'];
+        $type_of_supply_tools = $_POST['typeoftoolsuppInp'];
+        $quantity = $_POST['quantityInp'];
+        $specifications = $_POST['specificationsInp'];
+        $unit = $_POST['unitInp'];
         $employee_id = $_POST['ownerInp'];
 
-        $sql="INSERT INTO software_tbl(type_of_software, software_name, manufacturer, type_of_subscription, date_developed_purchased, employee_id) 
-            VALUES(:tosoft, :sn, :man, :tosubs, :dt, :eid)";
+        $sql="INSERT INTO supplies_tools_tbl(type_of_supply_tools, quantity, specifications_remarks, unit, employee_id) 
+            VALUES(:type, :qty, :specs, :unit, :eid)";
         $query = $conn->prepare($sql);
 
         $query->execute(array(
-            'tosoft' => $type_of_software,
-            'sn' => $software_name,
-            'man' => $manufacturer,
-            'tosubs' => $type_of_subscription,
-            'dt' => $date_developed_purchased,
+            'type' => $type_of_supply_tools,
+            'qty' => $quantity,
+            'specs' => $specifications,
+            'unit' => $unit,
             'eid' => $employee_id
         ));
 
         if($query->rowCount() == 1) {
-            echo '<script>alert("Added Successfully")</script>';
+            echo '<script>alert("Added Successfully"); location.href="index.php"</script>';
         } else {
-            echo '<script>alert("An error has occured")</script>';
+            echo '<script>alert("An error has occured")"</script>';
         }
     }
 ?>
@@ -42,7 +40,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Software</title>
+    <title>Add Tools/Supplies</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="../styles/inventory.css">
     <link rel="stylesheet" href="../styles/index.css">
@@ -52,55 +50,56 @@
         <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="addDiv">
             <div class="dashboard-header" style="margin: 2rem 0">
-                <h3>ADD SOFTWARE</h3>
+                <h3>ADD TOOLS/SUPPLIES</h3>
             </div>
             <!-- <h3 class="text-center mt-5 mb-3">ADD ICT NETWORK HARDWARE</h3> -->
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
-                <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeofsoftwareInp" name="typeofsoftwareInp" required>
-                        <option value="" selected disabled>Select Type of Software</option>
-                        <option>Productivity</option>
-                        <option>Editing</option>
-                    </select>
-                    <label for="typeofsoftwareInp" class="form-label fw-bold">Type of Software</label>
+                <div class="mb-3 col form-floating">
+                    <input type="text" class="form-control" id="typeoftoolsuppInp" name="typeoftoolsuppInp" required>
+                    <label for="typeoftoolsuppInp" class="form-label fw-bold">Type of Tool/Supply</label>
                     <div class="invalid-feedback">
-                        Please select Type of Software
+                        Please enter Type of Tool/Supply
                     </div>
                 </div>
 
                 <div class="mb-3 col form-floating">
-                    <input type="text" class="form-control" id="softwarenameInp" name="softwarenameInp" required>
-                    <label for="softwarenameInp" class="form-label fw-bold">Software Name</label>
+                    <input type="number" class="form-control" id="quantityInp" name="quantityInp" required>
+                    <label for="quantityInp" class="form-label fw-bold">Quantity</label>
                     <div class="invalid-feedback">
-                        Please enter Software Name
+                        Please enter Quantity
                     </div>
                 </div>
 
-                <div class="mb-3 col form-floating">
-                    <input type="text" class="form-control" id="manufacturerInp" name="manufacturerInp" required>
-                    <label for="manufacturerInp" class="form-label fw-bold">Manufacturer</label>
+                <div class="mb-3 col">
+                    <label for="specificationsInp" class="form-label fw-bold ps-2 text-secondary" id="specificationsInpLbl">Specifications</label>
+                    <textarea class="form-control" id="specificationsInp" name="specificationsInp" rows="4" cols="50" placeholder="Enter specification here" required></textarea>
+                   
                     <div class="invalid-feedback">
-                        Please enter Manufacturer
+                        Please enter Specifications
                     </div>
                 </div>
 
                 <div class="mb-3 form-floating">
-                    <select class="form-select" id="typeofsubscriptionInp" name="typeofsubscriptionInp" required>
-                        <option value="" selected disabled>Select Type of Subscription</option>
-                        <option>Monthly</option>
-                        <option>Yearly</option>
+                    <select class="form-select" id="unitInp" name="unitInp" required>
+                        <option value="" selected disabled>Select Unit</option>
+                    <?php
+                        $sql="SELECT * FROM office_tbl";
+                        $query = $conn->prepare($sql);
+                        $query->execute();
+                        $results=$query->fetchAll(PDO::FETCH_OBJ);
+                        
+                        $count=1;
+                        if($query->rowCount() > 0) {
+                        //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                            foreach($results as $result)
+                        {
+                    ?>
+                        <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                    <?php }} ?>
                     </select>
-                    <label for="typeofsubscriptionInp" class="form-label fw-bold">Type of Subscription</label>
+                    <label for="unitInp" id="officeLbl" class="form-label fw-bold">Office</label>
                     <div class="invalid-feedback">
-                        Please select Type of Subscription
-                    </div>
-                </div>
-
-                <div class="mb-3 col form-floating">
-                    <input type="date" class="form-control" id="datedevelopedInp" name="datedevelopedInp" required>
-                    <label for="datedevelopedInp" class="form-label fw-bold">Date Developed/Purchased</label>
-                    <div class="invalid-feedback">
-                        Please set Date Developed/Purchased
+                        Please select an Office
                     </div>
                 </div>
 

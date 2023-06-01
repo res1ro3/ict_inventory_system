@@ -58,7 +58,7 @@
             <form class="needs-validation" novalidate id="addForm" name="addForm" method="post">
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="genericnameInp" name="genericnameInp" required>
-                    <label for="genericnameInp" class="form-label">Generic Name</label>
+                    <label for="genericnameInp" class="form-label fw-bold">Generic Name</label>
                     <div class="invalid-feedback">
                         Please enter Generic Name
                     </div>
@@ -66,7 +66,7 @@
 
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="brandInp" name="brandInp" required>
-                    <label for="brandInp" class="form-label">Brand</label>
+                    <label for="brandInp" class="form-label fw-bold">Brand</label>
                     <div class="invalid-feedback">
                         Please enter Brand
                     </div>
@@ -74,7 +74,7 @@
 
                 <div class="mb-3 col form-floating">
                     <input type="number" class="form-control" id="quantityInp" name="quantityInp" required>
-                    <label for="quantityInp" class="form-label">Quantity</label>
+                    <label for="quantityInp" class="form-label fw-bold">Quantity</label>
                     <div class="invalid-feedback">
                         Please enter Quantity
                     </div>
@@ -82,7 +82,7 @@
 
                 <div class="mb-3 col form-floating">
                     <input type="text" class="form-control" id="specificationsInp" name="specificationsInp" required>
-                    <label for="specificationsInp" class="form-label">Specifications</label>
+                    <label for="specificationsInp" class="form-label fw-bold">Specifications</label>
                     <div class="invalid-feedback">
                         Please enter Specifications
                     </div>
@@ -106,7 +106,7 @@
                         <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
                     <?php }} ?>
                     </select>
-                    <label for="unitInp" id="officeLbl">Office</label>
+                    <label for="unitInp" id="officeLbl" class="form-label fw-bold">Office</label>
                     <div class="invalid-feedback">
                         Please select an Office
                     </div>
@@ -130,7 +130,7 @@
                         <option value="<?php echo htmlentities($result->employee_id);?>"><?php echo htmlentities($result->lname).', '.htmlentities($result->fname);?></option>
                     <?php }} ?>
                     </select>
-                    <label for="ownerInp">Owner</label>
+                    <label for="ownerInp" class="form-label fw-bold">Owner</label>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success" id="addBtn" name="addBtn">ADD</button>

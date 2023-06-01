@@ -115,8 +115,8 @@
             Settings
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/brands.php" ?>">Manage Brands</a></li>
-                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/inventory/type_of_hardware.php" ?>">Manage Type of Hardware</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/settings/brands.php" ?>">Manage Brands</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/settings/type_of_hardware.php" ?>">Manage Type of Hardware</a></li>
             </ul>
         </li>
     </ul>

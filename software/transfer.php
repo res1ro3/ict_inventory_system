@@ -23,7 +23,7 @@
     // $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
     // $res = $query->execute();
 
-    $sql="INSERT INTO ict_transfer_tbl (employee_id_new, employee_id_old, date_transferred, software_id) VALUES (:new, :old, '".$date."', :sid)";
+    $sql="INSERT INTO ict_transfer_tbl (employee_id_new, employee_id_old, date_transferred, ict_id) VALUES (:new, :old, '".$date."', :sid)";
     $query = $conn->prepare($sql);
     $query->bindParam(':new',$new_owner,PDO::PARAM_STR);
     $query->bindParam(':old',$current_owner,PDO::PARAM_STR);

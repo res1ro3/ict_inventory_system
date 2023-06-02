@@ -8,19 +8,35 @@
     }
 
     if (isset($_POST['addBtn'])) {
+        
         $name = $_POST['nameInp'];
 
-        $sql="INSERT INTO brand_tbl(name) VALUES(:nm)";
+        if ($name == "") {
+            echo '<script>alert("Please fill up all fields"); javascript:history.back()</script>';
+            return false;
+        }
+
+        $sql="SELECT * FROM `brand_tbl` WHERE `name` LIKE :nm";
         $query = $conn->prepare($sql);
-
         $query->bindParam(':nm',$name,PDO::PARAM_STR);
-
         $query->execute();
-
-        if($query->rowCount() == 1) {
-            echo '<script>alert("Added Successfully")</script>';
+        
+        if ($query->rowCount() <> 0) {
+            echo '<script>alert("Brand already exist")</script>';
         } else {
-            echo '<script>alert("An error has occured")</script>';
+            
+            $sql="INSERT INTO brand_tbl(name) VALUES(:nm)";
+            $query = $conn->prepare($sql);
+
+            $query->bindParam(':nm',$name,PDO::PARAM_STR);
+
+            $query->execute();
+
+            if($query->rowCount() == 1) {
+                echo '<script>alert("Added Successfully")</script>';
+            } else {
+                echo '<script>alert("An error has occured")</script>';
+            }
         }
     }
 ?>
@@ -132,8 +148,11 @@
         function get(brand_id) {
             $.ajax({
                 type: "POST",
-                url: "./get_brand.php",
-                data: {brand_id: brand_id},
+                url: "./get_data.php",
+                data: {
+                    type_of_data: "brand",
+                    brand_id: brand_id
+                },
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#brandInp").val(res.name);
@@ -145,8 +164,9 @@
         function update() {
             $.ajax({
                 type: "POST",
-                url: "update_brand.php",
+                url: "update.php",
                 data: {
+                    type_of_data: "brand",
                     brand_id: $("#brandIdInp").val(),
                     name: $("#brandInp").val(),
                 },
@@ -156,7 +176,7 @@
                         text: res,
                         icon: 'success',
                         confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
+                    }).then(()=>window.location.assign(document.URL))
                 },
                 error: function (res) {
                     Swal.fire({
@@ -164,7 +184,7 @@
                         text: res,
                         icon: 'error',
                         confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
+                    }).then(()=>window.location.assign(document.URL))
                 }
             })
         }

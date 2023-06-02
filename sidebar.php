@@ -117,6 +117,8 @@
             <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/settings/brands.php" ?>">Manage Brands</a></li>
                 <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/settings/type_of_hardware.php" ?>">Manage Type of Hardware</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/settings/type_of_software.php" ?>">Manage Type of Software</a></li>
+                <li><a class="dropdown-item" href="<?php echo $base_url . "ict_inventory_system/settings/type_of_subscription.php" ?>">Manage Type of Subscription</a></li>
             </ul>
         </li>
     </ul>
@@ -130,25 +132,25 @@
 </div>
 
 <script>
-        const signout = () => {
-            $.ajax({
-                    url: '<?php echo $base_url . "ict_inventory_system/admin/signout.php" ?>',
-                }).then((res) => {
-                    if (res > 0) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: "Signed out",
-                            icon: 'success',
-                            confirmButtonText: 'Okay'
-                        }).then(()=>location.reload())
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "An error occurred",
-                            icon: 'error',
-                            confirmButtonText: 'Okay'
-                        })
-                    }
-                }); 
-        }
-    </script>
+    const signout = () => {
+        $.ajax({
+                url: '<?php echo $base_url . "ict_inventory_system/admin/signout.php" ?>',
+            }).then((res) => {
+                if (res > 0) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: "Signed out",
+                        icon: 'success',
+                        confirmButtonText: 'Okay'
+                    }).then(()=>location.reload())
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: "An error occurred",
+                        icon: 'error',
+                        confirmButtonText: 'Okay'
+                    })
+                }
+            }); 
+    }
+</script>

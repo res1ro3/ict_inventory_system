@@ -16,16 +16,16 @@
             return false;
         }
 
-        $sql="SELECT * FROM `type_of_hardware_tbl` WHERE `name` LIKE :nm";
+        $sql="SELECT * FROM `type_of_subscription_tbl` WHERE `name` LIKE :nm";
         $query = $conn->prepare($sql);
         $query->bindParam(':nm',$name,PDO::PARAM_STR);
         $query->execute();
         
         if ($query->rowCount() <> 0) {
-            echo '<script>alert("Type of hardware already exist")</script>';
+            echo '<script>alert("Type of subscription already exist")</script>';
         } else {
             
-            $sql="INSERT INTO type_of_hardware_tbl(name) VALUES(:nm)";
+            $sql="INSERT INTO type_of_subscription_tbl(name) VALUES(:nm)";
             $query = $conn->prepare($sql);
 
             $query->bindParam(':nm',$name,PDO::PARAM_STR);
@@ -46,7 +46,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Types of Hardware</title>
+    <title>Types of Subscription</title>
     <link rel="stylesheet" href="../styles/jquery.dataTables.min.css" />
     <script src="../js/jquery-3.5.1.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
@@ -60,15 +60,15 @@
         <div id="sidebar-placeholder"><?php include("../sidebar.php") ?></div>
         <div class="brands-container">
             <div class="dashboard-header" style="margin: 2rem 0">
-                <h3>Manage Types of Hardware</h3>
+                <h3>Manage Types of Subscription</h3>
             </div>
             <div class="brands_add">
                 <form class="needs-validation d-flex" novalidate id="addForm" name="addForm" method="post">
                     <div class="mb-3 col form-floating">
                         <input type="text" class="form-control" id="typeInp" name="typeInp" required>
-                        <label for="typeInp" class="form-label" id="typeLbl">Type of Hardware</label>
+                        <label for="typeInp" class="form-label" id="typeLbl">Type of Subscription</label>
                         <div class="invalid-feedback">
-                            Please enter Type of Hardware
+                            Please enter Type of Subscription
                         </div>
                     </div>
                     <div class="mb-3 col">
@@ -77,18 +77,18 @@
                 </form>
             </div>
             <div class="brands_tbl">
-                <table id="ictnetworkhardwareTbl" class="display table table-light" style="width:100%">
+                <table id="ictnetworksubscriptionTbl" class="display table table-light" style="width:100%">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Type of Hardware</th>
+                            <th>Type of Subscription</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                             $sql="
-                            SELECT * FROM type_of_hardware_tbl
+                            SELECT * FROM type_of_subscription_tbl
                             ";
                             $query = $conn->prepare($sql);
                             $query->execute();
@@ -100,7 +100,7 @@
                             <td><?= $count ?></td>
                             <td><?= $row['name'] ?></td>
                             <td>
-                                <button id="editBtn" onclick="get('<?= $row['type_of_hardware_id'] ?>')" type="button" data-id="<?= $row['type_of_hardware_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                <button id="editBtn" onclick="get('<?= $row['type_of_subscription_id'] ?>')" type="button" data-id="<?= $row['type_of_subscription_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                             </td>
                         </tr>
                         <?php $count++; } ?>
@@ -114,17 +114,17 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="editModalLabel">Edit Type of Hardware</h1>
+                    <h1 class="modal-title fs-5" id="editModalLabel">Edit Type of Subscription</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
                     <div class="mb-3 col form-floating">
-                        <input type="hidden" class="form-control" id="typeofhardwareIdInp" name="typeofhardwareIdInp">
-                        <input type="text" class="form-control" id="typeofhardwareInp" name="typeofhardwareInp" required>
-                        <label for="typeofhardwareInp" class="form-label" id="typeofhardwareInpLbl">Type of Hardware</label>
+                        <input type="hidden" class="form-control" id="typeofsubscriptionIdInp" name="typeofsubscriptionIdInp">
+                        <input type="text" class="form-control" id="typeofsubscriptionInp" name="typeofsubscriptionInp" required>
+                        <label for="typeofsubscriptionInp" class="form-label" id="typeofsubscriptionInpLbl">Type of Subscription</label>
                         <div class="invalid-feedback">
-                            Please enter Brand Name
+                            Please enter Type of Subscription
                         </div>
                     </div>
                 </form>
@@ -144,18 +144,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6952492a89.js" crossorigin="anonymous"></script>
     <script>
-        function get(thid) {
+        function get(sid) {
             $.ajax({
                 type: "POST",
                 url: "./get_data.php",
                 data: {
-                    type_of_data: "type_of_hardware",
-                    type_of_hardware_id: thid
+                    type_of_data: "type_of_subscription",
+                    type_of_subscription_id: sid
                 },
                 success: function (res) {
                     res = JSON.parse(res);
-                    $("#typeofhardwareInp").val(res.name);
-                    $("#typeofhardwareIdInp").val(res.type_of_hardware_id);
+                    $("#typeofsubscriptionInp").val(res.name);
+                    $("#typeofsubscriptionIdInp").val(res.type_of_subscription_id);
                 }
             });
         }
@@ -165,9 +165,9 @@
                 type: "POST",
                 url: "update.php",
                 data: {
-                    type_of_data: "type_of_hardware",
-                    type_of_hardware_id: $("#typeofhardwareIdInp").val(),
-                    name: $("#typeofhardwareInp").val(),
+                    type_of_data: "type_of_subscription",
+                    type_of_subscription_id: $("#typeofsubscriptionIdInp").val(),
+                    name: $("#typeofsubscriptionInp").val(),
                 },
                 success: function (res) {
                     Swal.fire({
@@ -189,7 +189,7 @@
         }
 
         $(document).ready(function () {
-            $('#ictnetworkhardwareTbl').DataTable();
+            $('#ictnetworksubscriptionTbl').DataTable();
         });
     </script>
 </html>

@@ -33,8 +33,9 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Username</th>
+                        <th>Employee Name</th>
                         <th>Type of Account</th>
+                        <th>Unit</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -51,13 +52,14 @@
                     <tr>
                         <td><?= $count ?></td>
                         <span id="eid" style="display: none"><?= $row['employee_id']?></span>
-                        <td><?= $row['username'] ?></td>
+                        <td><?= $row['lname'].', '.$row['fname'] ?></td>
                         <td><?= $row['type_of_account'] ?></td>
+                        <td><?= $row['unitOffice'] ?></td>
                         <td><?= $row['status'] ?></td>
                         <td>
                             <button id="editBtn" onclick="get('<?= $row['employee_id'] ?>')" type="button" data-id="<?= $row['employee_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                             <button class="btn btn-warning" onClick="res_pass('<?= $row['employee_id'] ?>')">Reset Password</button>
-                            <button onclick="change_status('<?= $row['status'] ?>','<?= $row['employee_id'] ?>')" id="btnStatus" class="btn btn-danger"><?= $row['status'] == "Active" ? "Inactivate" : "Activate" ?></button>
+                            <button onclick="change_status('<?= $row['status'] ?>','<?= $row['employee_id'] ?>')" id="btnStatus" class="btn btn-danger"><?= $row['status'] == "Active" ? "Disable" : "Enable" ?></button>
                         </td>
                     </tr>
                     <?php $count++; } ?>

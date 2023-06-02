@@ -64,7 +64,7 @@
                             <td><?= $row['unit'] ?></td>
                             <td><?= $row['lname'].', '.$row['fname'] ?></td>
                             <td>
-                                <button id="viewBtn" onclick="get('<?= $row['supply_tools_id'] ?>')" type="button" data-id="<?= $row['supply_tools_id'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
+                                <button id="viewBtn" onclick="get('<?= $row['supply_tools_id'] ?>')" type="button" data-id="<?= $row['supply_tools_id'] ?>" class="btn btn-primary">View</button>
                                 <button id="editBtn" onclick="getEdit('<?= $row['supply_tools_id'] ?>')" type="button" data-id="<?= $row['supply_tools_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                             </td>
                             
@@ -73,7 +73,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="7"><button style="width: 90px;" class="btn btn-success" onclick="location.href='/ict_inventory_system/tools-supplies/add.php'">Add</button></td>
+                            <td colspan="7"><button style="width: 90px;" class="btn btn-success" onclick="location.href='/ict_inventory_system/tool-supply/add.php'">Add</button></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -195,8 +195,8 @@
         }
 
         
-        const get = async (aid) => {
-            location.href = "/ict_inventory_system/tools-supplies/view.php?stid=" + stid;
+        const get = async (stid) => {
+            location.href = "/ict_inventory_system/tool-supply/view.php?stid=" + stid;
         }
 
         function getEdit(stid) {

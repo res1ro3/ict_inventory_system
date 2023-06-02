@@ -81,7 +81,7 @@
 
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="unitInp" name="unitInp" required>
-                        <option value="" selected disabled>Select Unit</option>
+                        <option value="" selected disabled>Select a Unit</option>
                     <?php
                         $sql="SELECT * FROM office_tbl";
                         $query = $conn->prepare($sql);
@@ -97,9 +97,9 @@
                         <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
                     <?php }} ?>
                     </select>
-                    <label for="unitInp" id="officeLbl" class="form-label fw-bold">Office</label>
+                    <label for="unitInp" id="officeLbl" class="form-label fw-bold">Unit</label>
                     <div class="invalid-feedback">
-                        Please select an Office
+                        Please select a Unit
                     </div>
                 </div>
 

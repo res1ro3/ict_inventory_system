@@ -32,6 +32,28 @@
     
             return $res['owner_name'];
         }
+        else if ($type == 'Accessories') {
+            $sql = "SELECT * FROM accessories_tbl WHERE accessories_id = :ictid";
+            $query = $conn->prepare($sql);
+            $query->execute(array(
+                'ictid' => $ictid
+            ));
+    
+            $res = $query->fetch(PDO::FETCH_ASSOC);
+    
+            return $res['owner_name'];
+        }
+        else if ($type == 'Tool-Supply') {
+            $sql = "SELECT * FROM supplies_tools_tbl WHERE supply_tools_id = :ictid";
+            $query = $conn->prepare($sql);
+            $query->execute(array(
+                'ictid' => $ictid
+            ));
+    
+            $res = $query->fetch(PDO::FETCH_ASSOC);
+    
+            return $res['owner_name'];
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -70,6 +92,7 @@
                         <option>Hardware</option>
                         <option>Software</option>
                         <option>Accessories</option>
+                        <option value="Tool-Supply">Tool/Supply</option>
                     </select>
                     <label class="form-label fw-bold" for="typeofictInp" id="typeofictInpLbl">Type of ICT</label>
                     <div class="invalid-feedback">

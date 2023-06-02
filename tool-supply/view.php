@@ -7,19 +7,19 @@
         header("Location: ../admin/signin.php");
     }
 
-    $query=$conn->prepare("SELECT * FROM accessories_tbl WHERE accessories_id =:aid");
-    $query->execute(array(':aid' => $_GET['aid']));
-    $accessories=$query->fetch(PDO::FETCH_ASSOC);
+    $query=$conn->prepare("SELECT * FROM supplies_tools_tbl WHERE supply_tools_id =:stid");
+    $query->execute(array(':stid' => $_GET['stid']));
+    $supplies_tools=$query->fetch(PDO::FETCH_ASSOC);
 
     $count=$query->rowCount();
 
     if($count <=0){
         //reidrect homepage/ ict inventory module
-        header("Location: accessories.php");
+        header("Location: index.php");
     }
 
     $query=$conn->prepare("SELECT * FROM employee_tbl WHERE employee_id = :eid");
-    $query->execute(array(':eid' => $accessories['employee_id']));
+    $query->execute(array(':eid' => $supplies_tools['employee_id']));
     $employee_list=$query->fetch(PDO::FETCH_ASSOC);
 
 ?>
@@ -29,7 +29,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory | Accessories</title>
+    <title>Inventory | Tools and Supplies</title>
     <link rel="stylesheet" href="../styles/jquery.dataTables.min.css" />
     <script src="../js/jquery-3.5.1.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script>
@@ -49,199 +49,34 @@
         <div class="tab-div mb-5">
             <ul class="nav d-flex gap-3">
                 <li class="nav-item">
-                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/accessories/index.php'">View Accessories Inventory</button>
-                </li>
-                <li class="nav-item">
-                    <button class="btn btn-success" onclick="encodeService('<?= $_GET['aid']; ?>')">Encode Service</button>
-                </li>
-                <li class="nav-item">
-                    <button onclick="getTransfer('<?= $_GET['aid']; ?>')" type="button" data-id="<?= $_GET['aid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
+                    <button class="btn btn-primary" onclick="location.href='/ict_inventory_system/tool-supply/index.php'">View Tools/Supplies Inventory</button>
                 </li>
             </ul>
         </div>
             <form>
-                <input type="hidden" class="form-control" id="aidInp" name="aidInp">
+                <input type="hidden" class="form-control" id="stidInp" name="stidInp">
                 <div class="col">
-                    <label for="genericnameInp" class="form-label fw-bold">Generic Name</label>
-                    <input type="text" class="form-control" id="genericnameInp" name="genericnameInp" value="<?= $accessories['generic_name'] ?>" disabled>
-                </div>
-                <div class="col">
-                    <label for="brandInp" class="form-label fw-bold">Brand</label>
-                    <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $accessories['brand'] ?>" disabled>
+                    <label for="typeoftoolsuppInp" class="form-label fw-bold">Type of Supplies/Tools</label>
+                    <input type="text" class="form-control" id="typeoftoolsuppInp" name="typeoftoolsuppInp" value="<?= $supplies_tools['type_of_supply_tools'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="quantityInp" class="form-label fw-bold">Quantity</label>
-                    <input type="text" class="form-control" id="quantityInp" name="quantityInp" value="<?= $accessories['quantity'] ?>" disabled>
+                    <input type="text" class="form-control" id="quantityInp" name="quantityInp" value="<?= $supplies_tools['quantity'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="specificationsInp" class="form-label fw-bold">Specifications</label>
-                    <input type="text" class="form-control" id="specificationsInp" name="specificationsInp" value="<?= $accessories['specifications'] ?>" disabled>
+                    <input type="text" class="form-control" id="specificationsInp" name="specificationsInp" value="<?= $supplies_tools['specifications_remarks'] ?>" disabled>
                 </div>
                 
                 <div class="col">
                     <label for="unitInp" class="form-label fw-bold">Unit</label>
-                    <input type="text" class="form-control" id="unitInp" name="unitInp" value="<?= $accessories['unit'] ?>" disabled>
+                    <input type="text" class="form-control" id="unitInp" name="unitInp" value="<?= $supplies_tools['unit'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="ownerInpName" class="form-label fw-bold">Owner</label>
                     <input type="text" class="form-control" id="ownerInpName" name="ownerInpName" value="<?= $employee_list['lname'].', '.$employee_list['fname'] ?>" disabled>
                 </div>
-
-                <div class="my-3">
-                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ownershipHistoryDiv" aria-expanded="true" aria-controls="ownershipHistoryDiv">
-                                Ownership History
-                            </button>
-                            </h2>
-                            <div id="ownershipHistoryDiv" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <th>Date Transferred</th>
-                                        <th>Old Owner</th>
-                                        <th>New Owner</th>
-                                        <th>Action</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                            $accessories_id =  $_GET['aid'];
-                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :aid";
-                                            $query = $conn->prepare($sql);
-                                            $query->bindParam(':aid',$accessories_id,PDO::PARAM_STR);
-                                            $query->execute();
-                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
-                                            $count=1;
-                                            $rowCount = $query->rowCount();
-
-                                            if ($rowCount > 0) {
-                                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                                                foreach($results as $result)
-                                            {
-                                                $get_old_owner = $conn->prepare("SELECT * FROM `employee_tbl` WHERE employee_id = :id");
-                                                $get_old_owner->execute(array(':id' => $result->employee_id_old));
-                                                $old_owner=$get_old_owner->fetch(PDO::FETCH_ASSOC);
-
-                                                $get_new_owner = $conn->prepare("SELECT * FROM `employee_tbl` WHERE employee_id = :id");
-                                                $get_new_owner->execute(array(':id' => $result->employee_id_new));
-                                                $new_owner=$get_new_owner->fetch(PDO::FETCH_ASSOC);
-                                        ?>
-                                        <tr>
-                                            <td><?= $result->date_transferred?></td>
-                                            <td><?= $old_owner['lname'] .', '. $old_owner['fname']?></td>
-                                            <td><?= $new_owner['lname'] .', '. $new_owner['fname']?></td>
-                                            <?php 
-                                                if ($count == $rowCount) {
-                                            ?>
-                                            <td><button onclick="getTransferEdit(<?= $result->ict_id ?>)" type="button" data-id="<?= $result->ict_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTransferHistoryModal">Edit</button></td>
-                                            <?php 
-                                                } 
-                                                else {
-                                                    echo "<td></td>";
-                                                }
-                                            ?>
-                                        </tr>
-                                    </tbody>
-                                    <?php $count++; }} ?>
-                                </table>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#repairHistoryDiv" aria-expanded="true" aria-controls="repairHistoryDiv">
-                                Service History
-                            </button>
-                            </h2>
-                            <div id="repairHistoryDiv" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                            <table class="table table-striped table-hover">
-                                    <thead>
-                                        <th>Date Received</th>
-                                        <th>Date Returned</th>
-                                        <th>Type of Service</th>
-                                        <th>Remarks</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                            $accessories_id =  $_GET['aid'];
-                                            $type = "Accessories";
-                                            $sql="SELECT * FROM services_tbl WHERE ICT_ID = :aid AND type_of_ict = :icttype";
-                                            $query = $conn->prepare($sql);
-                                            $query->execute(array(
-                                                ':aid' => $accessories_id,
-                                                ':icttype' => $type
-                                            ));
-                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
-                                            $count=1;
-                                            if($query->rowCount() > 0) {
-                                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
-                                                foreach($results as $result)
-                                            {
-                                        ?>
-                                        <tr>
-                                            <input type="hidden" name="serviceIdInp" id="serviceIdInp" value="<?= $result->services_id ?>">
-                                            <td><?= $result->date_received?></td>
-                                            <td><?= $result->date_returned?></td>
-                                            <td><?= $result->type_of_services?></td>
-                                            <td><?= $result->remarks?></td>
-                                            <td>
-                                                <div class="mb-3">
-                                                    <select onchange="changeServiceStatus('<?= $result->ICT_ID ?>',<?= $result->services_id ?>,this.options[this.selectedIndex].text)" class="form-select" id="statusViewInp<?= $result->services_id ?>" name="statusViewInp">
-                                                        <?php
-                                                            $selected = $result->service_status;
-                                                            switch ($selected) {
-                                                                case "Finished": {
-                                                                    ?>
-                                                                    <option selected>Finished</option>
-                                                                    <option>On Going</option>
-                                                                    <option>Pending</option>
-                                                                    <?php
-                                                                    break;
-                                                                }
-                                                                case "On Going": {
-                                                                    ?>
-                                                                    <option>Finished</option>
-                                                                    <option selected>On Going</option>
-                                                                    <option>Pending</option>
-                                                                    <?php
-                                                                    break;
-                                                                }
-                                                                case "Pending": {
-                                                                    ?>
-                                                                    <option>Finished</option>
-                                                                    <option>On Going</option>
-                                                                    <option selected>Pending</option>
-                                                                    <?php
-                                                                    break;
-                                                                }
-                                                                default: {
-                                                                    ?>
-                                                                    <option>Finished</option>
-                                                                    <option>On Going</option>
-                                                                    <option>Pending</option>
-                                                                    <?php
-                                                                }
-                                                            }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <button onclick="getServiceView('<?= $result->services_id ?>')" type="button" data-id="<?= $result->services_id ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
-                                                <button onclick="getService(<?= $result->services_id ?>)" type="button" data-id="<?= $result->services_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                                <button onclick="" type="button" class="btn btn-warning">Generate Report</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <?php }} ?>
-                                </table>
-                            </div>
-                            </div>
-                        </div>
+                
                     </div>
                 </div>
             </form>
@@ -252,7 +87,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="transferModalLabel">Transfer ICT accessories</h1>
+                    <h1 class="modal-title fs-5" id="transferModalLabel">Transfer ICT Tools/Supplies</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -438,7 +273,7 @@
                 <div class="modal-body">
                 <form action="update_transfer.php" class="needs-validation" novalidate id="updateTransferForm" name="updateTransferForm" method="post">
                     <input type="hidden" name="transferIdInp" id="transferIdInp">
-                    <input type="hidden" name="accessoriesIdInp" id="accessoriesIdInp">
+                    <input type="hidden" name="supplies_toolsIdInp" id="supplies_toolsIdInp">
                     <div class="mb-3 col form-floating">
                         <input type="date" class="form-control" id="dateTransferredEditInp" name="dateTransferredEditInp" required>
                         <label for="dateTransferredEditInp" class="form-label" id="dateTransferredEditInpLbl">Date Transferred</label>
@@ -635,14 +470,14 @@
         })
         })();
 
-        const get = async (sid) => {
+        const get = async (stid) => {
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {accessories_id:sid}
+                data: {supplies_tools_id:stid}
             }).then((res) => {
                 res = JSON.parse(res);
-                $("#aidInp").val(res.accessories_id);
+                $("#stidInp").val(res.supplies_tools_id);
                 $("#macInp").val(res.mac_address);
                 $("#typeofsoftwareInp").val(res.type_of_software);
                 $('#softwarenameInp').val(res.softwarename);
@@ -656,11 +491,11 @@
             });
         }
 
-        const getServiceView = async (sid) => {
+        const getServiceView = async (stid) => {
             $.ajax({
                 type: "GET",
                 url: "./get_service.php",
-                data: {services_id:sid}
+                data: {services_id:stid}
             }).then((res) => {
                 res = JSON.parse(res);
                 $("#servicesIdInp").val(res.services_id);
@@ -678,11 +513,11 @@
             });
         }
 
-        const getService = async (sid) => {
+        const getService = async (stid) => {
             $.ajax({
                 type: "GET",
                 url: "./get_service.php",
-                data: {services_id:sid}
+                data: {services_id:stid}
             }).then((res) => {
                 res = JSON.parse(res);
                 console.log(res);
@@ -703,15 +538,15 @@
         }
 
 
-        function getTransferEdit(aid) {
+        function getTransferEdit(stid) {
             $.ajax({
                 type: "GET",
                 url: "./get_transfer_edit.php",
-                data: {ict_id:aid},
+                data: {ict_id:stid},
                 success: function (res) {
                     res = JSON.parse(res);
                     $("#transferIdInp").val(res.transfer_id);
-                    $("#accessoriesIdInp").val(aid);
+                    $("#supplies_toolsIdInp").val(stid);
                     $("#dateTransferredEditInp").val(res.date_transferred);
                     $('#newownerEditInp').val(res.new_owner);
                     $('#oldownerEditInp').val(res.old_owner);
@@ -720,14 +555,14 @@
         }
 
 
-        function getTransfer(aid) {
+        function getTransfer(stid) {
             $.ajax({
                 type: "GET",
                 url: "./get.php",
-                data: {accessories_id:aid},
+                data: {supplies_tools_id:stid},
                 success: function (res) {
                     res = JSON.parse(res);
-                    $("#aidInp").val(res.accessories_id);
+                    $("#stidInp").val(res.supplies_tools_id);
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);
@@ -776,7 +611,7 @@
                     type: "POST",
                     url: "./transfer.php",
                     data: {
-                        ict_id: $("#aidInp").val(),
+                        ict_id: $("#stidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
                     }
@@ -807,11 +642,11 @@
         }
 
         function encodeService(ictid) {
-            location.href = `../service/encode.php?type=Accessories&ictid=${ictid}`;
+            location.href = `../service/encode.php?type=Tool-Supply&ictid=${ictid}`;
         }
 
         $(document).ready(function () {
-            $('#ictnetworkaccessoriesTbl').DataTable();
+            $('#ictnetworksupplies_toolsTbl').DataTable();
             $('#tbl_transfer').DataTable();
         });
     </script>

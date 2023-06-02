@@ -192,7 +192,7 @@
                                             <td><?= $result->remarks?></td>
                                             <td>
                                                 <div class="mb-3">
-                                                    <select onchange="changeServiceStatus('<?= $result->ICT_ID ?>',<?= $result->services_id ?>,this.options[this.selectedIndex].text)" class="form-select" id="statusViewInp<?= $result->services_id ?>" name="statusViewInp">
+                                                    <select <?php echo $hardware['status'] == "Non-Serviceable" ? "disabled" : "" ?> onchange="changeServiceStatus('<?= $result->ICT_ID ?>',<?= $result->services_id ?>,this.options[this.selectedIndex].text)" class="form-select" id="statusViewInp<?= $result->services_id ?>" name="statusViewInp">
                                                         <?php
                                                             $selected = $result->service_status;
                                                             switch ($selected) {

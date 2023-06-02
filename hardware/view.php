@@ -224,7 +224,7 @@
                                             <td><?= $result->remarks?></td>
                                             <td>
                                                 <div class="mb-3">
-                                                    <select onchange="changeServiceStatus('<?= $result->ICT_ID ?>',<?= $result->services_id ?>,this.options[this.selectedIndex].text)" class="form-select" id="statusViewInp<?= $result->services_id ?>" name="statusViewInp">
+                                                    <select <?php echo $hardware['status'] == "Non-Serviceable" ? "disabled" : "" ?> onchange="changeServiceStatus('<?= $result->ICT_ID ?>',<?= $result->services_id ?>,this.options[this.selectedIndex].text)" class="form-select" id="statusViewInp<?= $result->services_id ?>" name="statusViewInp">
                                                         <?php
                                                             $selected = $result->service_status;
                                                             switch ($selected) {
@@ -266,7 +266,7 @@
                                             </td>
                                             <td>
                                                 <button onclick="getServiceView('<?= $result->services_id ?>')" type="button" data-id="<?= $result->services_id ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
-                                                <button onclick="getService(<?= $result->services_id ?>)" type="button" data-id="<?= $result->services_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                                <button <?php echo $hardware['status'] == "Non-Serviceable" ? "disabled" : "" ?> onclick="getService(<?= $result->services_id ?>)" type="button" data-id="<?= $result->services_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                                                 <button onclick="" type="button" class="btn btn-warning">Generate Report</button>
                                             </td>
                                         </tr>

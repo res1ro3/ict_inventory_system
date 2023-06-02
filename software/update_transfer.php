@@ -2,7 +2,7 @@
     require_once('../dbConfig.php');
     
     $transfer_id = $_POST['transferIdInp'];
-    $hardware_id = $_POST['hardwareIdInp'];
+    $software_id = $_POST['softwareIdInp'];
     $date_transferred = $_POST['dateTransferredEditInp'];
     $old_owner = $_POST['oldownerEditInp'];
     $new_owner = $_POST['newownerEditInp'];
@@ -10,9 +10,9 @@
     if ($old_owner === $new_owner) {
         echo "<script>alert('Current Owner cannot be the New Owner.'); location.href='javascript:history.back()'</script>";
     } else {
-        $sql="UPDATE ict_network_hardware_tbl SET employee_id=:new WHERE hardware_id=:hid";
+        $sql="UPDATE software_tbl SET employee_id=:new WHERE software_id=:sid";
         $query = $conn->prepare($sql);
-        $query->bindParam(':hid',$hardware_id,PDO::PARAM_STR);
+        $query->bindParam(':sid',$software_id,PDO::PARAM_STR);
         $query->bindParam(':new',$new_owner,PDO::PARAM_STR);
         $query->execute();
 

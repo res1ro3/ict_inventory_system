@@ -107,7 +107,7 @@
                                     <tbody>
                                         <?php
                                             $accessories_id =  $_GET['aid'];
-                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :aid";
+                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :aid AND ict_type = 'accessories'";
                                             $query = $conn->prepare($sql);
                                             $query->bindParam(':aid',$accessories_id,PDO::PARAM_STR);
                                             $query->execute();
@@ -731,6 +731,7 @@
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);
+
                 }
             })
         }
@@ -779,6 +780,7 @@
                         ict_id: $("#aidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
+                        ict_type: "accessories"
                     }
                 })
                 .then((res) => {

@@ -152,7 +152,7 @@
                     </div>
 
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="ownerInpEdit" name="ownerInpEdit" required>
+                        <select class="form-select" id="ownerInpEdit" name="ownerInpEdit" disabled>
                             <option value="" selected disabled>Select Owner</option>
                         <?php
                             $sql="SELECT employee_id, username, lname, fname FROM `employee_tbl`";

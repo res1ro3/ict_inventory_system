@@ -109,7 +109,7 @@
                                     <tbody>
                                         <?php
                                             $software_id =  $_GET['sid'];
-                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :sid";
+                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :sid AND ict_type = 'software'";
                                             $query = $conn->prepare($sql);
                                             $query->bindParam(':sid',$software_id,PDO::PARAM_STR);
                                             $query->execute();
@@ -441,6 +441,7 @@
                 <form action="update_transfer.php" class="needs-validation" novalidate id="updateTransferForm" name="updateTransferForm" method="post">
                     <input type="hidden" name="transferIdInp" id="transferIdInp">
                     <input type="hidden" name="softwareIdInp" id="softwareIdInp">
+                    <input type="hidden" name="icttypeEditInp" id="icttypeEditInp">
                     <div class="mb-3 col form-floating">
                         <input type="date" class="form-control" id="dateTransferredEditInp" name="dateTransferredEditInp" required>
                         <label for="dateTransferredEditInp" class="form-label" id="dateTransferredEditInpLbl">Date Transferred</label>
@@ -712,6 +713,7 @@
                     res = JSON.parse(res);
                     $("#transferIdInp").val(res.transfer_id);
                     $("#softwareIdInp").val(sid);
+                    $("#icttypeEditInp").val(res.ict_type);
                     $("#dateTransferredEditInp").val(res.date_transferred);
                     $('#newownerEditInp').val(res.new_owner);
                     $('#oldownerEditInp').val(res.old_owner);
@@ -731,6 +733,7 @@
                     $("#macInp").val(res.mac_address);
                     $('#ownerInp').val(res.employee_id);
                     $('#currentownerInp').val(res.employee_id);
+                    $('#icttypeInp').val(res.ict_type);
                 }
             })
         }
@@ -779,6 +782,7 @@
                         ict_id: $("#sidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
+                        ict_type: "software",
                     }
                 })
                 .then((res) => {

@@ -9,6 +9,7 @@
     $software_id = $_POST['ict_id'];
     $current_owner = $_POST['current_owner'];
     $new_owner = $_POST['new_owner'];
+    $ict_type = $_POST['ict_type'];
 
     // $response = [$mac_address, $current_owner, $new_owner];
 
@@ -23,11 +24,12 @@
     // $query->bindParam(':mac',$mac_address,PDO::PARAM_STR);
     // $res = $query->execute();
 
-    $sql="INSERT INTO ict_transfer_tbl (employee_id_new, employee_id_old, date_transferred, ict_id) VALUES (:new, :old, '".$date."', :sid)";
+    $sql="INSERT INTO ict_transfer_tbl (employee_id_new, employee_id_old, date_transferred, ict_id, ict_type) VALUES (:new, :old, '".$date."', :sid, :type)";
     $query = $conn->prepare($sql);
     $query->bindParam(':new',$new_owner,PDO::PARAM_STR);
     $query->bindParam(':old',$current_owner,PDO::PARAM_STR);
     $query->bindParam(':sid',$software_id,PDO::PARAM_STR);
+    $query->bindParam(':type',$ict_type,PDO::PARAM_STR);
     $query->execute();
 
     // $sql="UPDATE ict_network_hardware_tbl SET owner_name = :new WHERE mac_address=:mac";

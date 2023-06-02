@@ -141,7 +141,7 @@
                                     <tbody>
                                         <?php
                                             $hardware_id =  $_GET['hid'];
-                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :hid";
+                                            $sql="SELECT * FROM ict_transfer_tbl WHERE ict_id = :hid AND ict_type = 'hardware'";
                                             $query = $conn->prepare($sql);
                                             $query->bindParam(':hid',$hardware_id,PDO::PARAM_STR);
                                             $query->execute();
@@ -811,6 +811,7 @@
                         ict_id: $("#hidInp").val(),
                         current_owner: $('#currentownerInp').val(),
                         new_owner: $('#newownerInp').val(),
+                        ict_type: "hardware"
                     }
                 })
                 .then((res) => {

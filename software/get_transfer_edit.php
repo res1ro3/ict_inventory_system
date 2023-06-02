@@ -29,6 +29,7 @@
             
             $row = array(
                 "transfer_id" => $result->transfer_id,
+                "ict_type" => $result->ict_type,
                 "date_transferred" => $formattedDate,
                 "old_owner" => $result->employee_id_old,
                 "new_owner" => $result->employee_id_new

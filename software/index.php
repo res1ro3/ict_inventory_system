@@ -94,15 +94,24 @@
                     <input type="hidden" class="form-control" id="sidInpEdit" name="sidInpEdit">
 
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="typeofsoftwareInpEdit" name="typeofsoftwareInpEdit" required>
+                        <select class="form-select" id="typeofsoftwareInp" name="typeofsoftwareInp" required>
                             <option value="" selected disabled>Select Type of Software</option>
-                            <option>Productivity</option>
-                            <option>Editing</option>
+                        <?php
+                            $sql="SELECT * FROM `type_of_software_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                        ?>
+                            <option value="<?php echo htmlentities($result->type_of_software_id);?>"><?php echo htmlentities($result->name);?></option>
+                        <?php }} ?>
                         </select>
-                        <label for="typeofsoftwareInpEdit">Type of Software</label>
-                        <div class="invalid-feedback">
-                            Please select Type of Software
-                        </div>
+                        <label for="typeofsoftwareInp" class="form-label fw-bold">Type of Software</label>
                     </div>
 
                     <div class="mb-3 col form-floating">
@@ -122,15 +131,24 @@
                     </div>
 
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="typeofsubscriptionInpEdit" name="typeofsubscriptionInpEdit" required>
+                        <select class="form-select" id="typeofsubscriptionInp" name="typeofsubscriptionInp" required>
                             <option value="" selected disabled>Select Type of Subscription</option>
-                            <option>Monthly</option>
-                            <option>Yearly</option>
+                        <?php
+                            $sql="SELECT * FROM `type_of_subscription_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                        ?>
+                            <option value="<?php echo htmlentities($result->type_of_subscription_id);?>"><?php echo htmlentities($result->name);?></option>
+                        <?php }} ?>
                         </select>
-                        <label for="typeofsubscriptionInpEdit">Type of Subscription</label>
-                        <div class="invalid-feedback">
-                            Please select Type of Subscription
-                        </div>
+                        <label for="typeofsubscriptionInp" class="form-label fw-bold">Type of Subscription</label>
                     </div>
 
                     <div class="mb-3 col form-floating">

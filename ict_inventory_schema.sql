@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2023 at 11:00 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jun 04, 2023 at 07:38 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,8 +42,7 @@ CREATE TABLE `accessories_tbl` (
 --
 
 INSERT INTO `accessories_tbl` (`accessories_id`, `generic_name`, `employee_id`, `unit`, `quantity`, `specifications`, `brand`) VALUES
-(2, 'HDMI', 8, 'Office of the Regional Director', 3, 'HDMI v1', 'No Brand'),
-(3, 'Headset', 2, 'Administrative Division', 4, 'HQ Sound', 'Logitech');
+(5, 'HDMI', 6, '4', 5, 'HDMI v3', '8');
 
 -- --------------------------------------------------------
 
@@ -101,13 +100,13 @@ CREATE TABLE `employee_tbl` (
 --
 
 INSERT INTO `employee_tbl` (`employee_id`, `lname`, `fname`, `username`, `password`, `unitOffice`, `position`, `type_of_employment`, `sex`, `type_of_account`, `status`) VALUES
-(1, 'Super', 'Admin', 'Super', '$argon2id$v=19$m=65536,t=4,p=1$anYwMVF5RVpNNXBNamhZMQ$/I62hirjTRTl94ZMrqqPhMUfTbfGSCGZfqM8eSVm3p0', 'Office of the Regional Director', 'Position 1', 'Regular', 'Male', 'Super Admin', 'Active'),
-(2, 'Yumeko', 'Jabami', 'Yumeko', '$argon2id$v=19$m=65536,t=4,p=1$cnlBeTJWWnhBY1lPQVVkeQ$4SLG8GSuGfOq5d8Pef9VE1LX+K6gcCmJreUtq5AjxoE', 'Office of the Regional Director', 'Position 1', 'Regular', 'Female', 'Admin', 'Active'),
-(3, 'Uzumaki', 'Naruto', 'Naruto', '$argon2id$v=19$m=65536,t=4,p=1$bFBaYi9tWlRCWDlmbnA3OA$X2Qa86AQXgIec/9tY9SUsbB92QmHMAlkq3hLARlbrCY', 'Administrative Division', 'Position 2', 'Regular', 'Male', 'Ordinary User', 'Active'),
-(4, 'Dela Cruz', 'Juan', 'Juan', '$argon2id$v=19$m=65536,t=4,p=1$bnBSMTFZOWhUUHN4TXNFSg$xHeKJCeapBz6jauNfwH8BzxVoNOS2IbLL2u39GpK638', 'Technical Division', 'Position 3', 'COS', 'Male', 'Ordinary User', 'Active'),
-(5, 'Benedicto', 'John Benedict', 'jbenedicto13', '$argon2id$v=19$m=65536,t=4,p=1$elIudnNpc0lDWUtnRTNZOA$sbNew1mIyaYFSCgreHTwKgOfut6Kki8xoA/1SWtSiPk', 'Office of the Regional Director', 'Position 1', 'Regular', 'Male', 'Admin', 'Active'),
-(6, 'Admin', 'Admin', 'Admin', '$argon2id$v=19$m=65536,t=4,p=1$bDBBWVh0bG43ZzVsOEMvSw$utx9DnuyQGRpUzpTMqYIhRywuy0XTMPLypY20qvtYug', 'Office of the Regional Director', 'Position 2', 'Regular', 'Female', 'Admin', 'Active'),
-(8, 'Manalang', 'Paulo', 'paulo123456', '$argon2id$v=19$m=65536,t=4,p=1$WTYyLnh1MDhRalk1M0Z2Sg$EBKO5X/8Gx93Z2f7YURQ2LbKkW2nzvoprlh1vhF49C8', 'Office of the Regional Director', '', 'COS', 'Male', 'Admin', 'Active');
+(1, 'Super', 'Admin', 'Super', '$argon2id$v=19$m=65536,t=4,p=1$anYwMVF5RVpNNXBNamhZMQ$/I62hirjTRTl94ZMrqqPhMUfTbfGSCGZfqM8eSVm3p0', '2', 'Position 1', 'Regular', 'Male', 'Super Admin', 'Active'),
+(2, 'Yumeko', 'Jabami', 'Yumeko', '$argon2id$v=19$m=65536,t=4,p=1$cnlBeTJWWnhBY1lPQVVkeQ$4SLG8GSuGfOq5d8Pef9VE1LX+K6gcCmJreUtq5AjxoE', '2', 'Position 1', 'Regular', 'Female', 'Admin', 'Active'),
+(3, 'Uzumaki', 'Naruto', 'Naruto', '$argon2id$v=19$m=65536,t=4,p=1$bFBaYi9tWlRCWDlmbnA3OA$X2Qa86AQXgIec/9tY9SUsbB92QmHMAlkq3hLARlbrCY', '3', 'Position 2', 'Regular', 'Male', 'Ordinary User', 'Active'),
+(4, 'Dela Cruz', 'Juan', 'Juan', '$argon2id$v=19$m=65536,t=4,p=1$bnBSMTFZOWhUUHN4TXNFSg$xHeKJCeapBz6jauNfwH8BzxVoNOS2IbLL2u39GpK638', '4', 'Position 3', 'COS', 'Male', 'Ordinary User', 'Active'),
+(5, 'Benedicto', 'John Benedict', 'jbenedicto13', '$argon2id$v=19$m=65536,t=4,p=1$elIudnNpc0lDWUtnRTNZOA$sbNew1mIyaYFSCgreHTwKgOfut6Kki8xoA/1SWtSiPk', '5', 'Position 1', 'Regular', 'Male', 'Admin', 'Active'),
+(6, 'Admin', 'Admin', 'Admin', '$argon2id$v=19$m=65536,t=4,p=1$bDBBWVh0bG43ZzVsOEMvSw$utx9DnuyQGRpUzpTMqYIhRywuy0XTMPLypY20qvtYug', '6', 'Position 2', 'Regular', 'Female', 'Admin', 'Active'),
+(10, 'Clara', 'Maria', 'maria', '$argon2id$v=19$m=65536,t=4,p=1$WDJPLzN5LkJ6bnNFd3JqRA$EIfrKV8kG63xVPGQ6w3V0NGasI2eF9aHukPXYOh9yrg', '5', 'Position 5', 'Regular', 'Female', 'Ordinary User', 'Active');
 
 -- --------------------------------------------------------
 
@@ -136,9 +135,7 @@ CREATE TABLE `ict_network_hardware_tbl` (
 --
 
 INSERT INTO `ict_network_hardware_tbl` (`hardware_id`, `mac_address`, `type_of_hardware`, `brand`, `model`, `serial_number`, `date_of_purchase`, `warranty`, `employee_id`, `status`, `owner_name`, `specifications`, `cost`) VALUES
-(1, '78-9F-BD-88-5E-A1', 'Desktop', 'Acer', 'Model A', 'sdfe4w23dsf', '2023-05-25', '2024-07-25', 3, 'Non-Serviceable', '3', 'Specs here', 45000),
-(2, '68-9F-BD-88-5E-A0', 'Laptop', 'Dell', 'Model B', 'sdfe4w23dsg', '2023-05-25', '2024-05-25', 5, 'Non-Serviceable', '2', '8GB RAM, Ryzen 7', 100000),
-(3, '43-F8-6A-1T-2S-3A', 'Printer', 'HP', 'Printer X', 'p4r56i7n0t3e1r', '2023-05-25', '2024-05-25', 5, 'Serviceable', '8', 'High Quality Laser Printer, With Washing Machine', 30000);
+(6, '01-23-45-67-89-ab', '1', '1', 'Model A', 'v7s9ajd02h6', '2023-06-04', '2024-06-04', 5, 'Serviceable', '5', '8GB Ram, Ryzen 5, 128 GB SSD', 35000);
 
 -- --------------------------------------------------------
 
@@ -156,17 +153,6 @@ CREATE TABLE `ict_transfer_tbl` (
   `new_owner` varchar(128) NOT NULL,
   `old_owner` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `ict_transfer_tbl`
---
-
-INSERT INTO `ict_transfer_tbl` (`transfer_id`, `employee_id_new`, `employee_id_old`, `ict_id`, `ict_type`, `date_transferred`, `new_owner`, `old_owner`) VALUES
-(61, 5, 8, 1, 'hardware', '2023-06-02', '', ''),
-(62, 5, 3, 2, 'software', '2023-06-02', '', ''),
-(63, 2, 4, 2, 'accessories', '2023-06-02', '', ''),
-(64, 1, 5, 1, 'hardware', '2023-06-02', '', ''),
-(65, 3, 1, 1, 'hardware', '2023-06-02', '', '');
 
 -- --------------------------------------------------------
 
@@ -230,23 +216,6 @@ CREATE TABLE `services_tbl` (
   `service_status` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `services_tbl`
---
-
-INSERT INTO `services_tbl` (`services_id`, `type_of_services`, `ICT_ID`, `date_received`, `date_returned`, `description_of_service`, `action_done`, `remarks`, `recommendation`, `type_of_ict`, `employee_id`, `processed_by`, `service_status`) VALUES
-(27, 'Maintenance', '1', '2023-05-25', '', '123123123', 'Erase the RAM with pencil eraser', 'asdasdasd', 'Clean the unit', 'Hardware', 1, 'MIS Unit', 'Finished'),
-(29, 'Repair', '1', '2023-06-02', '2023-05-27', 'qwerty', 'dasdasd', 'asdasdasd', 'asdasdasd', 'Hardware', 1, 'MIS Unit', 'Pending'),
-(30, 'Repair', '2', '2023-05-29', '', 'aas', 'dasdassdasd', 'asda', 'asdasd', 'Hardware', 1, 'MIS Unit', 'Pending'),
-(33, 'Repair', '1', '2023-05-29', '', 'asd', 'asdasdasd', 'qweqweqwe', '12341231', 'Hardware', 1, 'MIS Unit', 'Pending'),
-(34, 'Installation', '2', '2023-05-31', '2023-05-31', 'Install Photoshop', 'Install Photoshop', 'Install Photoshop', 'Install Photoshop', 'Software', 1, 'MIS Unit', 'Finished'),
-(36, 'Maintenance', '3', '2023-05-31', '', 'asd', 'asd', 'q2312', '123123', 'Hardware', 1, 'MIS Unit', 'Pending'),
-(37, 'Repair', '2', '2023-05-31', '', 'Can\'t Open', 'Can\'t Open', 'Can\'t Open', 'Can\'t Open', 'Software', 1, 'MIS Unit', 'Pending'),
-(41, 'Repair', '3', '2023-06-01', '', 'asdasd', 'asdasd', '123412', 'asdasd', 'Accessories', 1, 'MIS Unit', 'On Going'),
-(42, 'Repair', '2', '2023-06-08', '2023-06-04', 'asd123123123', 'asdasdasd', 'asdasdasdasd', 'as123123123', 'Accessories', 1, '123123123123', 'Finished'),
-(47, 'Maintenance', '1', '2023-06-03', '', 'asd', 'asd', 'asd', 'asd', 'Tool/Supply', 1, 'asdasd', 'Pending'),
-(48, 'Maintenance', '2', '2023-06-29', '', 'asdasd', 'asdasd', 'asdas', 'dasd', 'Accessories', 1, 'MIS Unit', 'Pending');
-
 -- --------------------------------------------------------
 
 --
@@ -270,9 +239,7 @@ CREATE TABLE `software_tbl` (
 --
 
 INSERT INTO `software_tbl` (`software_id`, `software_name`, `date_developed_purchased`, `employee_id`, `type_of_software`, `type_of_subscription`, `manufacturer`, `type_developed`, `owner_name`) VALUES
-(2, 'Photoshop 2023', '2023-10-10', 5, 'Editing', 'Yearly', 'Adobe', 'Lorem Ipsum', 'JB'),
-(3, 'Illustrator', '2023-05-31', 4, 'Editing', 'Monthly', 'Adobe', '', ''),
-(4, 'asd', '2023-05-31', 5, 'Productivity', 'Monthly', 'asdasd', '', '');
+(5, 'VRAMS', '2023-06-03', 1, '3', '1', 'DOST3', '', '');
 
 -- --------------------------------------------------------
 
@@ -294,10 +261,7 @@ CREATE TABLE `supplies_tools_tbl` (
 --
 
 INSERT INTO `supplies_tools_tbl` (`supply_tools_id`, `type_of_supply_tools`, `employee_id`, `unit`, `quantity`, `specifications_remarks`) VALUES
-(1, 'type 1', 4, 'Office of the Regional Director', 2, 'sadasdasd'),
-(2, 'asdasd', 2, 'Administrative Division', 2, '789'),
-(3, 'SSSS', 3, 'Administrative Division', 9, 'sDSDSDasdas'),
-(4, 'asd', 5, 'Office of the Regional Director', 2, 'asd');
+(5, 'Card Holder', 4, '', 51, 'Size: Big and Small');
 
 -- --------------------------------------------------------
 
@@ -315,7 +279,7 @@ CREATE TABLE `type_of_hardware_tbl` (
 --
 
 INSERT INTO `type_of_hardware_tbl` (`type_of_hardware_id`, `name`) VALUES
-(1, 'desktop b'),
+(1, 'Desktop'),
 (2, 'Laptop'),
 (3, 'Printer'),
 (4, 'Scanner'),
@@ -466,7 +430,7 @@ ALTER TABLE `type_of_subscription_tbl`
 -- AUTO_INCREMENT for table `accessories_tbl`
 --
 ALTER TABLE `accessories_tbl`
-  MODIFY `accessories_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `accessories_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `brand_tbl`
@@ -478,13 +442,13 @@ ALTER TABLE `brand_tbl`
 -- AUTO_INCREMENT for table `employee_tbl`
 --
 ALTER TABLE `employee_tbl`
-  MODIFY `employee_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `employee_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `ict_network_hardware_tbl`
 --
 ALTER TABLE `ict_network_hardware_tbl`
-  MODIFY `hardware_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `hardware_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ict_transfer_tbl`
@@ -508,13 +472,13 @@ ALTER TABLE `services_tbl`
 -- AUTO_INCREMENT for table `software_tbl`
 --
 ALTER TABLE `software_tbl`
-  MODIFY `software_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `software_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `supplies_tools_tbl`
 --
 ALTER TABLE `supplies_tools_tbl`
-  MODIFY `supply_tools_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `supply_tools_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `type_of_hardware_tbl`
@@ -558,29 +522,10 @@ ALTER TABLE `ict_transfer_tbl`
   ADD CONSTRAINT `fk_employee_id_old` FOREIGN KEY (`employee_id_old`) REFERENCES `employee_tbl` (`employee_id`);
 
 --
--- Constraints for table `resource_sharing_tbl`
---
-ALTER TABLE `resource_sharing_tbl`
-  ADD CONSTRAINT `fk_employee_id_` FOREIGN KEY (`employee_id`) REFERENCES `employee_tbl` (`employee_id`),
-  ADD CONSTRAINT `fk_resource_mac_address` FOREIGN KEY (`mac_address`) REFERENCES `ict_network_hardware_tbl` (`mac_address`);
-
---
 -- Constraints for table `services_tbl`
 --
 ALTER TABLE `services_tbl`
   ADD CONSTRAINT `fk_employee_id_service` FOREIGN KEY (`employee_id`) REFERENCES `employee_tbl` (`employee_id`);
-
---
--- Constraints for table `software_tbl`
---
-ALTER TABLE `software_tbl`
-  ADD CONSTRAINT `fk_employee_id_software` FOREIGN KEY (`employee_id`) REFERENCES `employee_tbl` (`employee_id`);
-
---
--- Constraints for table `supplies_tools_tbl`
---
-ALTER TABLE `supplies_tools_tbl`
-  ADD CONSTRAINT `fk_employee_id_supplies` FOREIGN KEY (`employee_id`) REFERENCES `employee_tbl` (`employee_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

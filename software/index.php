@@ -55,13 +55,20 @@
                             $result = $query->fetchAll();
                             $count = 1;
                             foreach ($result as $row) {
+                                $get_type = $conn->prepare("SELECT * FROM type_of_software_tbl WHERE type_of_software_id = :id");
+                                $get_type->execute(array(':id' => $row['type_of_software']));
+                                $type_of_software=$get_type->fetch(PDO::FETCH_ASSOC);
+
+                                $get_type = $conn->prepare("SELECT * FROM type_of_subscription_tbl WHERE type_of_subscription_id = :id");
+                                $get_type->execute(array(':id' => $row['type_of_subscription']));
+                                $type_of_subscription=$get_type->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <tr>
                             <td><?= $count ?></td>
-                            <td><?= $row['type_of_software'] ?></td>
+                            <td><?= $type_of_software['name'] ?></td>
                             <td><?= $row['software_name'] ?></td>
                             <td><?= $row['manufacturer'] ?></td>
-                            <td><?= $row['type_of_subscription'] ?></td>
+                            <td><?= $type_of_subscription['name'] ?></td>
                             <td><?= $row['lname'].', '.$row['fname'] ?></td>
                             <td>
                                 <button id="viewBtn" onclick="get('<?= $row['software_id'] ?>')" type="button" data-id="<?= $row['software_id'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
@@ -94,7 +101,7 @@
                     <input type="hidden" class="form-control" id="sidInpEdit" name="sidInpEdit">
 
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="typeofsoftwareInp" name="typeofsoftwareInp" required>
+                        <select class="form-select" id="typeofsoftwareInpEdit" name="typeofsoftwareInpEdit" required>
                             <option value="" selected disabled>Select Type of Software</option>
                         <?php
                             $sql="SELECT * FROM `type_of_software_tbl`";
@@ -111,7 +118,7 @@
                             <option value="<?php echo htmlentities($result->type_of_software_id);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                         </select>
-                        <label for="typeofsoftwareInp" class="form-label fw-bold">Type of Software</label>
+                        <label for="typeofsoftwareInpEdit" class="form-label fw-bold">Type of Software</label>
                     </div>
 
                     <div class="mb-3 col form-floating">
@@ -131,7 +138,7 @@
                     </div>
 
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="typeofsubscriptionInp" name="typeofsubscriptionInp" required>
+                        <select class="form-select" id="typeofsubscriptionInpEdit" name="typeofsubscriptionInpEdit" required>
                             <option value="" selected disabled>Select Type of Subscription</option>
                         <?php
                             $sql="SELECT * FROM `type_of_subscription_tbl`";
@@ -223,14 +230,13 @@
                 data: {software_id:sid}
             }).then((res) => {
                     res = JSON.parse(res);
-                    const formattedDate = changeDateFormat(res.date_developed_purchased);
 
                     $("#sidInpEdit").val(res.software_id);
                     $("#typeofsoftwareInpEdit").val(res.type_of_software);
                     $('#softwarenameInpEdit').val(res.software_name);
                     $('#manufacturerInpEdit').val(res.manufacturer);
                     $('#typeofsubscriptionInpEdit').val(res.type_of_subscription);
-                    $('#datedevelopedInpEdit').val(formattedDate);
+                    $('#datedevelopedInpEdit').val(res.date_developed_purchased);
                     $('#ownerInpEdit').val(res.employee_id);
                 });
         }

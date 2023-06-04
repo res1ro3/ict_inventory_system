@@ -55,13 +55,16 @@
                             $result = $query->fetchAll();
                             $count = 1;
                             foreach ($result as $row) {
+                                $get_office = $conn->prepare("SELECT * FROM office_tbl WHERE office_id = :id");
+                                $get_office->execute(array(':id' => $row['unit']));
+                                $office=$get_office->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <tr>
                             <td><?= $count ?></td>
                             <td><?= $row['type_of_supply_tools'] ?></td>
                             <td><?= $row['quantity'] ?></td>
                             <td><?= $row['specifications_remarks'] ?></td>
-                            <td><?= $row['unit'] ?></td>
+                            <td><?= $office['name'] ?></td>
                             <td><?= $row['lname'].', '.$row['fname'] ?></td>
                             <td>
                                 <button id="viewBtn" onclick="get('<?= $row['supply_tools_id'] ?>')" type="button" data-id="<?= $row['supply_tools_id'] ?>" class="btn btn-primary">View</button>

@@ -11,6 +11,14 @@
     $query->execute(array(':hid' => $_GET['hid']));
     $hardware=$query->fetch(PDO::FETCH_ASSOC);
 
+    $get_brand = $conn->prepare("SELECT * FROM brand_tbl WHERE brand_id = :id");
+    $get_brand->execute(array(':id' => $hardware['brand']));
+    $brand=$get_brand->fetch(PDO::FETCH_ASSOC);
+
+    $get_type = $conn->prepare("SELECT * FROM type_of_hardware_tbl WHERE type_of_hardware_id = :id");
+    $get_type->execute(array(':id' => $hardware['type_of_hardware']));
+    $type_of_hardware=$get_type->fetch(PDO::FETCH_ASSOC);
+
     $count=$query->rowCount();
 
     if($count <=0){
@@ -73,11 +81,11 @@
                 </div>
                 <div class="col">
                     <label for="macInp" class="form-label fw-bold">Type of Hardware</label>
-                    <input type="text" class="form-control" id="typeofhardwareInp" name="typeofhardwareInp" value="<?= $hardware['type_of_hardware'] ?>" disabled>
+                    <input type="text" class="form-control" id="typeofhardwareInp" name="typeofhardwareInp" value="<?= $type_of_hardware['name'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="macInp" class="form-label fw-bold">Brand</label>
-                    <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $hardware['brand'] ?>" disabled>
+                    <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $brand['name'] ?>" disabled>
                 </div>
                 <div class="row">
                     <div class="col">

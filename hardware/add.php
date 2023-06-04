@@ -92,7 +92,7 @@
                                 foreach($results as $result)
                             {
                         ?>
-                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                            <option value="<?php echo htmlentities($result->type_of_hardware_id);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                     </select>
                     <label class="form-label fw-bold" for="typeofhardwareInp" id="typeofhardwareLbl">Type of Hardware</label>
@@ -116,7 +116,7 @@
                                 foreach($results as $result)
                             {
                         ?>
-                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                            <option value="<?php echo htmlentities($result->brand_id);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                     </select>
                     <label class="form-label fw-bold" for="brandInp" id="brandLbl">Brand</label>

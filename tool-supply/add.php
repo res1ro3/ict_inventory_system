@@ -94,7 +94,7 @@
                             foreach($results as $result)
                         {
                     ?>
-                        <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                        <option value="<?php echo htmlentities($result->office_id);?>"><?php echo htmlentities($result->name);?></option>
                     <?php }} ?>
                     </select>
                     <label for="unitInp" id="officeLbl" class="form-label fw-bold">Unit</label>

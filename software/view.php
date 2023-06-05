@@ -7,8 +7,6 @@
         header("Location: ../admin/signin.php");
     }
 
-    
-
     $query=$conn->prepare("SELECT * FROM software_tbl WHERE software_id =:sid");
     $query->execute(array(':sid' => $_GET['sid']));
     $software=$query->fetch(PDO::FETCH_ASSOC);
@@ -19,6 +17,14 @@
         //reidrect homepage/ ict inventory module
         header("Location: software.php");
     }
+
+    $get_type = $conn->prepare("SELECT * FROM `type_of_subscription_tbl` WHERE type_of_subscription_id = :id");
+    $get_type->execute(array(':id' => $software->type_of_subscription));
+    $subscription=$get_type->fetch(PDO::FETCH_ASSOC);
+
+    $get_type = $conn->prepare("SELECT * FROM `type_of_software_tbl` WHERE type_of_software_id = :id");
+    $get_type->execute(array(':id' => $software->type_of_software));
+    $type_of_software=$get_type->fetch(PDO::FETCH_ASSOC);
 
     $query=$conn->prepare("SELECT * FROM employee_tbl WHERE employee_id = :eid");
     $query->execute(array(':eid' => $software['employee_id']));
@@ -76,8 +82,8 @@
                     <input type="text" class="form-control" id="manufacturerInp" name="manufacturerInp" value="<?= $software['manufacturer'] ?>" disabled>
                 </div>
                 <div class="col">
-                    <label for="typeofsubscriptionInp" class="form-label fw-bold">Type of Subsciprion</label>
-                    <input type="text" class="form-control" id="typeofsubscriptionInp" name="typeofsubscriptionInp" value="<?= $software['type_of_subscription'] ?>" disabled>
+                    <label for="typeofsubscriptionInp" class="form-label fw-bold">Type of Subscription</label>
+                    <input type="text" class="form-control" id="typeofsubscriptionInp" name="typeofsubscriptionInp" value="<?= $subscription['name'] ?>" disabled>
                 </div>
                 
                 <div class="col">
@@ -190,48 +196,7 @@
                                             <td><?= $result->date_returned?></td>
                                             <td><?= $result->type_of_services?></td>
                                             <td><?= $result->remarks?></td>
-                                            <td>
-                                                <div class="mb-3">
-                                                    <select <?php echo $hardware['status'] == "Non-Serviceable" ? "disabled" : "" ?> onchange="changeServiceStatus('<?= $result->ICT_ID ?>',<?= $result->services_id ?>,this.options[this.selectedIndex].text)" class="form-select" id="statusViewInp<?= $result->services_id ?>" name="statusViewInp">
-                                                        <?php
-                                                            $selected = $result->service_status;
-                                                            switch ($selected) {
-                                                                case "Finished": {
-                                                                    ?>
-                                                                    <option selected>Finished</option>
-                                                                    <option>On Going</option>
-                                                                    <option>Pending</option>
-                                                                    <?php
-                                                                    break;
-                                                                }
-                                                                case "On Going": {
-                                                                    ?>
-                                                                    <option>Finished</option>
-                                                                    <option selected>On Going</option>
-                                                                    <option>Pending</option>
-                                                                    <?php
-                                                                    break;
-                                                                }
-                                                                case "Pending": {
-                                                                    ?>
-                                                                    <option>Finished</option>
-                                                                    <option>On Going</option>
-                                                                    <option selected>Pending</option>
-                                                                    <?php
-                                                                    break;
-                                                                }
-                                                                default: {
-                                                                    ?>
-                                                                    <option>Finished</option>
-                                                                    <option>On Going</option>
-                                                                    <option>Pending</option>
-                                                                    <?php
-                                                                }
-                                                            }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </td>
+                                            <td><?= $result->service_status ?></td>
                                             <td>
                                                 <button onclick="getServiceView('<?= $result->services_id ?>')" type="button" data-id="<?= $result->services_id ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
                                                 <button onclick="getService(<?= $result->services_id ?>)" type="button" data-id="<?= $result->services_id ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>

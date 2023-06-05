@@ -55,13 +55,20 @@
                             $result = $query->fetchAll();
                             $count = 1;
                             foreach ($result as $row) {
+                                $get_type = $conn->prepare("SELECT * FROM `type_of_subscription_tbl` WHERE type_of_subscription_id = :id");
+                                $get_type->execute(array(':id' => $row['type_of_subscription']));
+                                $type_of_subscription=$get_type->fetch(PDO::FETCH_ASSOC);
+
+                                $get_type = $conn->prepare("SELECT * FROM `type_of_software_tbl` WHERE type_of_software_id = :id");
+                                $get_type->execute(array(':id' => $row['type_of_software']));
+                                $type_of_software=$get_type->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <tr>
                             <td><?= $count ?></td>
-                            <td><?= $row['type_of_software'] ?></td>
+                            <td><?= $type_of_software['name'] ?></td>
                             <td><?= $row['software_name'] ?></td>
                             <td><?= $row['manufacturer'] ?></td>
-                            <td><?= $row['type_of_subscription'] ?></td>
+                            <td><?= $type_of_subscription['name'] ?></td>
                             <td><?= $row['lname'].', '.$row['fname'] ?></td>
                             <td>
                                 <button id="viewBtn" onclick="get('<?= $row['software_id'] ?>')" type="button" data-id="<?= $row['software_id'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>

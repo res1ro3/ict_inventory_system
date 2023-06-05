@@ -160,7 +160,7 @@
 
                 <div class="row mb-3">
                     <div class="mb-3 col form-floating">
-                        <input type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" required>
+                        <input onchange="handleDateChange()" type="date" class="form-control" id="dateofpurchaseInp" name="dateofpurchaseInp" required>
                         <label for="dateofpurchaseInp" class="form-label ps-4 fw-bold" id="dateofpurchaseLbl">Date of Purchase</label>
                         <div class="invalid-feedback">
                             Please set Date of Purchase
@@ -168,7 +168,7 @@
                     </div>
 
                     <div class="col form-floating">
-                        <input type="date" class="form-control" id="warrantyInp" name="warrantyInp" required>
+                        <input onchange="handleDateChange()" type="date" class="form-control" id="warrantyInp" name="warrantyInp" required>
                         <label for="warrantyInp" class="form-label ps-4 fw-bold" id="warrantyLbl">End of Warranty</label>
                         <div class="invalid-feedback">
                             Please enter End of Warranty
@@ -250,5 +250,16 @@
             }, false)
         })
         })();
+
+        const handleDateChange = () => {
+            let dateofpurchaseInp = $('#dateofpurchaseInp').val();
+            let warrantyInp = $('#warrantyInp').val();
+            if (dateofpurchaseInp != "" && warrantyInp != "") {
+                if (dateofpurchaseInp > warrantyInp) {
+                    alert("Date of purchase can't be ahead of warranty expiration date");
+                    $('#dateofpurchaseInp').val("");
+                }
+            }
+        }
     </script>
 </html>

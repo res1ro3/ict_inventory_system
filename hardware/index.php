@@ -208,7 +208,7 @@
                         <label for="ownerInpEdit">Owner</label>
                     </div>
                     <div class="mb-3 form-floating">
-                        <select class="form-select" id="statusInpEdit" name="statusInpEdit" required>
+                        <select onchange="handleStatusChange()" class="form-select" id="statusInpEdit" name="statusInpEdit" required>
                             <option value="" selected disabled>Please select Status</option>
                             <option>Serviceable</option>
                             <option>Non-Serviceable</option>
@@ -216,6 +216,14 @@
                         <label for="statusInpEdit">Status</label>
                         <div class="invalid-feedback">
                             Please select Status
+                        </div>
+                    </div>
+                    <div id="remarksDiv" class="mb-3 col" style="display: none;" >
+                        <p id="remarksNote" class="text-danger"></p>
+                        <label for="remarksEdit" class="form-label">Remarks</label>
+                        <textarea type="text" class="form-control" id="remarksEdit" name="remarksEdit" rows="3" required></textarea>
+                        <div class="invalid-feedback">
+                            Please enter Remarks
                         </div>
                     </div>
                 </form>
@@ -274,40 +282,56 @@
         }
 
         function update() {
-            $.ajax({
-                type: "POST",
-                url: "./update.php",
-                data: {
-                    hardware_id: $("#hidInpEdit").val(),
-                    mac_address: $("#macInpEdit").val(),
-                    type_of_hardware: $("#typeofhardwareInpEdit").val(),
-                    brand: $('#brandInpEdit').val(),
-                    model: $('#modelInpEdit').val(),
-                    serial_number:$('#serialnumberInpEdit').val(),
-                    date_of_purchase:$('#dateofpurchaseInpEdit').val(),
-                    warranty:$('#warrantyInpEdit').val(),
-                    employee_id:$('#ownerInpEdit').val(),
-                    status:$('#statusInpEdit').val(),
-                }
-            }).then((res)=> {
-                if (res == 'Updated Successfully') {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: res,
-                        icon: 'success',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: res,
-                        icon: 'error',
-                        confirmButtonText: 'Okay'
-                    }).then(()=>location.reload())
-                }
-            });
+            if ($('#remarksEdit').val() == "") {
+                alert('Please fill up remarks');
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "./update.php",
+                    data: {
+                        hardware_id: $("#hidInpEdit").val(),
+                        mac_address: $("#macInpEdit").val(),
+                        type_of_hardware: $("#typeofhardwareInpEdit").val(),
+                        brand: $('#brandInpEdit').val(),
+                        model: $('#modelInpEdit').val(),
+                        serial_number:$('#serialnumberInpEdit').val(),
+                        date_of_purchase:$('#dateofpurchaseInpEdit').val(),
+                        warranty:$('#warrantyInpEdit').val(),
+                        employee_id:$('#ownerInpEdit').val(),
+                        status:$('#statusInpEdit').val(),
+                        remarks:$('#remarksEdit').val(),
+                    }
+                }).then((res)=> {
+                    if (res == 'Updated Successfully') {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: res,
+                            icon: 'success',
+                            confirmButtonText: 'Okay'
+                        }).then(()=>location.reload())
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: res,
+                            icon: 'error',
+                            confirmButtonText: 'Okay'
+                        }).then(()=>location.reload())
+                    }
+                });
+            }
         }
 
+        const handleStatusChange = () => {
+            let dateofpurchaseInpEdit = $('#dateofpurchaseInpEdit').val();
+            let warrantyInpEdit = $('#warrantyInpEdit').val();
+            if ($('#statusInpEdit').val() == "Non-Serviceable" && dateofpurchaseInpEdit < warrantyInpEdit) {
+                document.getElementById('remarksDiv').style.display = 'flex';
+                document.getElementById('remarksDiv').style.flexDirection = 'column';
+                $('#remarksNote').text("This ICT is still under warranty. Please provide a remarks why it is Non-Serviceable.");
+            } else {
+                document.getElementById('remarksDiv').style.display = 'none';
+            }
+        }
         function changeServiceStatus(ictid, status) {
             $.ajax({
                 type: "POST",
@@ -410,7 +434,6 @@
 
         function encodeService(ictid) {
             location.href = `../service/encode.php?type=Hardware&ictid=${ictid}`;
-            
         }
 
         $(document).ready(function () {

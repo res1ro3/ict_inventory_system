@@ -18,6 +18,7 @@
     $warranty = $_POST['warranty'];
     $employee_id = $_POST['employee_id'];
     $status = $_POST['status'];
+    $remarks = $_POST['remarks'];
 
     if ($status == "Non-Serviceable") {
         $sql="UPDATE services_tbl SET service_status = :def WHERE type_of_ict =:type AND ict_id=:id";
@@ -29,7 +30,7 @@
         ));
     }
 
-    $sql="UPDATE ict_network_hardware_tbl SET mac_address=:mac, type_of_hardware=:toh, brand=:br, model=:md, serial_number=:sn, date_of_purchase=:dop, warranty=:wt, employee_id=:eid, status=:st WHERE hardware_id=:hid";
+    $sql="UPDATE ict_network_hardware_tbl SET mac_address=:mac, type_of_hardware=:toh, brand=:br, model=:md, serial_number=:sn, date_of_purchase=:dop, warranty=:wt, employee_id=:eid, status=:st, remarks=:rm WHERE hardware_id=:hid";
     $query = $conn->prepare($sql);
     $query->execute(array(
         'hid' => $hardware_id,
@@ -41,7 +42,8 @@
         'dop' => $date_of_purchase,
         'wt' => $warranty,
         'eid' => $employee_id,
-        'st' => $status
+        'st' => $status,
+        'rm' => $remarks
     ));
 
     if ($query->rowCount()) {

@@ -120,7 +120,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="mb-3 col form-floating">
-                        <input type="date" class="form-control" id="datereceivedInp" name="datereceivedInp" required>
+                        <input onchange="handleDateChange()" type="date" class="form-control" id="datereceivedInp" name="datereceivedInp" required>
                         <label for="datereceivedInp" class="form-label ps-4 fw-bold" id="datereceivedInpLbl">Date Received</label>
                         <div class="invalid-feedback">
                             Please set Date Received
@@ -128,7 +128,7 @@
                     </div>
 
                     <div class="col form-floating">
-                        <input type="date" class="form-control" id="datereturnedInp" name="datereturnedInp">
+                        <input onchange="handleDateChange()" type="date" class="form-control" id="datereturnedInp" name="datereturnedInp">
                         <label for="datereturnedInp" class="form-label ps-4 fw-bold" id="datereturnedInpLbl">Date Returned</label>
                         <div class="invalid-feedback">
                             Please set Date Returned
@@ -149,20 +149,6 @@
                         Please enter Action Done
                     </div>
                 </div>
-                <div class="mb-3 col ">
-                    <label for="remarksInp" class="form-label fw-bold text-secondary" id="actionDoneInpLbl">Remarks</label>    
-                    <textarea class="form-control" id="remarksInp" name="remarksInp" rows="4" cols="50"></textarea>
-                    <div class="invalid-feedback">
-                        Please enter Remarks
-                    </div>
-                </div>
-                <div class="mb-3 col">
-                    <label for="recommendationInp" class="form-label fw-bold text-secondary" id="recommendationInpLbl">Recommendation</label>
-                    <textarea class="form-control" id="recommendationInp" name="recommendationInp" rows="4" cols="50"></textarea>
-                    <div class="invalid-feedback">
-                        Please enter Recommendation
-                    </div>
-                </div>
                 <div class="mb-3 form-floating">
                     <select class="form-select" id="statusInp" name="statusInp" required>
                         <option value="" selected disabled>Select a Status</option>
@@ -180,6 +166,20 @@
                     <label for="processedbyInp" class="form-label fw-bold" id="processedbyInpLbl">Processed by</label>
                     <div class="invalid-feedback">
                         Please enter a name
+                    </div>
+                </div>
+                <div class="mb-3 col ">
+                    <label for="remarksInp" class="form-label fw-bold text-secondary" id="actionDoneInpLbl">Remarks</label>    
+                    <textarea class="form-control" id="remarksInp" name="remarksInp" rows="4" cols="50"></textarea>
+                    <div class="invalid-feedback">
+                        Please enter Remarks
+                    </div>
+                </div>
+                <div class="mb-3 col">
+                    <label for="recommendationInp" class="form-label fw-bold text-secondary" id="recommendationInpLbl">Recommendation</label>
+                    <textarea class="form-control" id="recommendationInp" name="recommendationInp" rows="4" cols="50"></textarea>
+                    <div class="invalid-feedback">
+                        Please enter Recommendation
                     </div>
                 </div>
                 <div class="mb-3">
@@ -227,6 +227,22 @@
             $('#typeofictInp').val(type);
             $('#ictidInp').val(ictid);
         });
+
+        const handleDateChange = () => {
+            let datereceivedInp = $('#datereceivedInp').val();
+            let datereturnedInp = $('#datereturnedInp').val();
+            if (datereceivedInp != "" && datereturnedInp != "") {
+                if (datereceivedInp > datereturnedInp) {
+                    alert("Date received can't be ahead of date returned");
+                    $('#datereceivedInp').val("");
+                } else {
+                    $('#statusInp').val("Finished");
+                }
+            } else if (datereceivedInp != "" && datereturnedInp == "") {
+                $('#statusInp').val("Pending");
+            }
+            
+        }
         
         const handleSubmit = async() => {
             $.ajax({

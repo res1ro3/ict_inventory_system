@@ -69,7 +69,13 @@
                     ?>
                 </li>
                 <li class="nav-item">
-                    <button onclick="getTransfer('<?= $_GET['hid']; ?>')" type="button" data-id="<?= $_GET['hid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
+                    <?php if ($hardware['status'] == "Serviceable") { ?>
+                        <button onclick="getTransfer('<?= $_GET['hid']; ?>')" type="button" data-id="<?= $_GET['hid']; ?>" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer Ownership</button>
+                    <?php 
+                        } else {
+                            echo '<button class="btn btn-warning" disabled>Transfer Ownership</button>';
+                        } 
+                    ?>
                 </li>
             </ul>
         </div>

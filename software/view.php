@@ -19,11 +19,11 @@
     }
 
     $get_type = $conn->prepare("SELECT * FROM `type_of_subscription_tbl` WHERE type_of_subscription_id = :id");
-    $get_type->execute(array(':id' => $software->type_of_subscription));
+    $get_type->execute(array(':id' => $software['type_of_subscription']));
     $subscription=$get_type->fetch(PDO::FETCH_ASSOC);
 
     $get_type = $conn->prepare("SELECT * FROM `type_of_software_tbl` WHERE type_of_software_id = :id");
-    $get_type->execute(array(':id' => $software->type_of_software));
+    $get_type->execute(array(':id' => $software['type_of_software']));
     $type_of_software=$get_type->fetch(PDO::FETCH_ASSOC);
 
     $query=$conn->prepare("SELECT * FROM employee_tbl WHERE employee_id = :eid");
@@ -71,7 +71,7 @@
                 <input type="hidden" class="form-control" id="sidInp" name="sidInp">
                 <div class="col">
                     <label for="typeofsoftwareInp" class="form-label fw-bold">Type of Software</label>
-                    <input type="text" class="form-control" id="typeofsoftwareInp" name="typeofsoftwareInp" value="<?= $software['type_of_software'] ?>" disabled>
+                    <input type="text" class="form-control" id="typeofsoftwareInp" name="typeofsoftwareInp" value="<?= $type_of_software['name'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="softwarenameInp" class="form-label fw-bold">Software Name</label>

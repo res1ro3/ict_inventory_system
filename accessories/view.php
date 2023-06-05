@@ -11,6 +11,14 @@
     $query->execute(array(':aid' => $_GET['aid']));
     $accessories=$query->fetch(PDO::FETCH_ASSOC);
 
+    $get_brand = $conn->prepare("SELECT * FROM brand_tbl WHERE brand_id = :id");
+    $get_brand->execute(array(':id' => $accessories['brand']));
+    $brand=$get_brand->fetch(PDO::FETCH_ASSOC);
+
+    $get_office = $conn->prepare("SELECT * FROM office_tbl WHERE office_id = :id");
+    $get_office->execute(array(':id' => $accessories['unit']));
+    $office=$get_office->fetch(PDO::FETCH_ASSOC);
+
     $count=$query->rowCount();
 
     if($count <=0){
@@ -67,7 +75,7 @@
                 </div>
                 <div class="col">
                     <label for="brandInp" class="form-label fw-bold">Brand</label>
-                    <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $accessories['brand'] ?>" disabled>
+                    <input type="text" class="form-control" id="brandInp" name="brandInp" value="<?= $brand['name'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="quantityInp" class="form-label fw-bold">Quantity</label>
@@ -80,7 +88,7 @@
                 
                 <div class="col">
                     <label for="unitInp" class="form-label fw-bold">Unit</label>
-                    <input type="text" class="form-control" id="unitInp" name="unitInp" value="<?= $accessories['unit'] ?>" disabled>
+                    <input type="text" class="form-control" id="unitInp" name="unitInp" value="<?= $office['name'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="ownerInpName" class="form-label fw-bold">Owner</label>

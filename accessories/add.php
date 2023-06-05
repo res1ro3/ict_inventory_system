@@ -64,11 +64,27 @@
                     </div>
                 </div>
 
-                <div class="mb-3 col form-floating">
-                    <input type="text" class="form-control" id="brandInp" name="brandInp" required>
-                    <label for="brandInp" class="form-label fw-bold">Brand</label>
+                <div class="mb-3 form-floating">
+                    <select class="form-select" id="brandInp" name="brandInp" required>
+                        <option value="" selected disabled>Please select Brand</option>
+                        <?php
+                            $sql="SELECT * FROM `brand_tbl`";
+                            $query = $conn->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                            
+                            $count=1;
+                            if($query->rowCount() > 0) {
+                            //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                foreach($results as $result)
+                            {
+                        ?>
+                            <option value="<?php echo htmlentities($result->brand_id);?>"><?php echo htmlentities($result->name);?></option>
+                        <?php }} ?>
+                    </select>
+                    <label class="form-label fw-bold" for="brandInp" id="brandLbl">Brand</label>
                     <div class="invalid-feedback">
-                        Please enter Brand
+                        Please select Brand
                     </div>
                 </div>
 
@@ -103,7 +119,7 @@
                             foreach($results as $result)
                         {
                     ?>
-                        <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                        <option value="<?php echo htmlentities($result->office_id);?>"><?php echo htmlentities($result->name);?></option>
                     <?php }} ?>
                     </select>
                     <label for="unitInp" id="officeLbl" class="form-label fw-bold">Office</label>

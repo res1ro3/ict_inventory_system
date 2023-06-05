@@ -11,6 +11,10 @@
     $query->execute(array(':stid' => $_GET['stid']));
     $supplies_tools=$query->fetch(PDO::FETCH_ASSOC);
 
+    $get_office = $conn->prepare("SELECT * FROM office_tbl WHERE office_id = :id");
+    $get_office->execute(array(':id' => $supplies_tools['unit']));
+    $office=$get_office->fetch(PDO::FETCH_ASSOC);
+
     $count=$query->rowCount();
 
     if($count <=0){
@@ -70,7 +74,7 @@
                 
                 <div class="col">
                     <label for="unitInp" class="form-label fw-bold">Unit</label>
-                    <input type="text" class="form-control" id="unitInp" name="unitInp" value="<?= $supplies_tools['unit'] ?>" disabled>
+                    <input type="text" class="form-control" id="unitInp" name="unitInp" value="<?= $office['name'] ?>" disabled>
                 </div>
                 <div class="col">
                     <label for="ownerInpName" class="form-label fw-bold">Owner</label>

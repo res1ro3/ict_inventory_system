@@ -55,11 +55,18 @@
                             $result = $query->fetchAll();
                             $count = 1;
                             foreach ($result as $row) {
+                                $get_type = $conn->prepare("SELECT * FROM type_of_hardware_tbl WHERE type_of_hardware_id = :id");
+                                $get_type->execute(array(':id' => $row['type_of_hardware']));
+                                $type=$get_type->fetch(PDO::FETCH_ASSOC);
+
+                                $get_brand = $conn->prepare("SELECT * FROM brand_tbl WHERE brand_id = :id");
+                                $get_brand->execute(array(':id' => $row['brand']));
+                                $brand=$get_brand->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <tr>
                             <td><?= $count ?></td>
-                            <td><?= $row['type_of_hardware'] ?></td>
-                            <td><?= $row['brand'] ?></td>
+                            <td><?= $type['name'] ?></td>
+                            <td><?= $brand['name'] ?></td>
                             <td><?= $row['model'] ?></td>
                             <td><?= $row['lname'].', '.$row['fname'] ?></td>
                             <td><?= $row['status'] ?></td>
@@ -115,7 +122,7 @@
                                 foreach($results as $result)
                             {
                             ?>
-                                <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                                <option value="<?php echo htmlentities($result->type_of_hardware_id);?>"><?php echo htmlentities($result->name);?></option>
                             <?php }} ?>
                         </select>
                         <label for="typeofhardwareInpEdit">Type of Hardware</label>
@@ -138,7 +145,7 @@
                                 foreach($results as $result)
                             {
                         ?>
-                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                            <option value="<?php echo htmlentities($result->brand_id);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                         </select>
                         <label for="brandInpEdit">Brand</label>

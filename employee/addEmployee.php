@@ -43,7 +43,7 @@
         $query->execute();
 
         if($query->rowCount() == 1) {
-            echo '<script>alert("User Added Successfully"); location.href="index.php";</script>';
+            echo '<script>alert("User Added Successfully"); location.href="addEmployee.php";</script>';
         } else {
             echo '<script>alert("An error has occured")</script>';
         }
@@ -140,7 +140,7 @@
                                 foreach($results as $result)
                             {
                         ?>
-                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                            <option value="<?php echo htmlentities($result->office_id);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                         </select>
                         <label for="officeInp" id="officeLbl">Office</label>

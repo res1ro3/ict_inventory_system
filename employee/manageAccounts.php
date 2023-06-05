@@ -48,13 +48,16 @@
                         $result = $query->fetchAll();
                         $count = 1;
                         foreach ($result as $row) {
+                            $get_office = $conn->prepare("SELECT * FROM office_tbl WHERE office_id = :id");
+                            $get_office->execute(array(':id' => $row['unitOffice']));
+                            $office=$get_office->fetch(PDO::FETCH_ASSOC);
                     ?>
                     <tr>
                         <td><?= $count ?></td>
                         <span id="eid" style="display: none"><?= $row['employee_id']?></span>
                         <td><?= $row['lname'].', '.$row['fname'] ?></td>
                         <td><?= $row['type_of_account'] ?></td>
-                        <td><?= $row['unitOffice'] ?></td>
+                        <td><?= $office['name'] ?></td>
                         <td><?= $row['status'] ?></td>
                         <td>
                             <button id="editBtn" onclick="get('<?= $row['employee_id'] ?>')" type="button" data-id="<?= $row['employee_id'] ?>" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
@@ -130,7 +133,7 @@
                                     foreach($results as $result)
                                 {
                             ?>
-                                <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                                <option value="<?php echo htmlentities($result->office_id);?>"><?php echo htmlentities($result->name);?></option>
                             <?php }} ?>
                             </select>
                             <label for="officeInp" id="officeLbl">Office</label>

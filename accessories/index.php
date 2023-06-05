@@ -56,14 +56,21 @@
                             $result = $query->fetchAll();
                             $count = 1;
                             foreach ($result as $row) {
+                                $get_brand = $conn->prepare("SELECT * FROM brand_tbl WHERE brand_id = :id");
+                                $get_brand->execute(array(':id' => $row['brand']));
+                                $brand=$get_brand->fetch(PDO::FETCH_ASSOC);
+
+                                $get_office = $conn->prepare("SELECT * FROM office_tbl WHERE office_id = :id");
+                                $get_office->execute(array(':id' => $row['unit']));
+                                $office=$get_office->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <tr>
                             <td><?= $count ?></td>
                             <td><?= $row['generic_name'] ?></td>
-                            <td><?= $row['brand'] ?></td>
+                            <td><?= $brand['name'] ?></td>
                             <td><?= $row['quantity'] ?></td>
                             <td><?= $row['specifications'] ?></td>
-                            <td><?= $row['unit'] ?></td>
+                            <td><?= $office['name'] ?></td>
                             <td><?= $row['lname'].', '.$row['fname'] ?></td>
                             <td>
                                 <button id="viewBtn" onclick="get('<?= $row['accessories_id'] ?>')" type="button" data-id="<?= $row['accessories_id'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
@@ -93,7 +100,7 @@
                 </div>
                 <div class="modal-body">
                 <form class="needs-validation" novalidate id="updateForm" name="updateForm" method="post">
-                    <input type="text" class="form-control" id="aidInpEdit" name="aidInpEdit">
+                    <input type="hidden" class="form-control" id="aidInpEdit" name="aidInpEdit">
 
                     <div class="mb-3 col form-floating">
                         <input type="text" class="form-control" id="genericnameInpEdit" name="genericnameInpEdit" required>
@@ -103,11 +110,27 @@
                         </div>
                     </div>
 
-                    <div class="mb-3 col form-floating">
-                        <input type="text" class="form-control" id="brandInpEdit" name="brandInpEdit" required>
-                        <label for="brandInpEdit" class="form-label">Brand</label>
+                    <div class="mb-3 form-floating">
+                        <select class="form-select" id="brandInpEdit" name="brandInpEdit" required>
+                            <option value="" selected disabled>Please select Brand</option>
+                            <?php
+                                $sql="SELECT * FROM `brand_tbl`";
+                                $query = $conn->prepare($sql);
+                                $query->execute();
+                                $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                
+                                $count=1;
+                                if($query->rowCount() > 0) {
+                                //In case that the query returned at least one record, we can echo the records within a foreach loop:
+                                    foreach($results as $result)
+                                {
+                            ?>
+                                <option value="<?php echo htmlentities($result->brand_id);?>"><?php echo htmlentities($result->name);?></option>
+                            <?php }} ?>
+                        </select>
+                        <label class="form-label fw-bold" for="brandInpEdit" id="brandInpEditLbl">Brand</label>
                         <div class="invalid-feedback">
-                            Please enter Brand
+                            Please select Brand
                         </div>
                     </div>
 
@@ -142,7 +165,7 @@
                                 foreach($results as $result)
                             {
                         ?>
-                            <option value="<?php echo htmlentities($result->name);?>"><?php echo htmlentities($result->name);?></option>
+                            <option value="<?php echo htmlentities($result->office_id);?>"><?php echo htmlentities($result->name);?></option>
                         <?php }} ?>
                         </select>
                         <label for="unitInpEdit" id="officeLbl">Office</label>
